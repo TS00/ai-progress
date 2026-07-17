@@ -1,0 +1,719 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Economics Scenarios to 2031 · research/ai-progress</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.1.0/dist/chartjs-plugin-annotation.min.js"></script>
+<style>
+:root{
+  --bg:#fafaf7;
+  --paper:#ffffff;
+  --ink:#111313;
+  --muted:#5a5d5a;
+  --line:#e3e1d8;
+  --rule:#c9c6bb;
+  --accent:#b8341c;
+  --accent-2:#1a4d8f;
+  --accent-3:#2f7a3d;
+  --accent-4:#7a4a8c;
+  --accent-5:#b8851c;
+  --accent-6:#1c8c8c;
+  --warn:#a8331c;
+  --soft:#f3f1e9;
+  --soft-warn:#fbf2ec;
+  --code:#252727;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:"Charter","Iowan Old Style","Source Serif Pro",Georgia,serif;line-height:1.55;font-size:16.5px;-webkit-font-smoothing:antialiased}
+.mono,code,kbd{font-family:"JetBrains Mono","SF Mono",Menlo,Consolas,monospace;font-size:.92em}
+h1,h2,h3,h4{font-family:"Inter","Helvetica Neue",system-ui,sans-serif;font-weight:700;letter-spacing:-.01em;line-height:1.15}
+h1{font-size:2.6rem;margin:.2em 0 .15em;letter-spacing:-.02em}
+h2{font-size:1.7rem;margin:0 0 .25em;border-bottom:1px solid var(--rule);padding-bottom:.35em}
+h3{font-size:1.15rem;margin:1.4em 0 .35em;color:var(--ink)}
+h4{font-size:.95rem;margin:1em 0 .35em;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;font-weight:600}
+a{color:var(--accent-2);text-decoration:none;border-bottom:1px solid rgba(26,77,143,.25)}
+a:hover{border-bottom-color:var(--accent-2)}
+hr{border:0;border-top:1px solid var(--rule);margin:2em 0}
+
+.wrap{max-width:1180px;margin:0 auto;padding:48px 28px 80px}
+.lede{font-size:1.12rem;color:var(--muted);max-width:820px;margin:.4em 0 1.6em}
+.eyebrow{display:inline-block;font-family:"JetBrains Mono",monospace;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:4px 10px;border:1px solid var(--rule);border-radius:99px;background:var(--paper)}
+.eyebrow.warn{color:var(--warn);border-color:#e8c5b8;background:#fbeae3}
+section{margin:64px 0;scroll-margin-top:20px}
+section .intro{max-width:820px;color:var(--muted);margin:.4em 0 1.5em;font-size:1.02rem}
+
+/* Hero stats grid */
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:28px 0 8px}
+.stat{background:var(--paper);border:1px solid var(--line);padding:18px 18px 16px;border-radius:8px;position:relative}
+.stat .num{font-family:"Inter",system-ui,sans-serif;font-size:1.85rem;font-weight:700;color:var(--ink);letter-spacing:-.02em;line-height:1.05}
+.stat .num small{font-size:.62em;font-weight:500;color:var(--muted);letter-spacing:0;display:inline-block;margin-left:4px}
+.stat .label{font-size:.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-top:6px;font-family:"Inter",sans-serif;font-weight:500}
+.stat .ctx{font-size:.85rem;color:var(--ink);margin-top:6px;line-height:1.35}
+.stat .accent{position:absolute;top:0;left:0;width:36px;height:3px;background:var(--accent)}
+.stat:nth-child(2) .accent{background:var(--accent-2)}
+.stat:nth-child(3) .accent{background:var(--accent-3)}
+.stat:nth-child(4) .accent{background:var(--accent-4)}
+
+/* Chart container */
+.chart-box{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:20px 22px 16px;margin:18px 0}
+.chart-title{font-family:"Inter",sans-serif;font-weight:600;font-size:1.05rem;margin:0 0 4px}
+.chart-sub{color:var(--muted);font-size:.88rem;margin:0 0 14px}
+.chart-canvas-wrap{position:relative;height:460px}
+.chart-canvas-wrap.tall{height:560px}
+.chart-canvas-wrap.short{height:300px}
+
+/* Tables */
+.tbl-wrap{background:var(--paper);border:1px solid var(--line);border-radius:8px;overflow:hidden;margin:18px 0}
+.tbl-wrap .tbl-head{padding:14px 18px;border-bottom:1px solid var(--line);background:var(--soft)}
+.tbl-wrap .tbl-head .t{font-family:"Inter",sans-serif;font-weight:600;font-size:1rem}
+.tbl-wrap .tbl-head .s{color:var(--muted);font-size:.85rem;margin-top:2px}
+table{width:100%;border-collapse:collapse;font-size:.9rem;font-family:"Inter",system-ui,sans-serif}
+thead th{background:var(--paper);text-align:left;padding:10px 14px;font-weight:600;color:var(--muted);text-transform:uppercase;font-size:.72rem;letter-spacing:.07em;border-bottom:1px solid var(--rule)}
+tbody td{padding:9px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+tbody tr:hover{background:var(--soft)}
+tbody tr:last-child td{border-bottom:none}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+
+/* Scenario card */
+.scen{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:24px 26px 22px;margin:20px 0;position:relative;border-left:4px solid var(--accent-2)}
+.scen.a{border-left-color:var(--accent-3)}
+.scen.b{border-left-color:var(--accent-2)}
+.scen.c{border-left-color:var(--accent)}
+.scen.d{border-left-color:var(--accent-5)}
+.scen.e{border-left-color:var(--accent-4)}
+.scen .sh{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;margin-bottom:4px;flex-wrap:wrap}
+.scen .sn{font-family:"JetBrains Mono",monospace;font-size:.78rem;color:var(--muted);letter-spacing:.08em}
+.scen h3{margin:4px 0 2px;font-size:1.35rem;color:var(--ink);line-height:1.25}
+.scen .prob{font-family:"Inter",sans-serif;font-size:1.5rem;font-weight:700;letter-spacing:-.02em;white-space:nowrap;line-height:1}
+.scen .prob small{display:block;font-size:.62rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-top:3px;text-align:right}
+.scen.a .prob{color:var(--accent-3)}
+.scen.b .prob{color:var(--accent-2)}
+.scen.c .prob{color:var(--accent)}
+.scen.d .prob{color:var(--accent-5)}
+.scen.e .prob{color:var(--accent-4)}
+.scen .tag{font-family:"Inter",sans-serif;font-size:.8rem;color:var(--muted);font-style:italic;margin:0 0 12px}
+.scen .story{font-size:1rem;color:var(--ink);margin:0 0 14px;line-height:1.55;max-width:940px}
+.scen .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin-top:12px;border-top:1px solid var(--line);padding-top:14px}
+.scen .grid3 h4{margin:0 0 4px;font-size:.72rem}
+.scen .grid3 p{margin:0;font-size:.9rem;color:var(--ink);line-height:1.45}
+@media (max-width:880px){.scen .grid3{grid-template-columns:1fr;gap:10px}}
+
+/* Prediction card (compact) */
+.pred{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:18px 22px 16px;margin:14px 0;position:relative;border-left:3px solid var(--accent-2)}
+.pred .ph{display:flex;justify-content:space-between;align-items:baseline;gap:18px;flex-wrap:wrap}
+.pred .pn{font-family:"JetBrains Mono",monospace;font-size:.75rem;color:var(--muted);letter-spacing:.08em}
+.pred h3{margin:4px 0 6px;font-size:1.08rem;color:var(--ink);line-height:1.35}
+.pred .pp{font-family:"Inter",sans-serif;font-size:1.25rem;font-weight:700;color:var(--accent-2);white-space:nowrap}
+.pred .pp small{font-size:.6em;font-weight:500;color:var(--muted);margin-left:4px}
+.pred .res{font-size:.88rem;color:var(--muted);margin:0 0 8px;line-height:1.45}
+.pred .res b{color:var(--ink);font-weight:600}
+.pred .why{font-size:.92rem;color:var(--ink);margin:0;line-height:1.45;border-top:1px solid var(--line);padding-top:10px}
+.pred .why b{font-family:"Inter",sans-serif;font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:600;display:block;margin-bottom:3px}
+
+/* Cascade chain */
+.cascade{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:8px 4px;margin:18px 0}
+.cascade .step{padding:14px 22px;border-bottom:1px solid var(--line);display:grid;grid-template-columns:44px 1fr;gap:16px;align-items:start}
+.cascade .step:last-child{border-bottom:none}
+.cascade .step .n{font-family:"JetBrains Mono",monospace;font-size:1.1rem;font-weight:600;color:var(--accent);padding-top:1px}
+.cascade .step .h{font-family:"Inter",sans-serif;font-weight:600;font-size:.95rem;color:var(--ink);margin-bottom:2px}
+.cascade .step .d{color:var(--muted);font-size:.92rem;line-height:1.45}
+.cascade .step.brake .n{color:var(--accent-3)}
+
+/* Two columns */
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media (max-width:880px){.cols{grid-template-columns:1fr}.hero-stats{grid-template-columns:repeat(2,1fr)}}
+
+/* Pull quote / callout */
+.callout{border-left:3px solid var(--accent);background:var(--soft);padding:14px 18px;margin:20px 0;font-size:.97rem;color:var(--ink);border-radius:0 6px 6px 0}
+.callout.warn{border-left-color:var(--warn);background:var(--soft-warn)}
+.callout .src{display:block;color:var(--muted);font-size:.82rem;margin-top:6px;font-style:normal;font-family:"Inter",sans-serif}
+
+.note{color:var(--muted);font-size:.82rem;margin-top:6px;line-height:1.45}
+
+/* Footer */
+footer{margin-top:80px;border-top:1px solid var(--rule);padding-top:24px;color:var(--muted);font-size:.85rem}
+footer h4{margin-top:0}
+footer ul{padding-left:18px;margin:0}
+footer li{margin:3px 0}
+
+/* Header bar */
+.topbar{font-family:"JetBrains Mono",monospace;font-size:.78rem;color:var(--muted);display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--rule);padding-bottom:12px;margin-bottom:36px;gap:14px;flex-wrap:wrap}
+.topbar a{color:var(--muted);border-bottom:none;margin:0 4px}
+.topbar a:hover{color:var(--accent)}
+.topbar a.active{color:var(--ink);font-weight:600}
+.topbar .pill{padding:3px 9px;border:1px solid var(--rule);border-radius:99px;background:var(--paper)}
+.topbar .pill b{color:var(--accent);font-weight:600}
+html{scroll-behavior:smooth}
+
+.section-num{font-family:"JetBrains Mono",monospace;font-size:.85rem;color:var(--accent);font-weight:600;margin-bottom:4px;letter-spacing:.08em}
+
+.changelog{background:var(--paper);border:1px solid var(--line);border-radius:8px;margin:18px 0;font-size:.92rem}
+.changelog .ev{padding:14px 22px;border-bottom:1px solid var(--line);display:grid;grid-template-columns:130px 1fr;gap:18px}
+.changelog .ev:last-child{border-bottom:none}
+.changelog .ev .d{font-family:"JetBrains Mono",monospace;font-size:.82rem;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="topbar">
+  <span><a href="index.html">research/ai-progress</a> · economics scenarios</span>
+  <span><a href="index.html">factual report</a> · <a href="predictions.html">predictions</a> · <a href="scenarios.html" class="active">economics scenarios</a></span>
+  <span class="pill">v0.1 · <b>July 17, 2026</b></span>
+</div>
+
+<header>
+  <span class="eyebrow warn">Speculative · probability-weighted · dated 2026-07-17</span>
+  <h1>The Economics Endgame: Scenarios to mid-2031</h1>
+  <p class="lede">
+    The <a href="predictions.html">predictions page</a> deliberately refuses to call bubble
+    dynamics, China–US competition, or company outcomes — the variance swamps the signal for
+    trend extrapolation. This page makes exactly those calls anyway, using a different tool:
+    explicit scenarios with probabilities, derived from an economic model of the AI buildout
+    rather than from trend lines. Expect these numbers to be wrong; the point is to be wrong
+    in a way we can measure and update.
+  </p>
+  <div class="callout warn">
+    <b>The core thesis this page tests.</b> The US is making a GDP-scale capital bet
+    (~$710–725B Big-Four capex in 2026, ~$7.6T projected through 2031) that AI productivity
+    gains will be monetizable enough to cover a ~$1T/yr profit requirement, on assets that
+    depreciate in 3–5 years. Our analysis says the dominant failure mode is <b>not</b>
+    "AI doesn't work" — it's <b>"AI works and becomes too cheap to meter."</b> Every capability
+    level commoditizes on a 3–6 month open-weights fuse (1–2 months in coding); China has
+    industrialized that fuse as national strategy; and edge inference threatens to extend
+    commoditization to the serving layer. In most branches below, the technology succeeds
+    while much of the capital that built it earns commodity returns. The railway pattern.
+  </div>
+</header>
+
+<!-- Hero summary -->
+<div class="hero-stats">
+  <div class="stat"><span class="accent"></span>
+    <div class="num">~$3<small>T revenue req'd</small></div>
+    <div class="label">To justify 2026 buildout alone</div>
+    <div class="ctx">Sequoia/Cahn estimate vs. frontier-lab run rates in the low hundreds of $B, largest labs deeply loss-making.</div>
+  </div>
+  <div class="stat"><span class="accent"></span>
+    <div class="num">46<small>%</small></div>
+    <div class="label">Capex–revenue divergence</div>
+    <div class="ctx">Allianz estimate; the 2001 telecom cycle peaked at 32% before its multi-year bust.</div>
+  </div>
+  <div class="stat"><span class="accent"></span>
+    <div class="num">3–6<small> months</small></div>
+    <div class="label">Open-weights lag (avg)</div>
+    <div class="ctx">Coding: 1–2 months. Agentic tasks: 10–25 pts. Open tokens run 10–40× cheaper. This lag is the labs' entire monetization window.</div>
+  </div>
+  <div class="stat"><span class="accent"></span>
+    <div class="num">55<small>% by 2031</small></div>
+    <div class="label">P(AI financial event)</div>
+    <div class="ctx">Our headline number: a ≥30% AI-basket drawdown with credit stress, at some point in the next five years. See P09.</div>
+  </div>
+</div>
+
+<!-- 01 Model -->
+<section id="model">
+  <div class="section-num">01</div>
+  <h2>The model in five claims</h2>
+  <p class="intro">
+    Everything below derives from five load-bearing claims. If one of them breaks,
+    the scenario weights move — each is falsifiable and tracked on the
+    <a href="#watchboard">watchboard</a>.
+  </p>
+
+  <div class="tbl-wrap">
+    <div class="tbl-head"><div class="t">Load-bearing claims</div><div class="s">The economic skeleton. Confidence is our own judgment, July 2026.</div></div>
+    <table>
+      <thead><tr><th style="width:30px">#</th><th style="width:260px">Claim</th><th>Content</th><th style="width:110px">Confidence</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td><b>Task saturation</b></td><td>For any fixed task there is a capability threshold beyond which more intelligence adds nothing; once open weights cross it, the task's price falls to marginal compute cost. Already observed: translation, OCR, single-shot code (HumanEval gap ~1 pt).</td><td>High</td></tr>
+        <tr><td>2</td><td><b>Endogenous task frontier</b></td><td>The unit of economic work redefines upward as capability grows (autocomplete → function → ticket → service). The frontier labs can only ever monetize the moving edge; the escalator matters more than any single step.</td><td>High</td></tr>
+        <tr><td>3</td><td><b>Imitation beats innovation on cost</b></td><td>Distillation from frontier outputs makes following structurally cheaper than leading. The innovator's rent window equals the imitation lag. Frontier models are arguably the worst IP regime ever built: the product is training data for the competitor.</td><td>Medium-high</td></tr>
+        <tr><td>4</td><td><b>China has weaponized the conveyor</b></td><td>"Commoditize your complement" at nation scale: NDRC ~$295B compute plan, 80% domestic-chip mandate, DeepSeek as state-nurtured champion tuned to Huawei silicon, every major Chinese lab shipping open weights, inference served 30–50% below US prices. The bubble burst is a payoff of this strategy, not its stated aim — the distinction barely matters.</td><td>High (that it's the strategy) / Medium (that it forces the outcome)</td></tr>
+        <tr><td>5</td><td><b>Jevons saves volume, not margins</b></td><td>Cheaper tokens expand aggregate compute demand (inference prices fell ~1,000× in 3 years while usage exploded). This protects infrastructure <i>utilization</i> in almost every branch — but not infrastructure <i>pricing power</i>, which is what current valuations assume. Fiber traffic grew straight through the 2001–02 telecom bust.</td><td>High</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="chart-box">
+    <div class="chart-title">The scissors: hyperscaler capex vs. the profit needed to justify it</div>
+    <div class="chart-sub">Bars: Big-Four capex, actual 2022–2025, guided 2026, Goldman baseline beyond (their $7.6T 2026–2031 cumulative). Lines: Goldman's ~$1T/yr AI profit requirement vs. 2026 consensus AI profits (~$450B).</div>
+    <div class="chart-canvas-wrap"><canvas id="chartScissors"></canvas></div>
+    <div class="note">The bet's arithmetic: consensus 2026 AI profit is less than half the level Goldman says is needed for acceptable returns — and the capex denominator is still growing ~77%/yr. Every scenario below is a different answer to how this scissors closes: profits catch up (A), prices collapse so the requirement is never met at margin (B), or the spending side snaps (C/D).</div>
+  </div>
+</section>
+
+<!-- 02 Scenarios -->
+<section id="scenarios">
+  <div class="section-num">02</div>
+  <h2>Five scenarios, weighted</h2>
+  <p class="intro">
+    Mutually exclusive, jointly exhaustive to a first approximation, resolved as of
+    <b>mid-2031</b>. Weights are subjective probabilities conditioned on the July 2026 data in
+    the <a href="index.html">factual report</a>. A correction followed by a commoditized
+    recovery counts as C, not B — C is "the adjustment happens violently," B is "it happens
+    gradually."
+  </p>
+
+  <div class="chart-box">
+    <div class="chart-title">Scenario weights, July 2026</div>
+    <div class="chart-sub">Our subjective distribution. The single most likely world is a violent correction — but "no crash" branches (A + B) sum to 50%, so this is not a doom call.</div>
+    <div class="chart-canvas-wrap short"><canvas id="chartScen"></canvas></div>
+  </div>
+
+  <!-- Scenario A -->
+  <div class="scen a">
+    <div class="sh">
+      <div>
+        <span class="sn">SCENARIO A</span>
+        <h3>Frontier Rents Hold</h3>
+        <p class="tag">The labs' bull case: long-horizon agency resists distillation, and the lag widens.</p>
+      </div>
+      <div class="prob">20%<small>weight</small></div>
+    </div>
+    <p class="story">
+      The one capability gap open weights have not closed — long-horizon agentic reliability
+      (10–25 pts on SWE-bench Pro / Terminal-Bench / OSWorld class benchmarks) — turns out to be
+      structurally hard to imitate, because it comes from expensive RL against real environments
+      rather than from distillable outputs. Frontier training runs pass $10B+, the open-weights
+      lag <b>widens</b> to 12+ months on the workloads that matter economically (multi-day autonomous
+      work), and the endogenous task frontier keeps generating a monetizable edge. The labs' rent
+      window reopens each generation; IPO valuations are broadly vindicated; capex is absorbed by
+      genuine agentic demand. Government gating (Glasswing, Daybreak, the Fable 5 export-control
+      suspension) hardens into a de facto regulatory moat around the closed frontier.
+    </p>
+    <div class="grid3">
+      <div><h4>Who wins</h4><p>Frontier labs, Nvidia, hyperscalers — the stack as priced today. Users still gain, but the builders keep an unusually large surplus share by historical GPT-buildout standards.</p></div>
+      <div><h4>Early signatures</h4><p>Agentic-benchmark gap stable or widening through 2027; open-weights threshold-lag on SWE Marathon-class tasks >12 mo; lab gross margins improving; China's open releases stall below frontier agency.</p></div>
+      <div><h4>What kills it</h4><p>One Chinese or Meta open release matching frontier long-horizon agency within 6 months of the closed SOTA. That single observation moves most of this weight to B/C.</p></div>
+    </div>
+  </div>
+
+  <!-- Scenario B -->
+  <div class="scen b">
+    <div class="sh">
+      <div>
+        <span class="sn">SCENARIO B</span>
+        <h3>Commoditized Boom (soft landing)</h3>
+        <p class="tag">AI succeeds; margins die quietly; nobody gets a crash to point at.</p>
+      </div>
+      <div class="prob">30%<small>weight</small></div>
+    </div>
+    <p class="story">
+      The conveyor keeps running at 3–6 months, agentic gaps close on schedule (the coding gap
+      already went from ~15 months to 1–2), and token prices keep collapsing — but demand grows
+      fast enough (Jevons, agent swarms, background workloads) that datacenters stay full and
+      hyperscaler revenue keeps growing. What compresses is <i>margins and multiples</i>, gradually:
+      inference reprices toward electricity-plus-amortization, the model layer pivots to
+      applications and distribution (already visible: labs selling coding agents and outcomes,
+      Meta selling API access), and capex growth bends to 15–20%/yr by 2028 without a discrete
+      shock. Equity holders experience five years of de-rating rather than a crash; the
+      productivity surplus diffuses to users. By 2031 "AI infrastructure" trades like a
+      utility-industrial hybrid, and the 2026 vintage of lab valuations looks like the 1999
+      vintage of telecom valuations — wrong, but unwound in slow motion.
+    </p>
+    <div class="grid3">
+      <div><h4>Who wins</h4><p>End users, application businesses with distribution, power/land/HBM owners, device silicon (edge inference). Hyperscalers survive on volume. Labs survive as product companies, not model companies.</p></div>
+      <div><h4>Early signatures</h4><p>Capital intensity declining by 2H'27; token price index falling >5×/yr while aggregate token volume grows faster; lab revenue mix shifting >50% to apps/seats; no single-quarter capex cut >20%.</p></div>
+      <div><h4>What kills it</h4><p>Debt and circularity: if the unwind runs through credit rather than equity multiples, B becomes C. The $108B/yr+ hyperscaler debt issuance and lab compute-commitment collateral chains are the fragility.</p></div>
+    </div>
+  </div>
+
+  <!-- Scenario C -->
+  <div class="scen c">
+    <div class="sh">
+      <div>
+        <span class="sn">SCENARIO C</span>
+        <h3>The Correction</h3>
+        <p class="tag">Same destination as B, reached violently. The single most likely world.</p>
+      </div>
+      <div class="prob">30%<small>weight</small></div>
+    </div>
+    <p class="story">
+      A trigger — a Chinese open release matching or beating SOTA, a blown lab earnings print
+      post-IPO, a hyperscaler demand-miss, or simply the 2027 capex guidance failing to justify
+      itself — flips the narrative from Jevons to stranded assets faster than markets can reprice
+      gradually. The transmission chain (<a href="#cascade">§3</a>) runs: lab equity collapses,
+      the compute commitments backing Oracle/CoreWeave/Nvidia backlogs are doubted, circular
+      vendor financing and SPV debt unwind, capex guidance is slashed, and because AI capex had
+      become a meaningful share of measured GDP growth, the macro data rolls over too. An
+      "AI winter" of 18–36 months in <i>capital formation</i> — not in usage, which grows
+      throughout (the fiber precedent). Distressed datacenter capacity is repriced to cents on
+      the dollar, and the 2029–2031 recovery is built on it by whoever kept distribution and
+      balance sheets — likely including some of today's losers' assets under new owners.
+      Technology outcome: identical to B. Financial outcome: wealth transfer from the 2024–2027
+      capital vintage to everyone who buys the wreckage.
+    </p>
+    <div class="grid3">
+      <div><h4>Who wins</h4><p>Late buyers of distressed capacity; users (uninterrupted); China strategically (asymmetric exposure: state-funded buildout doesn't mark to market daily; US concentration in equity indices is historic).</p></div>
+      <div><h4>Early signatures</h4><p>Credit spreads on datacenter/neocloud debt widening before equity moves; a second DeepSeek-moment single-day shock; insider selling at newly public labs; a top-3 lab cutting compute commitments.</p></div>
+      <div><h4>What kills it</h4><p>Either A (rents hold, so no trigger lands) or a genuinely smooth deleveraging (B). The Jan 2025 DeepSeek shock — $600B off Nvidia in a day, then full recovery — shows the market can absorb one narrative hit. C requires the hit to land on the credit layer, which grows more loaded each quarter.</p></div>
+    </div>
+  </div>
+
+  <!-- Scenario D -->
+  <div class="scen d">
+    <div class="sh">
+      <div>
+        <span class="sn">SCENARIO D</span>
+        <h3>Plateau Bust</h3>
+        <p class="tag">Capability progress stalls; the lag closes to zero; everything reprices at once.</p>
+      </div>
+      <div class="prob">10%<small>weight</small></div>
+    </div>
+    <p class="story">
+      The escalator stops: the benchmark-saturation machine (every 2024–2025 benchmark partially
+      solved within ~12 months) finally hits a wall on long-horizon autonomy, and 2027–2028
+      frontier runs deliver marginal gains at 10× cost. With no moving edge to monetize, the
+      open-weights lag closes automatically — matching a frozen frontier is indistinguishable
+      from beating it, and China doesn't even need a breakthrough. This is the only branch that's
+      bearish for <i>infrastructure volume</i>, not just margins: training demand (the biggest
+      single driver of frontier capex) evaporates, replacement-cycle expectations collapse, and
+      Nvidia's multiple — a claim on perpetually growing high-margin replacement demand — is hit
+      hardest of all. Note the irony our analysis kept finding: this is a world where the
+      <i>technology disappoints</i> and yet inference of already-achieved capability keeps
+      diffusing profitably at commodity prices. Deployment continues; the frontier bet dies.
+    </p>
+    <div class="grid3">
+      <div><h4>Who wins</h4><p>Application layer and users (capability already banked is enormous — 2026-frontier agents are transformative even frozen). Chinese stack relatively (cheapest server of a frozen frontier wins on cost).</p></div>
+      <div><h4>Early signatures</h4><p>Watch the predictions page's Pred. 01 break-clause: a frontier lab failing to scale past ~10²⁷ FLOP for 18+ months despite capital; SWE Marathon-class scores flat across two model generations; labs stretching release cadences.</p></div>
+      <div><h4>What kills it</h4><p>The entire 2020–2026 record: no capability plateau has lasted 18 months yet, and mid-2026 (FrontierMath Tier 4 falling, multi-agent test-time compute) shows no deceleration. Hence only 10%.</p></div>
+    </div>
+  </div>
+
+  <!-- Scenario E -->
+  <div class="scen e">
+    <div class="sh">
+      <div>
+        <span class="sn">SCENARIO E</span>
+        <h3>Tail Events</h3>
+        <p class="tag">The branches where this page's framework itself stops applying.</p>
+      </div>
+      <div class="prob">10%<small>weight</small></div>
+    </div>
+    <p class="story">
+      Grouped residual: (i) a Taiwan/TSMC disruption, which resets every chip-linked number on
+      this site to "unknown" and dominates all other dynamics; (ii) a genuine
+      fast-takeoff/recursive-improvement outcome where frontier capability compounds so fast
+      that economic categories (rents, commoditization lags) stop being the right lens —
+      note the 2026 precedent of government-gated releases and export-controlled models suggests
+      the state, not the market, would set the terms in that world; (iii) a hard regulatory
+      severing of open weights (US criminalization of frontier-scale weight publication plus
+      allied enforcement), which would manufacture Scenario A by law rather than by technology.
+      Each individually ≤5%; jointly capped at 10% for this page.
+    </p>
+    <div class="grid3">
+      <div><h4>Who wins</h4><p>Undefined — that's what makes them tails. (iii) is the one lab equity quietly prices as upside.</p></div>
+      <div><h4>Early signatures</h4><p>(i) blockade/exercise escalation; (ii) a model materially accelerating its own successor's development, disclosed or leaked; (iii) AI OVERWATCH-style bills extending from chips to weights.</p></div>
+      <div><h4>What kills it</h4><p>Nothing kills a tail; it just fails to materialize. Reassess weights quarterly.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 03 Cascade -->
+<section id="cascade">
+  <div class="section-num">03</div>
+  <h2>The transmission chain (how C actually happens)</h2>
+  <p class="intro">
+    The mechanism that separates a narrative shock (survivable — see January 2025) from a
+    financial event. The load path runs through commitments and credit, not sentiment.
+    Steps 1–6 are the cascade; steps 7–8 are the circuit breakers that have to fail first.
+  </p>
+  <div class="cascade">
+    <div class="step"><div class="n">1</div><div><div class="h">Trigger lands on the rent story</div><div class="d">An open-weights release matches/beats the closed frontier on economically-relevant agentic work, or a newly-public lab posts numbers that make the $3T revenue path unbelievable. Key asymmetry: the Jevons counter-narrative rescues infrastructure but cannot rescue the labs — a rent-story hit has no natural buyer of the dip at the model layer.</div></div></div>
+    <div class="step"><div class="n">2</div><div><div class="h">Lab equity reprices</div><div class="d">OpenAI and Anthropic are public (both filed June 2026): the repricing hits indices, retail, and — critically — the perceived creditworthiness of their forward compute commitments.</div></div></div>
+    <div class="step"><div class="n">3</div><div><div class="h">Backlogs are doubted</div><div class="d">Those commitments are the collateral behind Oracle's 4.5 GW OpenAI agreement, CoreWeave's $87.8B backlog, and a large slice of Nvidia's order book. Analysts start applying haircuts; counterparty risk becomes the story.</div></div></div>
+    <div class="step"><div class="n">4</div><div><div class="h">Circular financing unwinds</div><div class="d">Vendor equity stakes in customers who buy the vendor's chips, SPV-financed campuses, and $108B+/yr of hyperscaler debt issuance all mark against falling collateral simultaneously. This is where 2026 differs most from 2000: the leverage is in the chain, not just the valuations.</div></div></div>
+    <div class="step"><div class="n">5</div><div><div class="h">Capex guidance breaks</div><div class="d">Two or more of MSFT/GOOG/META/AMZN cut guidance in the same quarter — the predictions page's own break-clause for its most locked-in physical projection. Neoclouds and single-tenant campuses (the marginal, debt-financed capacity) go first.</div></div></div>
+    <div class="step"><div class="n">6</div><div><div class="h">Macro print</div><div class="d">AI capex had been contributing a meaningful share of measured US GDP growth — the boom was partly measuring spending on itself. The unwind subtracts it symmetrically, converting a sector event into a macro event, with the equity market at historic concentration in exactly these names.</div></div></div>
+    <div class="step brake"><div class="n">B1</div><div><div class="h">Circuit breaker: hyperscaler balance sheets</div><div class="d">Unlike 2001's telecoms, the Big Four fund most capex from operating cash flow of monopoly-adjacent core businesses. They can absorb enormous writedowns without distress. The cascade needs the neocloud/SPV/lab periphery to be big enough to matter — it grows every quarter, which is why C's weight rises over time.</div></div></div>
+    <div class="step brake"><div class="n">B2</div><div><div class="h">Circuit breaker: demand response</div><div class="d">Every price collapse so far has been met by faster volume growth within quarters. If distressed capacity reprices tokens down 10× and usage responds like 2023–2026 usage did, the trough is shallow and short. Fiber's problem was that 2002 demand couldn't absorb 2000 supply for years; agents may absorb it in months.</div></div></div>
+  </div>
+</section>
+
+<!-- 04 Predictions -->
+<section id="predictions">
+  <div class="section-num">04</div>
+  <h2>Thirteen predictions with probabilities</h2>
+  <p class="intro">
+    Concrete, resolvable, dated. These are consistency-checked against the scenario weights
+    (e.g. P09 ≈ P(C) + P(D) + part of E). Resolution criteria are written so a future reader
+    can score them without arguing definitions.
+  </p>
+
+  <h3>By end-2027</h3>
+
+  <div class="pred">
+    <div class="ph"><span class="pn">P01 · resolves 2027-12-31</span><span class="pp">70%<small>yes</small></span></div>
+    <h3>Another single-day "DeepSeek moment": ≥$400B one-day market-cap loss in a single AI-linked stock, triggered by an AI development (not macro)</h3>
+    <p class="res"><b>Resolves YES if</b> any AI-stack company loses ≥$400B in one session on model-release, capability, or AI-demand news.</p>
+    <p class="why"><b>Basis</b>Precedent set January 2025 (~$600B, Nvidia). Concentration is higher now, the release cadence is faster (14 frontier-relevant releases in H1 2026 alone), and two labs are newly public — more surface area for the same shock.</p>
+  </div>
+
+  <div class="pred">
+    <div class="ph"><span class="pn">P02 · resolves 2027-12-31</span><span class="pp">70%<small>yes</small></span></div>
+    <h3>OpenAI and Anthropic both complete IPOs, at a combined initial market cap above $1.5T</h3>
+    <p class="res"><b>Resolves YES if</b> both list and day-one combined cap ≥$1.5T (Anthropic's last private mark alone was $965B, May 2026).</p>
+    <p class="why"><b>Basis</b>Both filed in June 2026. Monetizing the promise while the rent window is open is the rational move given claims 1–3, and the window for a hot listing narrows in scenarios B/C — they know it. Residual 30% covers market-condition delays and a pre-listing shock.</p>
+  </div>
+
+  <div class="pred">
+    <div class="ph"><span class="pn">P03 · resolves 2027-12-31</span><span class="pp">60%<small>yes</small></span></div>
+    <h3>The capex bend becomes visible: Big-Four 2027 aggregate capex grows &lt;40% YoY (vs +77% in 2026)</h3>
+    <p class="res"><b>Resolves YES if</b> combined MSFT/GOOG/META/AMZN 2027 capex lands below ~$1.0T (i.e. below 1.40 × the ~$710B 2026 actual/guide).</p>
+    <p class="why"><b>Basis</b>Capital intensity at 45–57% of revenue, negative FCF at several majors, $108B/yr debt issuance — the predictions page's Pred. 04 mechanism. Analysts project $1T+; we take the under, mildly. A 2026-H2 shock (P01) accelerates this; scenario A delays it.</p>
+  </div>
+
+  <div class="pred">
+    <div class="ph"><span class="pn">P04 · resolves 2027-12-31</span><span class="pp">60%<small>yes</small></span></div>
+    <h3>The open-weights agentic gap closes below 6 months</h3>
+    <p class="res"><b>Resolves YES if</b> the best open-weights model reaches within 5 points (or 6-month threshold-lag) of the closed SOTA on the then-current agentic frontier benchmarks (SWE-bench Pro / Terminal-Bench / OSWorld class), sustained for a quarter.</p>
+    <p class="why"><b>Basis</b>The coding gap went ~15 → 1–2 months in eighteen months; agentic RL environments are being commoditized (open agent-swarm stacks, K2.6's 300-agent swarms); DeepSeek V4-Pro is already at 69% SWE-bench Verified vs 78% closed. This is the single most scenario-discriminating observable: YES moves weight from A to B/C; NO strengthens A.</p>
+  </div>
+
+  <h3>By end-2028</h3>
+
+  <div class="pred">
+    <div class="ph"><span class="pn">P05 · resolves 2028-12-31</span><span class="pp">70%<small>yes</small></span></div>
+    <h3>A ≥$20B announced datacenter phase is cancelled or indefinitely shelved</h3>
+    <p class="res"><b>Resolves YES if</b> any single announced campus/phase with ≥$20B stated cost is publicly cancelled, suspended >12 months, or abandoned by its anchor tenant.</p>
+    <p class="why"><b>Basis</b>The precedent already exists at smaller scale: Stargate Abilene's 2.1 GW expansion was cancelled Q1 2026. ~9 GW of Stargate commitments plus Hyperion's 5 GW target plus neocloud speculative builds — some marginal phase loses its tenant in almost every scenario except pure A.</p>
+  </div>
+
+  <div class="pred">
+    <div class="ph"><span class="pn">P06 · resolves 2028-12-31</span><span class="pp">65%<small>yes</small></span></div>
+    <h3>A top-3 US lab's revenue mix shifts majority away from raw model access</h3>
+    <p class="res"><b>Resolves YES if</b> OpenAI, Anthropic, or Google (Gemini) discloses or is credibly reported to earn >50% of AI revenue from applications, seats, outcomes, or bundled products rather than per-token API.</p>
+    <p class="why"><b>Basis</b>Claim 3: token rents have a months-long half-life, application/distribution moats don't. The pivot is already visible (coding agents, enterprise workflow products, Meta's bundling). Verticalization is the only escape route the labs fully control.</p>
+  </div>
+
+  <div class="pred">
+    <div class="ph"><span class="pn">P07 · resolves 2028-12-31</span><span class="pp">50%<small>yes</small></span></div>
+    <h3>A Chinese open-weights model holds #1 on a major agentic leaderboard for ≥30 days</h3>
+    <p class="res"><b>Resolves YES if</b> a Chinese-lab open-weights model tops a recognized agentic/coding leaderboard (SWE-bench Pro standardized, Terminal-Bench, AA Coding Agent Index) ahead of all closed models for a continuous month.</p>
+    <p class="why"><b>Basis</b>The full state apparatus is behind this (NDRC plan, National AI Fund equity in DeepSeek, Ascend vertical integration) — but leading (not following) requires frontier-scale exploration compute that export controls still constrain. Coin-flip is honest. YES is the strongest single trigger for scenario C.</p>
+  </div>
+
+  <div class="pred">
+    <div class="ph"><span class="pn">P08 · resolves 2028-12-31</span><span class="pp">45%<small>yes</small></span></div>
+    <h3>An AI financial event by end-2028</h3>
+    <p class="res"><b>Resolves YES if</b> an AI equity basket (NVDA + top neocloud + public labs) draws down ≥30% from peak within ≤6 months <i>and</i> AI-linked credit spreads (datacenter ABS, neocloud debt) widen ≥300bps in the same window.</p>
+    <p class="why"><b>Basis</b>The two-year slice of P09. Requires trigger + credit transmission (§3) landing early. The debt/circularity stock is still building, which is why the 5-year number (55%) is higher than 2×-ish this one implies.</p>
+  </div>
+
+  <h3>By mid-2031 (full horizon)</h3>
+
+  <div class="pred">
+    <div class="ph"><span class="pn">P09 · resolves 2031-07-17</span><span class="pp">55%<small>yes</small></span></div>
+    <h3>An AI financial event at some point in the five years</h3>
+    <p class="res"><b>Resolves YES</b> under P08's criteria at any point before mid-2031. This is the page's headline number: P(C) + P(D) + ~half of E, minus a sliver for definitional near-misses.</p>
+    <p class="why"><b>Basis</b>Capex–revenue divergence already past the 2001 telecom peak; assets on a 3–5 year depreciation clock; commoditization conveyor state-funded; leverage migrating from equity to credit each quarter. Against: hyperscaler cash-flow ballast and the demand response (circuit breakers B1/B2), which is why this isn't 75%.</p>
+  </div>
+
+  <div class="pred">
+    <div class="ph"><span class="pn">P10 · resolves 2031-07-17</span><span class="pp">90%<small>yes</small></span></div>
+    <h3>Aggregate inference demand grows every single year, through any correction</h3>
+    <p class="res"><b>Resolves YES if</b> global AI inference compute consumption (tokens or FLOP-equivalents, best-available estimate) is higher each calendar year 2026→2030, including any crash years.</p>
+    <p class="why"><b>Basis</b>Claim 5 (Jevons) plus the strongest precedent in the dataset: fiber traffic grew through the entire telecom bust. Inference prices fell ~1,000× in 3 years while usage exploded. Only scenario E(i) plausibly breaks this. Our highest-confidence call.</p>
+  </div>
+
+  <div class="pred">
+    <div class="ph"><span class="pn">P11 · resolves 2031-07-17</span><span class="pp">60%<small>yes</small></span></div>
+    <h3>Inference reprices to utility economics</h3>
+    <p class="res"><b>Resolves YES if</b> frontier-quality tokens (top-decile capability of the day) fall ≥100× in price from July 2026 ($5/$30 per Mtok, GPT-5.6) <i>and</i> major-cloud AI inference gross margins are credibly reported below 30%.</p>
+    <p class="why"><b>Basis</b>Open weights already serve near-frontier at $0.12/Mtok (~42× under GPT-5.6 input pricing) — most of the 100× exists today across the quality gap; the question is whether frontier quality itself converges onto commodity serving. B and C both imply YES; A implies NO for the frontier tier.</p>
+  </div>
+
+  <div class="pred">
+    <div class="ph"><span class="pn">P12 · resolves 2031-07-17</span><span class="pp">85%<small>yes</small></span></div>
+    <h3>A 2026-frontier-equivalent model runs locally on flagship phones — and datacenter demand grows anyway</h3>
+    <p class="res"><b>Resolves YES if</b> a locally-running phone model matches GPT-5.6/Fable-5-class scores on the 2026 benchmark suite (MMLU-Pro, GPQA, SWE-bench Verified) <i>and</i> P10 is still on track.</p>
+    <p class="why"><b>Basis</b>Distillation trend (Qwen 4 4B already "best 8GB-tier"; 2023's frontier runs on 2026 laptops), NPU roadmaps, and every prior edge migration (mainframe→PC→phone) growing the datacenter alongside. Edge absorbs interactive work; long-horizon parallel agent work — where demand is heading — stays centralized on energy economics.</p>
+  </div>
+
+  <div class="pred">
+    <div class="ph"><span class="pn">P13 · resolves 2031-07-17</span><span class="pp">40%<small>yes</small></span></div>
+    <h3>The productivity payoff shows up in national statistics</h3>
+    <p class="res"><b>Resolves YES if</b> US nonfarm labor productivity growth ≥2.5%/yr for two consecutive calendar years before 2031 (vs ~1.5% post-2005 trend).</p>
+    <p class="why"><b>Basis</b>The entire bet's ultimate justification — and the hardest to time. Electricity took ~40 years to show up in productivity stats; the Solow paradox ("computers everywhere except the productivity statistics") lasted two decades. AI diffusion is faster than either, but organizational reorganization is the binding constraint, not capability. NO here does not mean the bet failed — it means the surplus is still in transit as of 2031. Deliberately our most humble number.</p>
+  </div>
+</section>
+
+<!-- 05 Watchboard -->
+<section id="watchboard">
+  <div class="section-num">05</div>
+  <h2>The watchboard</h2>
+  <p class="intro">
+    Nine indicators that move the scenario weights, with current readings and the thresholds
+    at which we'd update. Reviewed with the quarterly update cycle.
+  </p>
+  <div class="tbl-wrap">
+    <div class="tbl-head"><div class="t">Indicators → scenario sensitivity</div><div class="s">Readings as of July 17, 2026. "Moves weight" states the update rule.</div></div>
+    <table>
+      <thead><tr><th style="width:230px">Indicator</th><th style="width:220px">Current reading</th><th>Threshold / update rule</th></tr></thead>
+      <tbody>
+        <tr><td><b>Open-weights agentic lag</b></td><td>10–25 pts on SWE-bench Pro / Terminal-Bench class; ~3–6 mo threshold-lag average; coding 1–2 mo</td><td>&lt;5 pts or &lt;6 mo sustained a quarter → A −10, C +5, B +5. Widening past 12 mo → A +10.</td></tr>
+        <tr><td><b>Big-Four capital intensity</b></td><td>45–57% of revenue (historic norm 10–25%)</td><td>Still &gt;45% in 2H'27 without revenue catch-up → C +5. Declining with revenue growth → B +5.</td></tr>
+        <tr><td><b>Hyperscaler + neocloud debt issuance</b></td><td>$108B (2025); Morgan Stanley/JPM project $1.5T sector issuance ahead; Alphabet issued a 100-year bond</td><td>&gt;$250B/yr or first datacenter-ABS distress → C +10 (transmission chain armed).</td></tr>
+        <tr><td><b>Lab IPO pricing & aftermath</b></td><td>Both filed June 2026; Anthropic last private mark $965B</td><td>Listings price &gt;30% below last private marks, or break issue price in month one → C +5, and P02 in doubt.</td></tr>
+        <tr><td><b>Frontier token price index</b></td><td>GPT-5.6: $5/$30 per Mtok; Grok 4.5 at $2/$6 "Opus-class"; open-weights $0.12–0.28</td><td>Closed frontier pricing falling &gt;5×/yr = commoditization reaching the top tier → B +5, A −5.</td></tr>
+        <tr><td><b>Long-horizon autonomy progress</b></td><td>SWE Marathon top ~29%; ARC-AGI-3 ~7.8%; multi-day tasks still fail majority</td><td>Flat across two frontier generations (~12 mo) → D +10. SWE Marathon &gt;60% → A +5 (new monetizable edge).</td></tr>
+        <tr><td><b>China compute ramp</b></td><td>Huawei ~600k Ascend 910C planned 2026; NDRC $295B plan in "early discussion"; Ascend at ~85% H100 throughput on DeepSeek workloads</td><td>NDRC plan formally ratified + Ascend &gt;1M/yr → P07 up 10 pts. SMIC yield failure reports → P07 down.</td></tr>
+        <tr><td><b>Compute-commitment circularity</b></td><td>Oracle–OpenAI 4.5 GW; CoreWeave backlog $87.8B (Meta $21B added); Nvidia equity stakes in customers</td><td>Any top-3 lab reducing/renegotiating a disclosed commitment → C +10 immediately (step 3 of the cascade, live).</td></tr>
+        <tr><td><b>AI capex share of GDP growth</b></td><td>~3% of GDP at $1T+/yr all-in estimates; ~half of US electricity demand growth is datacenters</td><td>The bigger this gets, the worse C's macro leg — mechanical. &gt;4% of GDP → C's severity (not probability) up.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout">
+    <b>The one-line summary.</b> If you can only watch a single number, watch the
+    <b>open-weights lag on long-horizon agentic work</b>. It is simultaneously: the labs' entire
+    monetization window (claims 1–3), China's strategic weapon (claim 4), and the
+    scenario-A-vs-everything-else discriminator. Every other indicator is downstream of it
+    or measures the leverage that amplifies it.
+  </div>
+</section>
+
+<!-- 06 Relationship to predictions page -->
+<section id="relationship">
+  <div class="section-num">06</div>
+  <h2>How this page relates to the predictions page</h2>
+  <p class="intro">
+    No contradiction, different tools. The <a href="predictions.html">predictions page</a>
+    extrapolates physical trends with high confidence and abstains where variance swamps
+    signal. This page covers exactly the abstentions — bubble dynamics, China, company-layer
+    outcomes — using scenario weights instead of point forecasts, at honestly lower confidence.
+    Where the two overlap they agree: its Pred. 04 (capex bend) is our P03; its Pred. 08
+    (open-weight lag persists at 6–12 months) is the complement of our P04, and the two pages'
+    numbers are consistent (they give the lag persisting; we give 60% that the <i>agentic</i>
+    lag specifically compresses below 6 months — the same underlying distribution read from
+    opposite sides). Its physical projections (compute, power, campuses) hold in our scenarios
+    A and B, bend in C, and break only in D/E — which is precisely the confidence ordering
+    both pages assign.
+  </p>
+</section>
+
+<!-- Update log -->
+<section id="updates">
+  <div class="section-num">07</div>
+  <h2>Update log</h2>
+  <div class="changelog">
+    <div class="ev">
+      <div class="d">2026-07-17</div>
+      <div>Initial release. Five scenarios (20/30/30/10/10), thirteen probability-weighted predictions, transmission-chain map, nine-indicator watchboard. Derived from the July 2026 economics analysis: task-saturation model, open-weights conveyor, China commoditization strategy, edge-inference endgame, "too cheap to meter" failure mode.</div>
+    </div>
+    <div class="ev">
+      <div class="d">Next review</div>
+      <div>~October 2026 — first quarterly re-weight. Watch: lab IPO pricing (P02), Q3 capex guidance and capital intensity (P03), DeepSeek V4 official release + any agentic-gap movement (P04), NDRC plan ratification, credit-spread baseline for the P08/P09 criteria.</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <h4>Sources & method</h4>
+  <p>Scenario weights and prediction probabilities are subjective judgments conditioned on the
+  <a href="index.html">factual report</a> (data through July 9, 2026) and a July 2026 economics
+  analysis covering: hyperscaler capex guidance and Goldman's $7.6T 2026–2031 baseline;
+  Sequoia/Cahn's $3T revenue-requirement arithmetic; Allianz's 46% capex–revenue divergence
+  estimate; BIS Annual Report 2026 contest-dynamics analysis; open-vs-closed threshold-lag
+  measurements (Ihle et al., Artificial Analysis, Doubleword); NDRC compute-plan reporting
+  (Bloomberg, June 2026); DeepSeek financing and Huawei Ascend integration reporting (Reuters);
+  and the January 2025 DeepSeek market-shock precedent. Historical analogies: UK/US railway
+  manias, electrification diffusion, 2000–02 telecom bust.</p>
+  <ul>
+    <li><a href="index.html">index.html</a> — factual timeline (compute, models, benchmarks, datacenters, export controls)</li>
+    <li><a href="predictions.html">predictions.html</a> — trend-extrapolation predictions (the high-confidence sibling of this page)</li>
+    <li><a href="data-models.md">data-models.md</a> · <a href="data-benchmarks.md">data-benchmarks.md</a> · <a href="data-datacenters.md">data-datacenters.md</a> — underlying data</li>
+  </ul>
+  <p class="mono" style="margin-top:18px">research/ai-progress · economics scenarios v0.1 · July 17, 2026</p>
+</footer>
+
+</div>
+
+<script>
+const C = {
+  red:'#b8341c', blue:'#1a4d8f', green:'#2f7a3d',
+  purple:'#7a4a8c', amber:'#b8851c', teal:'#1c8c8c',
+  ink:'#111313', muted:'#5a5d5a', soft:'#c9c6bb'
+};
+Chart.defaults.font.family = 'Inter, system-ui, sans-serif';
+Chart.defaults.font.size = 11;
+Chart.defaults.color = C.muted;
+
+/* ---- Scissors chart: capex vs required profit ---- */
+const years = ['2022','2023','2024','2025','2026','2027','2028','2029','2030','2031'];
+const capexActual = [156, 144, 229, 410, null, null, null, null, null, null];
+const capexGuide  = [null, null, null, null, 710, 950, 1150, 1350, 1500, 1600];
+const profitReq   = years.map(()=>1000);
+const profitCons  = [null, null, null, null, 450, null, null, null, null, null];
+
+new Chart(document.getElementById('chartScissors'),{
+  data:{
+    labels: years,
+    datasets:[
+      {type:'bar', label:'Big-Four capex, actual ($B)', data:capexActual,
+        backgroundColor:'rgba(26,77,143,.75)', borderRadius:3, order:10},
+      {type:'bar', label:'Capex, guided / Goldman baseline ($B)', data:capexGuide,
+        backgroundColor:'rgba(26,77,143,.28)', borderColor:'rgba(26,77,143,.55)',
+        borderWidth:1, borderRadius:3, order:11},
+      {type:'line', label:'Annual AI profit required (Goldman, ~$1T)', data:profitReq,
+        borderColor:C.red, borderDash:[6,4], borderWidth:2, pointRadius:0, order:1},
+      {type:'scatter', label:'2026 consensus AI profit (~$450B)', data:profitCons,
+        backgroundColor:C.amber, borderColor:C.amber, pointRadius:7, pointStyle:'rectRot', order:0}
+    ]
+  },
+  options:{
+    responsive:true, maintainAspectRatio:false,
+    scales:{
+      x:{grid:{display:false}},
+      y:{title:{display:true,text:'$ billions / year'}, grid:{color:'rgba(0,0,0,.05)'},
+         min:0, max:1800}
+    },
+    plugins:{
+      legend:{position:'bottom',labels:{boxWidth:14,padding:14,font:{size:11}}},
+      tooltip:{callbacks:{label:(i)=>`${i.dataset.label}: $${i.parsed.y}B`}},
+      annotation:{
+        annotations:{
+          today:{
+            type:'line', xMin:4.35, xMax:4.35,
+            borderColor:'rgba(0,0,0,.25)', borderWidth:1, borderDash:[2,3],
+            label:{display:true, content:'today', position:'start',
+                   backgroundColor:'rgba(255,255,255,.85)', color:C.muted,
+                   font:{size:10}, padding:4}
+          }
+        }
+      }
+    }
+  }
+});
+
+/* ---- Scenario probability bar ---- */
+new Chart(document.getElementById('chartScen'),{
+  type:'bar',
+  data:{
+    labels:['A · Frontier Rents Hold','B · Commoditized Boom','C · The Correction','D · Plateau Bust','E · Tail Events'],
+    datasets:[{
+      data:[20,30,30,10,10],
+      backgroundColor:['rgba(47,122,61,.8)','rgba(26,77,143,.8)','rgba(184,52,28,.8)','rgba(184,133,28,.8)','rgba(122,74,140,.8)'],
+      borderRadius:4,
+      barPercentage:.7
+    }]
+  },
+  options:{
+    indexAxis:'y',
+    responsive:true, maintainAspectRatio:false,
+    scales:{
+      x:{min:0, max:40, title:{display:true,text:'Probability (%)'}, grid:{color:'rgba(0,0,0,.05)'}},
+      y:{grid:{display:false}, ticks:{font:{size:12, weight:600}}}
+    },
+    plugins:{
+      legend:{display:false},
+      tooltip:{callbacks:{label:(i)=>`${i.parsed.x}%`}}
+    }
+  }
+});
+</script>
+</body>
+</html>

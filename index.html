@@ -1,0 +1,1383 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Charting the Singularity: AI Progress, GPT-3 to GPT-5.6 (2020 – July 2026)</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.1.0/dist/chartjs-plugin-annotation.min.js"></script>
+<style>
+:root{
+  --bg:#fafaf7;
+  --paper:#ffffff;
+  --ink:#111313;
+  --muted:#5a5d5a;
+  --line:#e3e1d8;
+  --rule:#c9c6bb;
+  --accent:#b8341c;
+  --accent-2:#1a4d8f;
+  --accent-3:#2f7a3d;
+  --accent-4:#7a4a8c;
+  --accent-5:#b8851c;
+  --accent-6:#1c8c8c;
+  --warn:#a8331c;
+  --soft:#f3f1e9;
+  --code:#252727;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:"Charter","Iowan Old Style","Source Serif Pro",Georgia,serif;line-height:1.55;font-size:16.5px;-webkit-font-smoothing:antialiased}
+.mono,code,kbd{font-family:"JetBrains Mono","SF Mono",Menlo,Consolas,monospace;font-size:.92em}
+h1,h2,h3,h4{font-family:"Inter","Helvetica Neue",system-ui,sans-serif;font-weight:700;letter-spacing:-.01em;line-height:1.15}
+h1{font-size:2.6rem;margin:.2em 0 .15em;letter-spacing:-.02em}
+h2{font-size:1.7rem;margin:0 0 .25em;border-bottom:1px solid var(--rule);padding-bottom:.35em}
+h3{font-size:1.15rem;margin:1.4em 0 .35em;color:var(--ink)}
+h4{font-size:.95rem;margin:1em 0 .35em;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;font-weight:600}
+a{color:var(--accent-2);text-decoration:none;border-bottom:1px solid rgba(26,77,143,.25)}
+a:hover{border-bottom-color:var(--accent-2)}
+hr{border:0;border-top:1px solid var(--rule);margin:2em 0}
+
+.wrap{max-width:1180px;margin:0 auto;padding:48px 28px 80px}
+.lede{font-size:1.12rem;color:var(--muted);max-width:820px;margin:.4em 0 1.6em}
+.eyebrow{display:inline-block;font-family:"JetBrains Mono",monospace;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:4px 10px;border:1px solid var(--rule);border-radius:99px;background:var(--paper)}
+section{margin:64px 0}
+section .intro{max-width:820px;color:var(--muted);margin:.4em 0 1.5em;font-size:1.02rem}
+
+/* Hero stats grid */
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:28px 0 8px}
+.stat{background:var(--paper);border:1px solid var(--line);padding:18px 18px 16px;border-radius:8px;position:relative}
+.stat .num{font-family:"Inter",system-ui,sans-serif;font-size:1.85rem;font-weight:700;color:var(--ink);letter-spacing:-.02em;line-height:1.05}
+.stat .num small{font-size:.62em;font-weight:500;color:var(--muted);letter-spacing:0;display:inline-block;margin-left:4px}
+.stat .label{font-size:.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-top:6px;font-family:"Inter",sans-serif;font-weight:500}
+.stat .ctx{font-size:.85rem;color:var(--ink);margin-top:6px;line-height:1.35}
+.stat .accent{position:absolute;top:0;left:0;width:36px;height:3px;background:var(--accent)}
+.stat:nth-child(2) .accent{background:var(--accent-2)}
+.stat:nth-child(3) .accent{background:var(--accent-3)}
+.stat:nth-child(4) .accent{background:var(--accent-4)}
+.stat:nth-child(5) .accent{background:var(--accent-5)}
+.stat:nth-child(6) .accent{background:var(--accent-6)}
+.stat:nth-child(7) .accent{background:var(--accent-2)}
+.stat:nth-child(8) .accent{background:var(--accent-3)}
+
+/* Chart container */
+.chart-box{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:20px 22px 16px;margin:18px 0}
+.chart-title{font-family:"Inter",sans-serif;font-weight:600;font-size:1.05rem;margin:0 0 4px}
+.chart-sub{color:var(--muted);font-size:.88rem;margin:0 0 14px}
+.chart-canvas-wrap{position:relative;height:420px}
+.chart-canvas-wrap.tall{height:520px}
+.chart-canvas-wrap.short{height:300px}
+
+/* Tables */
+.tbl-wrap{background:var(--paper);border:1px solid var(--line);border-radius:8px;overflow:hidden;margin:18px 0}
+.tbl-wrap .tbl-head{padding:14px 18px;border-bottom:1px solid var(--line);background:var(--soft)}
+.tbl-wrap .tbl-head .t{font-family:"Inter",sans-serif;font-weight:600;font-size:1rem}
+.tbl-wrap .tbl-head .s{color:var(--muted);font-size:.85rem;margin-top:2px}
+.tbl-scroll{max-height:520px;overflow:auto}
+table{width:100%;border-collapse:collapse;font-size:.9rem;font-family:"Inter",system-ui,sans-serif}
+table.serif{font-family:inherit}
+thead th{position:sticky;top:0;background:var(--paper);text-align:left;padding:10px 14px;font-weight:600;color:var(--muted);text-transform:uppercase;font-size:.72rem;letter-spacing:.07em;border-bottom:1px solid var(--rule);z-index:1}
+tbody td{padding:9px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+tbody tr:hover{background:var(--soft)}
+tbody tr:last-child td{border-bottom:none}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+td.mono{font-family:"JetBrains Mono",monospace;font-size:.82rem}
+.badge{display:inline-block;font-size:.7rem;font-family:"Inter",sans-serif;padding:2px 7px;border-radius:99px;background:var(--soft);color:var(--muted);font-weight:500;border:1px solid var(--line)}
+.badge.openai{color:#0a8a4a;border-color:#bce0c8;background:#eaf6ee}
+.badge.anthropic{color:#b8341c;border-color:#e8c5b8;background:#fbeae3}
+.badge.google{color:#1a4d8f;border-color:#bcd0e8;background:#eaf0f9}
+.badge.meta{color:#1c4ea8;border-color:#bcc6e0;background:#eaedf6}
+.badge.ds{color:#5a338f;border-color:#d4c5e0;background:#f1ebf6}
+.badge.xai{color:#252727;border-color:#c9c6bb;background:#f3f1e9}
+.badge.qwen{color:#a8541c;border-color:#e8d0b8;background:#fbf1e7}
+.badge.kimi{color:#1c8c8c;border-color:#bce0e0;background:#e7f5f5}
+.badge.mistral{color:#b8851c;border-color:#e8dab8;background:#fbf6e6}
+.badge.other{color:var(--muted)}
+.badge.ow{background:#e7f0e6;color:#2f7a3d;border-color:#cae0c5}
+.badge.cl{background:#f3e6e6;color:#a8331c;border-color:#e0c6c2}
+
+/* Two columns */
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media (max-width:880px){.cols{grid-template-columns:1fr}.hero-stats{grid-template-columns:repeat(2,1fr)}}
+
+/* Pull quote / callout */
+.callout{border-left:3px solid var(--accent);background:var(--soft);padding:14px 18px;margin:20px 0;font-size:.97rem;color:var(--ink);border-radius:0 6px 6px 0}
+.callout.q{font-style:italic;color:var(--ink)}
+.callout .src{display:block;color:var(--muted);font-size:.82rem;margin-top:6px;font-style:normal;font-family:"Inter",sans-serif}
+
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:.85rem;color:var(--muted);margin:8px 0 0}
+.legend .it{display:flex;align-items:center;gap:6px}
+.legend .sw{width:14px;height:3px;border-radius:2px}
+
+.note{color:var(--muted);font-size:.82rem;margin-top:6px;line-height:1.45}
+
+/* Footer */
+footer{margin-top:80px;border-top:1px solid var(--rule);padding-top:24px;color:var(--muted);font-size:.85rem}
+footer h4{margin-top:0}
+footer ul{padding-left:18px;margin:0}
+footer li{margin:3px 0}
+
+/* Header bar */
+.topbar{font-family:"JetBrains Mono",monospace;font-size:.78rem;color:var(--muted);display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--rule);padding-bottom:12px;margin-bottom:36px;gap:14px;flex-wrap:wrap}
+.topbar a{color:var(--muted);border-bottom:none;margin:0 4px}
+.topbar a:hover{color:var(--accent)}
+.topbar .pill{padding:3px 9px;border:1px solid var(--rule);border-radius:99px;background:var(--paper)}
+.topbar .pill b{color:var(--accent);font-weight:600}
+html{scroll-behavior:smooth}
+section{scroll-margin-top:20px}
+
+/* Filter buttons */
+.filters{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 0}
+.filters button{font-family:"Inter",sans-serif;font-size:.82rem;padding:5px 11px;border:1px solid var(--rule);background:var(--paper);color:var(--ink);border-radius:99px;cursor:pointer;transition:all .15s}
+.filters button:hover{background:var(--soft)}
+.filters button.active{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+
+/* Section dividers */
+.section-num{font-family:"JetBrains Mono",monospace;font-size:.85rem;color:var(--accent);font-weight:600;margin-bottom:4px;letter-spacing:.08em}
+
+/* Highlight cells */
+.tag{display:inline-block;padding:1px 6px;border-radius:3px;background:var(--soft);color:var(--ink);font-size:.78rem;font-family:"JetBrains Mono",monospace;border:1px solid var(--line)}
+.tag.hot{background:#fbeae3;color:#a8331c;border-color:#e8c5b8}
+
+.flop-bar{display:inline-block;height:6px;background:var(--accent-2);opacity:.85;border-radius:1px;vertical-align:middle;margin-right:6px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="topbar">
+  <span>research/ai-progress · single-page report</span>
+  <span><a href="#compute">compute</a> · <a href="#models">models</a> · <a href="#benchmarks">benchmarks</a> · <a href="#dc">datacenters</a> · <a href="#export">export</a> · <a href="#picture">picture</a> · <a href="predictions.html" style="color:var(--accent)">predictions →</a> · <a href="scenarios.html" style="color:var(--accent)">economics scenarios →</a></span>
+  <span class="pill">data through <b>July 9, 2026</b></span>
+</div>
+
+<header>
+  <span class="eyebrow">A factual timeline · 2020 → 2026</span>
+  <h1>Charting the Singularity</h1>
+  <p class="lede">
+    From GPT‑3 to GPT‑5.6: 73 months of frontier AI in models, benchmarks, and concrete.
+    A grounded report — what was released, what got benchmarked, what got built.
+    The squinting comes later.
+  </p>
+
+  <div class="hero-stats">
+    <div class="stat"><span class="accent"></span>
+      <div class="num">~1,600<small>×</small></div>
+      <div class="label">Frontier training compute</div>
+      <div class="ctx">GPT‑3 (3.1×10²³ FLOP, Jun 2020) → Grok 4 (~5×10²⁶ FLOP, Jul 2025) — just over 3 orders of magnitude.</div>
+    </div>
+    <div class="stat"><span class="accent"></span>
+      <div class="num">+406<small> Elo</small></div>
+      <div class="label">Chatbot Arena, May 2023 → Apr 2026</div>
+      <div class="ctx">Vicuna‑13B 1094 → Claude Opus 4.6 / Gemini 3.1 Pro / GPT‑5.4‑high cluster at 1500+. Crown changed hands 21 times.</div>
+    </div>
+    <div class="stat"><span class="accent"></span>
+      <div class="num">$193.7<small>B</small></div>
+      <div class="label">NVIDIA datacenter rev FY26</div>
+      <div class="ctx">Up 29× from $6.7B in FY21. FY26 Q3 alone: $51.2B; Q4 implied ~$62B.</div>
+    </div>
+    <div class="stat"><span class="accent"></span>
+      <div class="num">~$680<small>B</small></div>
+      <div class="label">Big‑Five 2026 capex (guide)</div>
+      <div class="ctx">Up from ~$160B in 2022. ~75% AI‑related. AWS, GOOG, META, MSFT, ORCL combined.</div>
+    </div>
+    <div class="stat"><span class="accent"></span>
+      <div class="num">94<small>% MMLU</small></div>
+      <div class="label">All major benchmarks pre‑2024 saturated</div>
+      <div class="ctx">MMLU, HumanEval, GSM8K, MATH, BBH, GPQA, MMMU, ARC‑AGI‑1, AIME — done. Successors already partially solved.</div>
+    </div>
+    <div class="stat"><span class="accent"></span>
+      <div class="num">~2<small> GW</small></div>
+      <div class="label">Largest single AI campus, live</div>
+      <div class="ctx">xAI Colossus 1+2 (Memphis): ~555,000 GPUs, ~2 GW. Project Rainier: 2.2 GW with ~500k Trainium2.</div>
+    </div>
+    <div class="stat"><span class="accent"></span>
+      <div class="num">~7<small>%</small></div>
+      <div class="label">Datacenters' share of US electricity</div>
+      <div class="ctx">76 TWh in 2018 (1.9%) → ~250 TWh in 2025 (~7%). LBNL projects 325–580 TWh by 2028.</div>
+    </div>
+    <div class="stat"><span class="accent"></span>
+      <div class="num">10<small>+ GW</small></div>
+      <div class="label">New US nuclear contracted in 12 mo.</div>
+      <div class="ctx">Microsoft–TMI restart, Google–Kairos SMRs, Amazon–X‑Energy, Susquehanna campus, Meta RFP.</div>
+    </div>
+  </div>
+
+  <div class="callout">
+    Numbers in this report come from <b>Epoch AI</b>, hyperscaler earnings, NVIDIA filings, LBNL,
+    benchmark papers and aggregators (Vals AI, Scale, Artificial Analysis, BenchLM, ARC Prize, lmarena.ai),
+    and primary vendor announcements. Compute and parameter counts for closed models are order‑of‑magnitude
+    estimates; see the linked source files in this directory for the full citation trail.
+  </div>
+</header>
+
+<!-- ======================= 1. COMPUTE ======================= -->
+<section id="compute">
+  <div class="section-num">01</div>
+  <h2>The compute</h2>
+  <p class="intro">
+    Training compute at the frontier grew at <b>~5× per year</b> from 2020 to 2025 — a doubling time of
+    just over five months (Epoch AI). The cumulative move from GPT‑3 to Grok 4 is just over three orders of magnitude (~1,600×).
+    Below: every public estimate of frontier training‑run FLOPs we could find, plotted on a log axis.
+  </p>
+
+  <div class="chart-box">
+    <div class="chart-title">Frontier training compute, 2020 → 2026</div>
+    <div class="chart-sub">Estimated FLOPs per training run (log scale). Closed‑model figures are Epoch AI imputations; treat as order‑of‑magnitude.</div>
+    <div class="chart-canvas-wrap tall"><canvas id="chartFlops"></canvas></div>
+    <div class="note">Source: <a href="https://epoch.ai/data/ai-models">Epoch AI Notable Models DB</a>, <a href="https://epoch.ai/data-insights/models-over-1e25-flop">&gt;1e25 FLOP tracker</a>. Run sizes for GPT‑5/5.x, Gemini 3, Claude 4.x are not publicly disclosed.</div>
+  </div>
+
+  <div class="cols">
+    <div class="tbl-wrap">
+      <div class="tbl-head"><div class="t">Largest known training runs by year</div><div class="s">Best public estimates; FLOPs are ±0.5–1 OOM uncertain for closed models.</div></div>
+      <div class="tbl-scroll"><table>
+        <thead><tr><th>Year</th><th>Model</th><th>Developer</th><th class="num">Training FLOP</th></tr></thead>
+        <tbody id="tblFrontierRuns"></tbody>
+      </table></div>
+    </div>
+
+    <div class="tbl-wrap">
+      <div class="tbl-head"><div class="t">Cluster sizes used for training</div><div class="s">Reported peak GPU counts.</div></div>
+      <div class="tbl-scroll"><table>
+        <thead><tr><th>Model</th><th>Year</th><th>Cluster (peak)</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td>GPT‑3</td><td>2020</td><td class="mono">~10k V100</td><td>Microsoft Azure</td></tr>
+          <tr><td>GPT‑4</td><td>2023</td><td class="mono">10–25k A100</td><td>"Azure supercomputers"</td></tr>
+          <tr><td>Llama 3.1 405B</td><td>2024</td><td class="mono">16k H100</td><td>Meta RSC</td></tr>
+          <tr><td>Grok 3</td><td>2025</td><td class="mono">~100k H100</td><td>Colossus 1, Memphis</td></tr>
+          <tr><td>GPT‑5</td><td>2025</td><td class="mono">25–80k H100‑eq</td><td>Microsoft Azure (est.)</td></tr>
+          <tr><td>Claude Opus 4.x</td><td>2025–26</td><td class="mono">100ks TPU + Trainium2</td><td>Project Rainier + GCP</td></tr>
+          <tr><td>Grok 4</td><td>2025</td><td class="mono">200k H100</td><td>Colossus, 6× efficiency vs. Grok 3</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </div>
+
+  <div class="callout q">
+    "Training‑compute growth rate: 5× per year, 90% CI 4–6×. Doubling time: 5.2 months. Cost per training run grows 3.5× per year; AI chip FLOP/s per dollar grows 1.37× per year."
+    <span class="src">— Epoch AI <a href="https://epoch.ai/blog/training-compute-of-frontier-ai-models-grows-by-4-5x-per-year">Frontier training compute</a>, updated April 2026</span>
+  </div>
+</section>
+
+<!-- ======================= 2. THE MODELS ======================= -->
+<section id="models">
+  <div class="section-num">02</div>
+  <h2>The models</h2>
+  <p class="intro">
+    Roughly fifty frontier‑class models since GPT‑3. The cadence accelerated: years between
+    GPT‑3 → 3.5 → 4, then quarters between Claude/GPT/Gemini majors, then months between OpenAI's
+    GPT‑5.x dot‑releases as 2025 closed and "Code Red" began.
+  </p>
+
+  <div class="chart-box">
+    <div class="chart-title">Release timeline by developer</div>
+    <div class="chart-sub">Each dot is a frontier release. Y‑position groups by lab.</div>
+    <div class="chart-canvas-wrap tall"><canvas id="chartTimeline"></canvas></div>
+  </div>
+
+  <div class="tbl-wrap">
+    <div class="tbl-head">
+      <div class="t">Master model release timeline</div>
+      <div class="s">Major frontier and influential open‑weights releases. Click headers to skim by lab. Filter:</div>
+      <div class="filters" id="modelFilters">
+        <button class="active" data-dev="all">All</button>
+        <button data-dev="OpenAI">OpenAI</button>
+        <button data-dev="Anthropic">Anthropic</button>
+        <button data-dev="Google">Google DM</button>
+        <button data-dev="Meta">Meta</button>
+        <button data-dev="DeepSeek">DeepSeek</button>
+        <button data-dev="xAI">xAI</button>
+        <button data-dev="Alibaba">Alibaba</button>
+        <button data-dev="Mistral">Mistral</button>
+        <button data-dev="Moonshot">Moonshot</button>
+        <button data-dev="Other">Other</button>
+      </div>
+    </div>
+    <div class="tbl-scroll"><table>
+      <thead><tr>
+        <th>Date</th><th>Model</th><th>Developer</th><th>OW/C</th>
+        <th>Context</th><th>Significance</th>
+      </tr></thead>
+      <tbody id="tblModels"></tbody>
+    </table></div>
+  </div>
+
+  <div class="cols">
+    <div class="chart-box">
+      <div class="chart-title">Context window growth</div>
+      <div class="chart-sub">Maximum production context per model, log scale (tokens).</div>
+      <div class="chart-canvas-wrap"><canvas id="chartContext"></canvas></div>
+    </div>
+    <div class="chart-box">
+      <div class="chart-title">Chatbot Arena Elo, #1 model over time</div>
+      <div class="chart-sub">Top score on lmarena.ai. Crown changes annotated.</div>
+      <div class="chart-canvas-wrap"><canvas id="chartElo"></canvas></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 3. THE BENCHMARKS ======================= -->
+<section id="benchmarks">
+  <div class="section-num">03</div>
+  <h2>The benchmarks</h2>
+  <p class="intro">
+    Almost every "this benchmark will hold for years" prediction since 2020 has been wrong.
+    Below: top score over time on the eight benchmarks that mattered most. The
+    typical lifecycle is now <b>1–3 years from release to saturation</b>, and that window is shrinking.
+  </p>
+
+  <div class="chart-box">
+    <div class="chart-title">Benchmark saturation, 2020 → April 2026</div>
+    <div class="chart-sub">Best frontier score recorded each quarter. Dashed lines = human baselines.</div>
+    <div class="chart-canvas-wrap tall"><canvas id="chartBench"></canvas></div>
+    <div class="note">
+      Vendor‑reported numbers; harnesses, prompts, and tool budgets vary across rows.
+      Indicative, not directly comparable. Sources in <code>data-benchmarks.md</code>.
+    </div>
+  </div>
+
+  <div class="cols">
+    <div class="chart-box">
+      <div class="chart-title">Reasoning models broke math</div>
+      <div class="chart-sub">AIME 2024/25 score by model (closed‑book) — o1's launch was the inflection.</div>
+      <div class="chart-canvas-wrap"><canvas id="chartAime"></canvas></div>
+    </div>
+    <div class="chart-box">
+      <div class="chart-title">Coding agents broke SWE‑bench</div>
+      <div class="chart-sub">SWE‑bench Verified, the standard since Aug 2024.</div>
+      <div class="chart-canvas-wrap"><canvas id="chartSwe"></canvas></div>
+    </div>
+  </div>
+
+  <div class="tbl-wrap">
+    <div class="tbl-head"><div class="t">Saturation status, July 2026</div><div class="s">Where each major benchmark stands.</div></div>
+    <div class="tbl-scroll"><table>
+      <thead><tr><th>Benchmark</th><th>Released</th><th>Top score 2026</th><th>Status</th><th>Time to saturation</th></tr></thead>
+      <tbody>
+        <tr><td>MMLU</td><td>Sep 2020</td><td>~92% (GPT‑5.4, Opus 4.6)</td><td><span class="badge cl">Saturated</span></td><td>~4 yr</td></tr>
+        <tr><td>HumanEval</td><td>Jul 2021</td><td>95–98% w/ scaffold</td><td><span class="badge cl">Saturated</span></td><td>~3 yr</td></tr>
+        <tr><td>GSM8K</td><td>Oct 2021</td><td>97–99%</td><td><span class="badge cl">Saturated</span></td><td>~3 yr</td></tr>
+        <tr><td>MATH</td><td>Oct 2021</td><td>99% (GPT‑5.2 Pro)</td><td><span class="badge cl">Saturated</span></td><td>~4 yr</td></tr>
+        <tr><td>BBH</td><td>Oct 2022</td><td>94% (Sonnet 4.5)</td><td><span class="badge cl">Saturated</span></td><td>~3 yr</td></tr>
+        <tr><td>GPQA Diamond</td><td>Nov 2023</td><td>94.6% (GPT‑5.6 Sol / Mythos)</td><td><span class="badge cl">Saturated</span></td><td>~2.5 yr</td></tr>
+        <tr><td>SWE‑bench Verified</td><td>Aug 2024</td><td>88.6% (Opus 4.8)</td><td><span class="badge ow">Mostly solved</span></td><td>~1.5 yr</td></tr>
+        <tr><td>SWE‑bench Pro</td><td>late 2025</td><td>80% vendor (Fable 5) / ~59% standardized</td><td><span class="badge ow">Partial</span></td><td>open</td></tr>
+        <tr><td>Terminal‑Bench 2.x</td><td>2025</td><td>91.9% (GPT‑5.6 Sol ultra)</td><td><span class="badge cl">Approaching</span></td><td>~1 yr</td></tr>
+        <tr><td>ARC‑AGI‑1 (semi‑private)</td><td>2024</td><td>87.5% (o3 high‑compute)</td><td><span class="badge cl">Saturated</span></td><td>~1 yr</td></tr>
+        <tr><td>ARC‑AGI‑2</td><td>Mar 2025</td><td>84.6% (Gemini 3.1 Deep Think)</td><td><span class="badge ow">Mostly solved</span></td><td>~1 yr</td></tr>
+        <tr><td>ARC‑AGI‑3</td><td>2026</td><td>7.8% (GPT‑5.6 Sol)</td><td><span class="badge other">Hard</span></td><td>open</td></tr>
+        <tr><td>AIME 2024/2025</td><td>annual</td><td>99–100% (w/ tools)</td><td><span class="badge cl">Saturated</span></td><td>~1–2 yr</td></tr>
+        <tr><td>FrontierMath T1‑3</td><td>Nov 2024</td><td>~89% (GPT‑5.6 Sol, v2)</td><td><span class="badge ow">Mostly solved</span></td><td>~1.5 yr</td></tr>
+        <tr><td>FrontierMath T4</td><td>Jul 2025</td><td>~88% (Fable 5, v2 set)</td><td><span class="badge ow">Fell mid‑2026</span></td><td>~1 yr</td></tr>
+        <tr><td>Humanity's Last Exam</td><td>Jan 2025</td><td>45–65% (text+tools)</td><td><span class="badge ow">Partial</span></td><td>open</td></tr>
+        <tr><td>MMMU‑Pro</td><td>Sep 2024</td><td>88% (Gemini 3.1 Pro)</td><td><span class="badge cl">Approaching</span></td><td>~1.5 yr</td></tr>
+        <tr><td>LiveCodeBench Pro</td><td>2025</td><td>87.5% (GPT‑5.4)</td><td><span class="badge ow">Partial</span></td><td>open</td></tr>
+        <tr><td>Chatbot Arena Elo</td><td>May 2023</td><td>1500+ (5‑way tie)</td><td><span class="badge other">Relative</span></td><td>n/a</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div class="callout">
+    <b>Pattern: saturation has accelerated.</b> Pre‑2022 benchmarks took 3–4 years to saturate;
+    2023 benchmarks took 2–2.5 years; 2024 benchmarks (SWE‑bench Verified, FrontierMath T1‑3, ARC‑AGI‑1)
+    took 1–2 years; 2025 benchmarks (HLE, ARC‑AGI‑2, FrontierMath T4) are partially solved within ~12 months.
+    The two main drivers were the <b>reasoning paradigm</b> (o1, Sep 2024 — +34.5 MATH, +26.7 GPQA, +65 AIME 2024
+    in one architecture pattern) and <b>test‑time compute scaling</b> (o3's ARC‑AGI‑1 result at 172× compute).
+  </div>
+</section>
+
+<!-- ======================= 4. THE DATACENTERS ======================= -->
+<section id="dc">
+  <div class="section-num">04</div>
+  <h2>The datacenters</h2>
+  <p class="intro">
+    The most concrete (literally) part of the chart. Hyperscaler capex went from ~$160B in 2022 to ~$680B
+    guided for 2026. Single‑site campuses crossed 1 GW in 2024 and 2 GW in early 2026. US datacenter electricity
+    use roughly tripled from 2018 to 2025, and is now the single largest source of US load growth.
+  </p>
+
+  <div class="cols">
+    <div class="chart-box">
+      <div class="chart-title">NVIDIA datacenter revenue, FY20 → FY26</div>
+      <div class="chart-sub">Annual, fiscal year ends late January.</div>
+      <div class="chart-canvas-wrap"><canvas id="chartNvda"></canvas></div>
+    </div>
+    <div class="chart-box">
+      <div class="chart-title">Hyperscaler capex, 2020 → 2026</div>
+      <div class="chart-sub">Big Five (AMZN, GOOG, META, MSFT, ORCL) combined. 2026 = company guidance.</div>
+      <div class="chart-canvas-wrap"><canvas id="chartCapex"></canvas></div>
+    </div>
+  </div>
+
+  <div class="cols">
+    <div class="chart-box">
+      <div class="chart-title">US datacenter electricity, 2014 → 2028</div>
+      <div class="chart-sub">TWh/yr; 2028 shows LBNL low / high projection range.</div>
+      <div class="chart-canvas-wrap"><canvas id="chartPower"></canvas></div>
+    </div>
+    <div class="chart-box">
+      <div class="chart-title">Largest single AI campus on record</div>
+      <div class="chart-sub">Live megawatts at the largest operational AI site, by year.</div>
+      <div class="chart-canvas-wrap"><canvas id="chartCampus"></canvas></div>
+    </div>
+  </div>
+
+  <div class="tbl-wrap">
+    <div class="tbl-head"><div class="t">Headline AI campuses, April 2026</div><div class="s">Operational and under‑construction multi‑hundred‑MW sites.</div></div>
+    <div class="tbl-scroll"><table>
+      <thead><tr><th>Campus</th><th>Owner / partner</th><th>Location</th><th class="num">Power</th><th>Chips</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td><b>Colossus 1+2 + MACROHARDRR</b></td><td>xAI</td><td>Memphis TN / Southaven MS</td><td class="num">~2 GW</td><td>~555k GPUs (mostly GB200/GB300)</td><td>Operational; 1M GPUs target late 2026</td></tr>
+        <tr><td><b>Project Rainier</b></td><td>AWS for Anthropic</td><td>New Carlisle, IN</td><td class="num">2.2 GW</td><td>~500k Trainium2 → 1M by end‑2026</td><td>Live Oct 2025 (Phase 1)</td></tr>
+        <tr><td><b>Stargate Abilene</b></td><td>OpenAI / Oracle / Crusoe</td><td>Abilene, TX</td><td class="num">0.6 → 1.2 GW</td><td>~500k H100‑eq + planned GB200</td><td>4 of 8 buildings live; 2.1 GW expansion canceled Q1 2026</td></tr>
+        <tr><td>Stargate (6 other US sites)</td><td>OpenAI / SoftBank / Oracle</td><td>TX × 3, NM, OH, WI, MI</td><td class="num">~7+ GW</td><td>TBD</td><td>Active construction; 9+ GW total by 2029</td></tr>
+        <tr><td><b>Hyperion</b></td><td>Meta</td><td>Richland Parish, LA</td><td class="num">2 → 5 GW</td><td>NVIDIA Blackwell + AMD MI450</td><td>Construction since Mar 2026</td></tr>
+        <tr><td>Susquehanna campus</td><td>Amazon</td><td>Salem Twp, PA</td><td class="num">~1 GW</td><td>TBD</td><td>$20B+, 15 buildings, next to nuclear plant</td></tr>
+        <tr><td>Anthropic – NVIDIA deal</td><td>Anthropic / NVIDIA</td><td>TBD</td><td class="num">1 GW</td><td>Grace‑Blackwell + Vera Rubin</td><td>Announced Q3 FY26</td></tr>
+        <tr><td>Stargate UAE</td><td>OpenAI / G42 / Oracle / NVIDIA</td><td>Abu Dhabi</td><td class="num">1 GW</td><td>TBD</td><td>200 MW Q3 2026, full by 2028</td></tr>
+        <tr><td>CoreWeave fleet</td><td>CoreWeave</td><td>32 DCs globally</td><td class="num">~850 MW</td><td>250k+ GPUs (GB200 NVL72 + GB300)</td><td>$87.8B revenue backlog</td></tr>
+        <tr><td>Solstice (DOE)</td><td>DOE / Oracle / NVIDIA</td><td>Argonne</td><td class="num">TBD</td><td>100,000 Blackwell GPUs</td><td>Announced Q3 FY26</td></tr>
+        <tr><td>Stargate Norway</td><td>OpenAI / Nscale / Aker</td><td>Norway</td><td class="num">230 MW</td><td>100k NVIDIA GPUs by end‑2026</td><td>Hydroelectric‑powered</td></tr>
+        <tr><td>Stargate Argentina</td><td>OpenAI / Sur Energy</td><td>Patagonia</td><td class="num">up to 500 MW</td><td>TBD</td><td>$25B LOI</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <h3>Custom silicon</h3>
+  <p class="intro" style="margin-top:.4em">
+    NVIDIA's hyperscaler share fell from ~90% to ~75% by late 2025 as TPUs, Trainium, Maia, and MTIA scaled.
+    Custom accelerators now process more than half of hyperscaler internal inference workloads.
+  </p>
+  <div class="tbl-wrap">
+    <div class="tbl-scroll"><table>
+      <thead><tr><th>Vendor</th><th>Chip</th><th>First deployed</th><th>2025–26 status</th></tr></thead>
+      <tbody>
+        <tr><td>NVIDIA</td><td>Hopper (H100)</td><td>Q3 2022 (volume Q1 2023)</td><td>Backbone of 2023–24 frontier; H200 fastest‑ramping product in NVIDIA history</td></tr>
+        <tr><td>NVIDIA</td><td>Blackwell (B200/GB200)</td><td>volume mid‑2025</td><td>$30–40k ASP; GB200 NVL72; Q4 FY26 ~500k units</td></tr>
+        <tr><td>NVIDIA</td><td>Blackwell Ultra (B300/GB300)</td><td>mid–late 2025</td><td>Powering Colossus 2 + Stargate phase‑2</td></tr>
+        <tr><td>NVIDIA</td><td>Vera Rubin</td><td>sampling 2026</td><td>Anthropic 1 GW deal mixes Grace‑Blackwell + Vera Rubin</td></tr>
+        <tr><td>Google</td><td>TPU v6e "Trillium"</td><td>GA Dec 16 2024</td><td>Trained Gemini 2.0; 4.7× v5e perf</td></tr>
+        <tr><td>Google</td><td>TPU v7 "Ironwood"</td><td>GA Nov 2025</td><td>9,216‑chip pods; Anthropic to use up to 1M Ironwoods</td></tr>
+        <tr><td>Google</td><td>TPU v8 (8t/8i)</td><td>announced Cloud Next 2026</td><td>Ships later 2026</td></tr>
+        <tr><td>AWS</td><td>Trainium2</td><td>volume late 2024</td><td>~500k chips at Project Rainier (Oct 2025); 1M+ end‑2026</td></tr>
+        <tr><td>AWS</td><td>Trainium3</td><td>sampling Dec 2025</td><td>Co‑designed with Anthropic; 2026 volume</td></tr>
+        <tr><td>Microsoft</td><td>Maia 200</td><td>launched Jan 26 2026</td><td>3 nm TSMC, 144B transistors, 216 GB HBM3e; powers GPT‑5.2 + Copilot</td></tr>
+        <tr><td>Meta</td><td>MTIA v3+</td><td>2025</td><td>Hundreds of thousands deployed; also taking AWS Trainium capacity</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div class="cols">
+    <div class="chart-box">
+      <div class="chart-title">AI compute by country (May 2025)</div>
+      <div class="chart-sub">Share of tracked global AI cluster performance.</div>
+      <div class="chart-canvas-wrap short"><canvas id="chartGeo"></canvas></div>
+      <div class="note">
+        Source: <a href="https://epoch.ai/data-insights/ai-supercomputers-performance-share-by-country">Epoch AI</a>.
+        China stopped Top500 submissions in 2017, so its true share is undercounted; Sanchez & Co. estimate
+        ~850k H100‑eq in the US fleet end‑2025 vs. ~100k in China + Huawei Ascend "dark compute".
+      </div>
+    </div>
+    <div class="chart-box">
+      <div class="chart-title">Hyperscaler concentration of AI compute</div>
+      <div class="chart-sub">MSFT + GOOG + META + AMZN + ORCL combined share of global AI compute.</div>
+      <div class="chart-canvas-wrap short"><canvas id="chartHyper"></canvas></div>
+      <div class="note">Source: Epoch AI. Industry's share of global AI compute (vs. govts/academia) rose from 40% in 2019 to ~80% in 2025.</div>
+    </div>
+  </div>
+
+  <h3>Nuclear: 10+ GW contracted in 12 months</h3>
+  <div class="tbl-wrap">
+    <div class="tbl-scroll"><table>
+      <thead><tr><th>Hyperscaler</th><th>Counterparty</th><th class="num">Capacity</th><th>Tech</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>Microsoft</td><td>Constellation Energy</td><td class="num">835 MW</td><td>TMI Unit 1 restart (PWR)</td><td>20‑yr PPA, $1.6B restart, $1B DOE loan; target 2027–28</td></tr>
+        <tr><td>Google</td><td>Kairos Power</td><td class="num">up to 500 MW</td><td>Molten‑salt KP‑FHR SMRs</td><td>First 50 MW via TVA; full by 2035</td></tr>
+        <tr><td>Amazon</td><td>Talen / Susquehanna</td><td class="num">960 MW</td><td>Existing PWR co‑located</td><td>$20B+ campus build</td></tr>
+        <tr><td>Amazon</td><td>X‑Energy</td><td class="num">5 GW (target)</td><td>Xe‑100 SMRs</td><td>$500M Series C; through 2039</td></tr>
+        <tr><td>Amazon</td><td>Dominion Energy</td><td class="num">~300 MW</td><td>SMR, North Anna VA</td><td>Exploratory MOU</td></tr>
+        <tr><td>Meta</td><td>RFP</td><td class="num">1–4 GW</td><td>SMR + large reactor</td><td>RFP issued; Constellation IL PPA in place</td></tr>
+        <tr><td>Oracle / OpenAI (Stargate)</td><td>TBD</td><td class="num">"baseload SMRs"</td><td>—</td><td>Conceptual</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div class="callout q">
+    "GPUs sit idle; we lack the electricity to install them. We have $80 billion in unfulfilled Azure orders for lack of power."
+    <span class="src">— Satya Nadella, Microsoft CEO, paraphrased from Q4 2025 earnings calls</span>
+  </div>
+</section>
+
+<!-- ======================= 5. EXPORT CONTROLS ======================= -->
+<section id="export">
+  <div class="section-num">05</div>
+  <h2>The fence: export controls</h2>
+  <p class="intro">
+    The other large infrastructure variable: the rules that govern which chips can move where.
+    Tightening through 2024, dramatic ban‑and‑partial‑relax cycle in 2025–26, with the AI OVERWATCH Act
+    advancing in Congress in January.
+  </p>
+  <div class="tbl-wrap">
+    <div class="tbl-scroll"><table>
+      <thead><tr><th>Date</th><th>Action</th></tr></thead>
+      <tbody>
+        <tr><td>Oct 2022</td><td>Biden initial BIS controls — no advanced GPU/equipment to China</td></tr>
+        <tr><td>Oct 2023</td><td>Closes A800/H800 loophole; introduces TPP + bandwidth thresholds; NVIDIA designs <code>H20</code></td></tr>
+        <tr><td>Jan 2025</td><td>"AI diffusion framework" (export tiers), under outgoing Biden</td></tr>
+        <tr><td>Apr 2025</td><td>Trump admin <b>bans H20 to China</b> → NVIDIA $4.5B Q1 charge, $8B Q2 FY26 revenue impact</td></tr>
+        <tr><td>Jan 13–15 2026</td><td>BIS rule <b>2026‑00789</b>: H200 + AMD MI325X moved from "presumption of denial" to <b>case‑by‑case review</b> with 25% revenue fee</td></tr>
+        <tr><td>Jan 21 2026</td><td>House Foreign Affairs <b>AI OVERWATCH Act</b> advances 42–2 → 2‑yr Blackwell ban, congressional veto over export licenses</td></tr>
+        <tr><td>Feb 2026</td><td>State Department <b>blocks</b> all H200 shipments pending review; China grants conditional approval for ~400k of 2M ordered</td></tr>
+        <tr><td>Mar 2026</td><td>NVIDIA stops producing China‑specific chips; Beijing restricts purchases to "special circumstances"</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+  <p class="note">
+    Net effect: Chinese frontier labs (DeepSeek, Alibaba Qwen, Moonshot Kimi, ByteDance Doubao) train primarily
+    on grey‑market H100/H800 inventories, H20, and <b>Huawei Ascend 910C</b> (~600k shipments planned in 2026).
+    DeepSeek V3 (Dec 2024) trained for ~$5.6M and matched many Western frontier models — and DeepSeek V4 (Apr 2026)
+    ships a 1.6T MoE with native 1M context under MIT license.
+  </p>
+</section>
+
+<!-- ======================= 6. THE PICTURE ======================= -->
+<section id="picture">
+  <div class="section-num">06</div>
+  <h2>The picture, six paragraphs</h2>
+
+  <div class="cols">
+    <div>
+      <h3>Compute</h3>
+      <p>From <b>3.1×10²³ FLOP</b> (GPT‑3, Jun 2020) to <b>~5×10²⁶ FLOP</b> (Grok 4, Jul 2025). Just over three orders of magnitude (~1,600×) in five years, doubling every five months. Cost per training run grew about 3.5× per year; chip price/performance grew about 1.4× per year. <b>~10 frontier models above 10²⁶ FLOP by start of 2026</b> (Epoch); the first frontier <i>open‑weight</i> model crossed 10²⁶ FLOP in late 2025.</p>
+
+      <h3>Chips and dollars</h3>
+      <p>NVIDIA datacenter revenue went from <b>$2.98B in FY20 to $193.7B in FY26</b>, growing 217% in FY24 alone. Big‑Five hyperscaler capex went from ~$160B in 2022 to a guided <b>~$680B in 2026</b>. Capital intensity (capex / revenue) is now 45–57% at AWS / Meta / Microsoft / Google — historically these were 10–25% businesses. Free‑cash‑flow turned negative for several Big Five in 2026; the Big Five raised $108B of debt in 2025 alone.</p>
+
+      <h3>Models</h3>
+      <p>The 2024 <b>reasoning shift</b> (o1, Sep 2024) was the largest single‑architecture jump in benchmark history: +34.5 MATH, +26.7 GPQA, +65 AIME 2024 over GPT‑4o. By 2026 every frontier vendor ships hybrid (instant + thinking + pro) models, and mid‑2026 pushed to <b>multi‑agent test‑time compute</b>: GPT‑5.6 <code>ultra</code> (4–16 parallel agents), Claude Dynamic Workflows (hundreds of subagents), Kimi 300‑agent swarms. Open weights closed most of the gap — DeepSeek V4 Pro, Kimi K2.6/K2.7, Qwen 4, Llama 5, Mistral Voyage Pro — and in the May–June 2026 wave <b>every major Western lab except OpenAI and Anthropic shipped downloadable weights</b>, including xAI's first‑ever open drop (Grok 4 Open). Meanwhile Meta went dual‑track: its new closed frontier line (Muse Spark, from Meta Superintelligence Labs) now sits above the open Llama line, and with Muse Spark 1.1 (Jul 9) Meta started <b>selling API access</b> for the first time. Mid‑2026 also brought a new gate: Anthropic's Mythos‑class Fable 5 was suspended 18 days under a first‑of‑its‑kind US export‑control order, and GPT‑5.6 launched via a government‑coordinated limited preview.</p>
+    </div>
+    <div>
+      <h3>Benchmarks</h3>
+      <p>The benchmarks the field invented to measure itself have all been consumed. MMLU (~92%), HumanEval (~98%), GSM8K (~99%), MATH (~99%), GPQA Diamond (~94.6%), MMMU original (~79%), AIME 2025 (~100% with tools), ARC‑AGI‑1 (87.5% at high compute) are saturated. ARC‑AGI‑2 (84.6%) and FrontierMath Tier 4 (~88% on the v2 set, up from ~19% in April) effectively fell in H1 2026. The frontier now lives at SWE‑bench Pro (standardized), Humanity's Last Exam, OSWorld 2.0, SWE Marathon, and the new ARC‑AGI‑3 (top score: 7.8%).</p>
+
+      <h3>Datacenters</h3>
+      <p>2024: first 1‑GW campuses. 2026: first 2‑GW campuses operational (Colossus, Project Rainier). Stargate alone has committed >$450B of $500B for ~9 GW across seven US sites + UAE. US datacenter electricity went from 76 TWh (1.9% of US power) in 2018 to ~250 TWh (~7%) in 2025; LBNL projects 325–580 TWh by 2028. Datacenters drove ~50% of all US electricity demand growth in 2025.</p>
+
+      <h3>Power as the binding constraint</h3>
+      <p>Microsoft reports <b>$80B in unfulfilled Azure orders</b> tied to lack of electricity. Both Amazon's Indiana site and xAI's Memphis campus run heavily on on‑site gas turbines + Tesla Megapacks to bypass utility interconnect queues. <b>Over 10 GW of new US nuclear has been contracted in 12 months</b> — Three Mile Island restart, Kairos SMRs, X‑Energy, Susquehanna co‑location, Meta RFP. The chart, increasingly, is a chart of concrete and grid capacity.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <h4>Sources & methodology</h4>
+  <p>Compiled from primary research saved alongside this report:</p>
+  <ul>
+    <li><a href="data-models.md"><code>data-models.md</code></a> — full release table, parameter counts, training compute, costs, benchmark scores per model</li>
+    <li><a href="data-benchmarks.md"><code>data-benchmarks.md</code></a> — per‑benchmark timelines with all sources and human baselines</li>
+    <li><a href="data-datacenters.md"><code>data-datacenters.md</code></a> — capex, GPU shipments, campuses, custom silicon, geography, export controls</li>
+  </ul>
+  <p>
+    Primary sources include Epoch AI, NVIDIA 10‑K and quarterly releases, hyperscaler earnings, LBNL/EPRI/EIA energy reports,
+    benchmark papers (Hendrycks 2020/2021, Chen 2021, Cobbe 2021, Suzgun 2022, Rein 2023, Jimenez 2023, Yue 2023, Jain 2024,
+    Glazer 2024, Chollet 2025, CAIS 2025), and aggregators (Vals AI, Scale Labs, Artificial Analysis, ARC Prize, lmarena.ai,
+    BenchLM, llm‑stats, pricepertoken, IntuitionLabs).
+  </p>
+  <p style="margin-top:18px">
+    <span class="mono" style="color:var(--muted)">research/ai-progress · single‑page report · updated July 9, 2026</span>
+  </p>
+</footer>
+
+</div>
+
+<script>
+/* ============================================================
+   Data
+============================================================ */
+const MODELS = [
+  // OpenAI
+  {date:'2020-06-11', name:'GPT-3', dev:'OpenAI', flop:3.1e23, params:175e9, ctx:2048, oc:'C', sig:'First 175B dense LM; defined the modern LLM era'},
+  {date:'2022-11-30', name:'ChatGPT (GPT-3.5)', dev:'OpenAI', flop:null, params:175e9, ctx:4096, oc:'C', sig:'RLHF + product moment; AI consumer wave'},
+  {date:'2023-03-14', name:'GPT-4', dev:'OpenAI', flop:2.1e25, params:null, ctx:8192, oc:'C', sig:'First clearly post-3.5 frontier; >1e25 FLOP era'},
+  {date:'2023-11-06', name:'GPT-4 Turbo', dev:'OpenAI', flop:2.2e25, params:null, ctx:128000, oc:'C', sig:'128K context, JSON mode, cheaper'},
+  {date:'2024-05-13', name:'GPT-4o', dev:'OpenAI', flop:3.8e25, params:null, ctx:128000, oc:'C', sig:'Native text+vision+audio; voice mode'},
+  {date:'2024-09-12', name:'o1-preview', dev:'OpenAI', flop:null, params:null, ctx:128000, oc:'C', sig:'First production reasoning model (RL on chain-of-thought)'},
+  {date:'2024-12-05', name:'o1', dev:'OpenAI', flop:null, params:null, ctx:200000, oc:'C', sig:'AIME 83.3%, GPQA 75.7%; ChatGPT Pro tier'},
+  {date:'2024-12-20', name:'o3 (preview)', dev:'OpenAI', flop:null, params:null, ctx:200000, oc:'C', sig:'87.5% ARC-AGI-1 high-compute; 25.2% FrontierMath'},
+  {date:'2025-02-27', name:'GPT-4.5 "Orion"', dev:'OpenAI', flop:6.4e25, params:null, ctx:128000, oc:'C', sig:'Largest pre-trained OpenAI model'},
+  {date:'2025-04-14', name:'GPT-4.1', dev:'OpenAI', flop:null, params:null, ctx:1000000, oc:'C', sig:'Long-context, cheaper, dev-first'},
+  {date:'2025-04-16', name:'o3 (GA) / o4-mini', dev:'OpenAI', flop:null, params:null, ctx:200000, oc:'C', sig:'Reasoning + tool use as default'},
+  {date:'2025-08-07', name:'GPT-5', dev:'OpenAI', flop:5e25, params:null, ctx:400000, oc:'C', sig:'Unified router + reasoning model; Pro tier with parallel test-time compute'},
+  {date:'2025-08-05', name:'GPT-OSS 120B/20B', dev:'OpenAI', flop:null, params:120e9, ctx:128000, oc:'OW', sig:"OpenAI's first OSS reasoning models since GPT-2"},
+  {date:'2025-11-12', name:'GPT-5.1 (Pro / Codex-Max)', dev:'OpenAI', flop:null, params:null, ctx:400000, oc:'C', sig:'Personality customization, longer agentic coding (24h Codex-Max)'},
+  {date:'2025-12-11', name:'GPT-5.2', dev:'OpenAI', flop:null, params:null, ctx:400000, oc:'C', sig:'"Code Red" response 3 weeks after Gemini 3; xhigh reasoning'},
+  {date:'2026-02-05', name:'GPT-5.3-Codex', dev:'OpenAI', flop:null, params:null, ctx:400000, oc:'C', sig:'Coding specialization; SWE-bench Pro 56.8%'},
+  {date:'2026-03-05', name:'GPT-5.4 (Thinking/Pro)', dev:'OpenAI', flop:null, params:null, ctx:400000, oc:'C', sig:'Unified Codex strengths back into mainline'},
+  {date:'2026-04-23', name:'GPT-5.5', dev:'OpenAI', flop:null, params:null, ctx:400000, oc:'C', sig:'Fully retrained agentic model; Terminal-Bench 2.0 82.7%, GDPval 84.9%'},
+  {date:'2026-07-09', name:'GPT-5.6 (Sol/Terra/Luna)', dev:'OpenAI', flop:null, params:null, ctx:400000, oc:'C', sig:'New SOTA family; gov-gated preview Jun 26 → GA Jul 9; ultra multi-agent mode; Terminal-Bench 2.1 88.8%'},
+
+  // Anthropic
+  {date:'2023-03-14', name:'Claude 1', dev:'Anthropic', flop:null, params:null, ctx:9000, oc:'C', sig:'First Claude; Constitutional AI'},
+  {date:'2023-07-11', name:'Claude 2', dev:'Anthropic', flop:null, params:null, ctx:100000, oc:'C', sig:'First widely available 100K-token model'},
+  {date:'2023-11-21', name:'Claude 2.1', dev:'Anthropic', flop:null, params:null, ctx:200000, oc:'C', sig:'200K context, tool-use beta'},
+  {date:'2024-03-04', name:'Claude 3 (Haiku/Sonnet/Opus)', dev:'Anthropic', flop:1.6e25, params:null, ctx:200000, oc:'C', sig:'Reclaimed top spot from GPT-4 on many evals'},
+  {date:'2024-06-20', name:'Claude 3.5 Sonnet', dev:'Anthropic', flop:3.6e25, params:null, ctx:200000, oc:'C', sig:'Sonnet ≥ prior Opus at lower price; reset cost/quality curve'},
+  {date:'2024-11-04', name:'Claude 3.5 Haiku', dev:'Anthropic', flop:null, params:null, ctx:200000, oc:'C', sig:'Cheap, fast'},
+  {date:'2025-02-24', name:'Claude 3.7 Sonnet', dev:'Anthropic', flop:3.4e25, params:null, ctx:200000, oc:'C', sig:'First Anthropic hybrid reasoning model ("extended thinking")'},
+  {date:'2025-05-22', name:'Claude 4 (Opus/Sonnet)', dev:'Anthropic', flop:5e25, params:null, ctx:200000, oc:'C', sig:'Long agentic horizons (>30h coding); first ASL-3 deployment'},
+  {date:'2025-08-05', name:'Claude Opus 4.1', dev:'Anthropic', flop:null, params:null, ctx:200000, oc:'C', sig:'74.5% SWE-bench Verified; multi-file refactor'},
+  {date:'2025-09-29', name:'Claude Sonnet 4.5', dev:'Anthropic', flop:null, params:null, ctx:200000, oc:'C', sig:'Best computer-use model; 30+ hour autonomous coding'},
+  {date:'2025-10-01', name:'Claude Haiku 4.5', dev:'Anthropic', flop:null, params:null, ctx:200000, oc:'C', sig:'Near-frontier at fastest tier'},
+  {date:'2025-11-24', name:'Claude Opus 4.5', dev:'Anthropic', flop:null, params:null, ctx:200000, oc:'C', sig:'#2 Artificial Analysis Index; price cut to $5/$25'},
+  {date:'2026-02-05', name:'Claude Opus 4.6', dev:'Anthropic', flop:null, params:null, ctx:1000000, oc:'C', sig:'First Claude with 1M context; HLE 53.1% (with tools)'},
+  {date:'2026-04-07', name:'Claude Mythos Preview', dev:'Anthropic', flop:null, params:null, ctx:1000000, oc:'C', sig:'First Mythos-class model; restricted to Project Glasswing cyberdefenders'},
+  {date:'2026-04-16', name:'Claude Opus 4.7', dev:'Anthropic', flop:null, params:null, ctx:1000000, oc:'C', sig:'"Step-change improvement"; SWE-bench Verified 87.6%'},
+  {date:'2026-05-28', name:'Claude Opus 4.8', dev:'Anthropic', flop:null, params:null, ctx:1000000, oc:'C', sig:'SWE-bench Pro 69.2%; Dynamic Workflows (100s of parallel subagents)'},
+  {date:'2026-06-09', name:'Claude Fable 5 / Mythos 5', dev:'Anthropic', flop:null, params:null, ctx:1000000, oc:'C', sig:'First GA Mythos-class; suspended 18 days by US export controls (Jun 12–30)'},
+  {date:'2026-06-30', name:'Claude Sonnet 5', dev:'Anthropic', flop:null, params:null, ctx:1000000, oc:'C', sig:'Near-Opus-4.8 agentic performance at $2/$10'},
+
+  // Google
+  {date:'2022-04-05', name:'PaLM 540B', dev:'Google', flop:2.5e24, params:540e9, ctx:2048, oc:'C', sig:'Largest dense LM at the time; CoT emergence'},
+  {date:'2023-05-10', name:'PaLM 2', dev:'Google', flop:1e24, params:340e9, ctx:8192, oc:'C', sig:'Multilingual + code-heavy; powered Bard'},
+  {date:'2023-12-06', name:'Gemini 1.0 Ultra', dev:'Google', flop:5e25, params:null, ctx:32000, oc:'C', sig:'First Gemini; natively multimodal'},
+  {date:'2024-02-15', name:'Gemini 1.5 Pro', dev:'Google', flop:1.6e25, params:null, ctx:1000000, oc:'C', sig:'First production 1M+ context model'},
+  {date:'2024-02-21', name:'Gemma 1 (2B/7B)', dev:'Google', flop:null, params:7e9, ctx:8192, oc:'OW', sig:'Best small OW at release'},
+  {date:'2024-06-27', name:'Gemma 2 (9B/27B)', dev:'Google', flop:null, params:27e9, ctx:8192, oc:'OW', sig:'27B beat Llama 3 70B on some evals'},
+  {date:'2024-12-11', name:'Gemini 2.0 Flash', dev:'Google', flop:null, params:null, ctx:1000000, oc:'C', sig:'Cheap multimodal; Flash-Thinking preview'},
+  {date:'2025-03-25', name:'Gemini 2.5 Pro', dev:'Google', flop:null, params:null, ctx:1000000, oc:'C', sig:'First mainline thinking-native Gemini; LMArena #1'},
+  {date:'2025-03-12', name:'Gemma 3 (1B–27B)', dev:'Google', flop:null, params:27e9, ctx:128000, oc:'OW', sig:'Best small multimodal OW at release'},
+  {date:'2025-06-01', name:'Gemini 2.5 Pro GA + Deep Think', dev:'Google', flop:null, params:null, ctx:1000000, oc:'C', sig:'Adaptive thinking with budget control'},
+  {date:'2025-11-18', name:'Gemini 3 Pro / Deep Think', dev:'Google', flop:null, params:null, ctx:1000000, oc:'C', sig:'New SOTA across reasoning, coding, multimodal at release'},
+  {date:'2025-12-15', name:'Gemini 3 Flash', dev:'Google', flop:null, params:null, ctx:1000000, oc:'C', sig:'Strongest Flash to date'},
+  {date:'2026-02-19', name:'Gemini 3.1 Pro / Deep Think', dev:'Google', flop:null, params:null, ctx:1000000, oc:'C', sig:'ARC-AGI-2 77% (Pro) / 84.6% (Deep Think)'},
+  {date:'2026-05-19', name:'Gemini 3.5 Flash + Gemini Omni', dev:'Google', flop:null, params:null, ctx:1000000, oc:'C', sig:'Flash beats 3.1 Pro on agentic/coding at 4× speed; Omni = first unified any-to-any multimodal'},
+  {date:'2026-06-02', name:'Gemma 4.5 12B', dev:'Google', flop:null, params:12e9, ctx:1000000, oc:'OW', sig:'1M context jump; audio input added'},
+
+  // Meta
+  {date:'2023-02-24', name:'LLaMA 1 (7–65B)', dev:'Meta', flop:1e23, params:65e9, ctx:2048, oc:'OW', sig:'Sparked the open-weights ecosystem'},
+  {date:'2023-07-18', name:'Llama 2 (7–70B)', dev:'Meta', flop:1e24, params:70e9, ctx:4096, oc:'OW', sig:'First commercially licensable open frontier'},
+  {date:'2024-04-18', name:'Llama 3 (8B/70B)', dev:'Meta', flop:4e24, params:70e9, ctx:8192, oc:'OW', sig:'Best open-weights at release'},
+  {date:'2024-07-23', name:'Llama 3.1 405B', dev:'Meta', flop:4e25, params:405e9, ctx:128000, oc:'OW', sig:'First open-weights GPT-4-class model'},
+  {date:'2024-09-25', name:'Llama 3.2 (1–90B vision)', dev:'Meta', flop:null, params:90e9, ctx:128000, oc:'OW', sig:'First multimodal Llama'},
+  {date:'2024-12-06', name:'Llama 3.3 70B', dev:'Meta', flop:null, params:70e9, ctx:128000, oc:'OW', sig:'Matches 3.1-405B on most evals; distillation gains'},
+  {date:'2025-04-05', name:'Llama 4 Scout (17B/109B MoE)', dev:'Meta', flop:null, params:109e9, ctx:10000000, oc:'OW', sig:'Industry-longest context (10M); single H100 fit'},
+  {date:'2025-04-05', name:'Llama 4 Maverick (17B/400B MoE)', dev:'Meta', flop:null, params:400e9, ctx:1000000, oc:'OW', sig:'Best perf/cost open MoE at release'},
+  {date:'2026-05-01', name:'Llama 5 (8B / Scout 109B MoE)', dev:'Meta', flop:null, params:109e9, ctx:256000, oc:'OW', sig:"Meta's open comeback; native text+vision+audio"},
+  {date:'2026-06-04', name:'Llama 5 70B', dev:'Meta', flop:null, params:70e9, ctx:256000, oc:'OW', sig:'Strongest dense open model at release; MMLU 88%'},
+  {date:'2026-04-08', name:'Muse Spark', dev:'Meta', flop:null, params:null, ctx:null, oc:'C', sig:"First Meta Superintelligence Labs model; Meta's first closed frontier release; led CharXiv + HealthBench"},
+  {date:'2026-07-09', name:'Muse Spark 1.1', dev:'Meta', flop:null, params:null, ctx:1000000, oc:'C', sig:'Multimodal agentic leap (OSWorld-V 80.8, Terminal-Bench 2.1 80.0); paid Meta Model API launches'},
+
+  // DeepSeek
+  {date:'2024-05-06', name:'DeepSeek-V2 (236B MoE)', dev:'DeepSeek', flop:1e24, params:236e9, ctx:128000, oc:'OW', sig:'Pioneered MLA + DeepSeekMoE'},
+  {date:'2024-12-26', name:'DeepSeek-V3 (671B MoE)', dev:'DeepSeek', flop:3.4e24, params:671e9, ctx:128000, oc:'OW', sig:'Frontier-class OW at <$6M training; market shock'},
+  {date:'2025-01-20', name:'DeepSeek-R1', dev:'DeepSeek', flop:null, params:671e9, ctx:128000, oc:'OW', sig:'First OW model at o1 level; pure-RL reasoning'},
+  {date:'2025-08-21', name:'DeepSeek-V3.1', dev:'DeepSeek', flop:null, params:671e9, ctx:128000, oc:'OW', sig:'First hybrid reasoning OW; trained for upcoming domestic chips'},
+  {date:'2025-12-01', name:'DeepSeek-V3.2 / Speciale', dev:'DeepSeek', flop:null, params:671e9, ctx:128000, oc:'OW', sig:'Speciale rivals Gemini 3 Pro / GPT-5; gold-medal IMO/IOI/ICPC'},
+  {date:'2026-04-24', name:'DeepSeek-V4 Pro (1.6T MoE)', dev:'DeepSeek', flop:null, params:1.6e12, ctx:1000000, oc:'OW', sig:'Native 1M context; SWE-bench Verified 80.6%, HLE 37.7%'},
+
+  // xAI
+  {date:'2023-11-04', name:'Grok 1 (314B MoE)', dev:'xAI', flop:null, params:314e9, ctx:8192, oc:'OW', sig:'First xAI model; large open MoE'},
+  {date:'2024-03-28', name:'Grok 1.5', dev:'xAI', flop:null, params:null, ctx:128000, oc:'C', sig:'Long context'},
+  {date:'2024-08-13', name:'Grok 2', dev:'xAI', flop:null, params:null, ctx:128000, oc:'C', sig:'Trained on Memphis Colossus cluster ramp'},
+  {date:'2025-02-17', name:'Grok 3', dev:'xAI', flop:4.6e26, params:null, ctx:128000, oc:'C', sig:'First version with "Think" + "DeepSearch"'},
+  {date:'2025-07-09', name:'Grok 4 / Heavy', dev:'xAI', flop:5e26, params:null, ctx:256000, oc:'C', sig:'First model >50% on HLE (Heavy); 200k H100 cluster'},
+  {date:'2025-10-15', name:'Grok 4 Fast', dev:'xAI', flop:null, params:null, ctx:2000000, oc:'C', sig:'Cheap reasoner ($0.20/$0.50 per Mtok)'},
+  {date:'2026-03-15', name:'Grok 4.20', dev:'xAI', flop:null, params:null, ctx:256000, oc:'C', sig:'4-agent system; topped medical/legal boards in April'},
+  {date:'2026-04-30', name:'Grok 4.3', dev:'xAI', flop:null, params:0.5e12, ctx:2000000, oc:'C', sig:'Unified flagship after xAI folded into SpaceX ("SpaceXAI")'},
+  {date:'2026-06-05', name:'Grok 4 Open (100B-A20B)', dev:'xAI', flop:null, params:100e9, ctx:128000, oc:'OW', sig:"xAI's first-ever open-weights release"},
+  {date:'2026-07-08', name:'Grok 4.5', dev:'xAI', flop:null, params:null, ctx:256000, oc:'C', sig:'"Opus-class" at $2/$6; 2× token efficiency; trained alongside Cursor'},
+
+  // Alibaba
+  {date:'2024-02-01', name:'Qwen 1.5', dev:'Alibaba', flop:null, params:72e9, ctx:32000, oc:'OW', sig:'First widely used Qwen'},
+  {date:'2024-06-07', name:'Qwen 2', dev:'Alibaba', flop:null, params:72e9, ctx:128000, oc:'OW', sig:'Strong open multilingual'},
+  {date:'2024-09-19', name:'Qwen 2.5', dev:'Alibaba', flop:null, params:72e9, ctx:128000, oc:'OW', sig:'Strong open multilingual'},
+  {date:'2024-11-27', name:'QwQ-32B', dev:'Alibaba', flop:null, params:32e9, ctx:32000, oc:'OW', sig:'First open reasoning model from Alibaba'},
+  {date:'2025-04-29', name:'Qwen 3 (up to 235B MoE)', dev:'Alibaba', flop:null, params:235e9, ctx:128000, oc:'OW', sig:'Hybrid thinking/non-thinking, fully OSS'},
+  {date:'2025-09-05', name:'Qwen3-Max (1T+ MoE)', dev:'Alibaba', flop:null, params:1e12, ctx:262000, oc:'C', sig:"Alibaba's first trillion-parameter flagship"},
+  {date:'2026-01-27', name:'Qwen3-Max-Thinking', dev:'Alibaba', flop:null, params:1e12, ctx:262000, oc:'C', sig:'Adaptive tool use + multi-round test-time scaling'},
+  {date:'2026-02-16', name:'Qwen3.5 (open, 397B MoE)', dev:'Alibaba', flop:null, params:397e9, ctx:256000, oc:'OW', sig:'Highest open generalist at release'},
+  {date:'2026-04-22', name:'Qwen3.6-27B', dev:'Alibaba', flop:null, params:27e9, ctx:256000, oc:'OW', sig:'Dense model outperforms 397B-MoE on agentic coding'},
+  {date:'2026-05-20', name:'Qwen 3.7 Max', dev:'Alibaba', flop:null, params:null, ctx:256000, oc:'C', sig:'"The Agent Frontier" API flagship; SWE-bench Pro 60.6%'},
+  {date:'2026-06-01', name:'Qwen 4 (32B-A3B) + Coder', dev:'Alibaba', flop:null, params:32e9, ctx:1000000, oc:'OW', sig:'Apache-2.0 #1 open model; Coder hits 82% SWE-bench Verified on consumer hardware'},
+
+  // Mistral
+  {date:'2023-09-27', name:'Mistral 7B', dev:'Mistral', flop:null, params:7e9, ctx:8192, oc:'OW', sig:'Best 7B at release; SWA + GQA'},
+  {date:'2023-12-11', name:'Mixtral 8x7B', dev:'Mistral', flop:null, params:47e9, ctx:32000, oc:'OW', sig:'Popularized open MoE'},
+  {date:'2024-04-10', name:'Mixtral 8x22B', dev:'Mistral', flop:null, params:141e9, ctx:64000, oc:'OW', sig:'Strong open MoE'},
+  {date:'2024-07-24', name:'Mistral Large 2 (123B)', dev:'Mistral', flop:null, params:123e9, ctx:128000, oc:'OW', sig:'Near-GPT-4o on coding/math'},
+  {date:'2025-05-07', name:'Mistral Medium 3', dev:'Mistral', flop:null, params:null, ctx:128000, oc:'C', sig:'Frontier perf at $0.40/$2.00 per Mtok'},
+  {date:'2025-12-02', name:'Mistral Large 3 (675B MoE)', dev:'Mistral', flop:null, params:675e9, ctx:256000, oc:'OW', sig:'Largest fully Apache-2.0 model at release'},
+  {date:'2026-06-04', name:'Mistral Voyage Pro 70B', dev:'Mistral', flop:null, params:70e9, ctx:512000, oc:'OW', sig:'Apache-2.0 70B dense; same-day rival to Llama 5 70B'},
+
+  // Moonshot AI / Kimi
+  {date:'2025-07-15', name:'Kimi K2 (1T MoE)', dev:'Moonshot', flop:null, params:1e12, ctx:128000, oc:'OW', sig:'First OW 1T MoE; agentic + tool use focus; MuonClip optimizer'},
+  {date:'2025-11-06', name:'Kimi K2 Thinking', dev:'Moonshot', flop:null, params:1e12, ctx:128000, oc:'OW', sig:'First OW model to exceed GPT-5 + Claude Sonnet 4.5 on agentic evals'},
+  {date:'2026-01-15', name:'Kimi K2.5', dev:'Moonshot', flop:null, params:1e12, ctx:128000, oc:'OW', sig:'Multimodal + Agent Swarm v1'},
+  {date:'2026-04-21', name:'Kimi K2.6', dev:'Moonshot', flop:null, params:1e12, ctx:256000, oc:'OW', sig:'12-hour coding runs, 300-agent swarms'},
+  {date:'2026-06-12', name:'Kimi K2.7-Code', dev:'Moonshot', flop:null, params:1e12, ctx:256000, oc:'OW', sig:'Coding-specialist open 1T MoE with MoonViT vision'},
+
+  // Other notable
+  {date:'2023-09-06', name:'Falcon 180B', dev:'Other', flop:3.8e24, params:180e9, ctx:8192, oc:'OW', sig:'Largest OW at release (TII UAE)'},
+  {date:'2024-04-23', name:'Phi-3 (mini/small/medium)', dev:'Other', flop:null, params:14e9, ctx:128000, oc:'OW', sig:'Tiny-model "data-quality" approach (Microsoft)'},
+  {date:'2024-08-23', name:'GLM-4-Plus', dev:'Other', flop:3.6e25, params:null, ctx:128000, oc:'C', sig:'Chinese frontier (Zhipu AI)'},
+  {date:'2025-10-27', name:'MiniMax-M2', dev:'Other', flop:null, params:null, ctx:200000, oc:'OW', sig:'Briefly "king of OSS"; eclipsed weeks later by Kimi K2 Thinking'},
+  {date:'2026-05-30', name:'Phi-5 Medium 14B', dev:'Other', flop:null, params:14e9, ctx:64000, oc:'OW', sig:'MIT; GPT-4-class at 14B (Microsoft)'},
+];
+
+const FRONTIER_RUNS = [
+  {y:2020, m:'GPT-3', dev:'OpenAI', flop:3.1e23},
+  {y:2021, m:'Megatron-Turing NLG 530B', dev:'MS / NVIDIA', flop:3e23},
+  {y:2022, m:'PaLM 540B', dev:'Google', flop:2.5e24},
+  {y:2023, m:'GPT-4', dev:'OpenAI', flop:2.1e25, sub:'Mar'},
+  {y:2023, m:'Gemini 1.0 Ultra', dev:'Google', flop:5e25, sub:'Dec'},
+  {y:2024, m:'GPT-4o', dev:'OpenAI', flop:3.8e25, sub:'May'},
+  {y:2024, m:'Llama 3.1 405B', dev:'Meta', flop:4e25, sub:'Jul'},
+  {y:2025, m:'Grok 3', dev:'xAI', flop:4.6e26, sub:'Feb'},
+  {y:2025, m:'GPT-4.5', dev:'OpenAI', flop:6.4e25, sub:'Mar'},
+  {y:2025, m:'Grok 4 (largest known)', dev:'xAI', flop:5e26, sub:'Jul'},
+  {y:2025, m:'GPT-5', dev:'OpenAI', flop:5e25, sub:'Aug'},
+  {y:'2025–26', m:'Claude Opus 4 / 4.5', dev:'Anthropic', flop:1.5e26},
+];
+
+const BENCH = {
+  MMLU: [
+    {d:'2020-09-01', s:43.9, m:'GPT-3'},
+    {d:'2021-12-01', s:60.0, m:'Gopher'},
+    {d:'2022-04-01', s:69.3, m:'PaLM 540B'},
+    {d:'2023-03-14', s:86.4, m:'GPT-4'},
+    {d:'2023-12-06', s:90.0, m:'Gemini Ultra'},
+    {d:'2024-09-12', s:92.3, m:'o1-preview'},
+    {d:'2026-04-01', s:92.0, m:'Frontier cluster'},
+  ],
+  HumanEval: [
+    {d:'2021-07-01', s:28.8, m:'Codex 12B'},
+    {d:'2022-11-30', s:48.0, m:'GPT-3.5'},
+    {d:'2023-03-14', s:67.0, m:'GPT-4'},
+    {d:'2024-03-04', s:84.9, m:'Claude 3 Opus'},
+    {d:'2024-06-20', s:92.0, m:'Claude 3.5 Sonnet'},
+    {d:'2024-09-12', s:96.3, m:'o1-preview'},
+    {d:'2026-04-01', s:97.0, m:'Frontier (saturated)'},
+  ],
+  'GPQA Diamond': [
+    {d:'2023-11-01', s:39.0, m:'GPT-4'},
+    {d:'2024-03-04', s:50.4, m:'Claude 3 Opus'},
+    {d:'2024-05-13', s:53.6, m:'GPT-4o'},
+    {d:'2024-06-20', s:59.5, m:'Claude 3.5 Sonnet'},
+    {d:'2024-09-12', s:77.3, m:'o1'},
+    {d:'2025-07-09', s:87.5, m:'Grok 4'},
+    {d:'2025-08-07', s:88.4, m:'GPT-5'},
+    {d:'2026-02-05', s:91.3, m:'Claude Opus 4.6'},
+    {d:'2026-02-19', s:94.3, m:'Gemini 3.1 Pro'},
+    {d:'2026-07-09', s:94.6, m:'GPT-5.6 Sol / Claude Mythos'},
+  ],
+  'SWE-bench Verified': [
+    {d:'2023-10-01', s:1.96, m:'GPT-4 (full SWE-bench)'},
+    {d:'2024-05-22', s:22, m:'Claude 3 Opus'},
+    {d:'2024-08-13', s:45, m:'Pre-launch SOTA'},
+    {d:'2024-10-22', s:49, m:'Claude 3.5 Sonnet (new)'},
+    {d:'2025-03-15', s:55.2, m:'Claude 3.5 Sonnet v2'},
+    {d:'2025-08-07', s:74.9, m:'GPT-5'},
+    {d:'2025-08-05', s:74.5, m:'Claude Opus 4.1'},
+    {d:'2025-11-24', s:80.9, m:'Claude Opus 4.5'},
+    {d:'2025-12-11', s:80.0, m:'GPT-5.2'},
+    {d:'2026-02-19', s:80.6, m:'Gemini 3.1 Pro'},
+    {d:'2026-04-16', s:87.6, m:'Claude Opus 4.7'},
+    {d:'2026-05-28', s:88.6, m:'Claude Opus 4.8'},
+  ],
+  'ARC-AGI-1': [
+    {d:'2020-01-01', s:17, m:'Icecuber'},
+    {d:'2024-01-01', s:5, m:'GPT-4o'},
+    {d:'2024-09-01', s:42, m:'Greenblatt+GPT-4o'},
+    {d:'2024-11-01', s:56, m:'ARChitects'},
+    {d:'2024-12-20', s:75.7, m:'o3 (high-eff)'},
+    {d:'2024-12-20', s:87.5, m:'o3 (low-eff, 172× compute)'},
+  ],
+  'ARC-AGI-2': [
+    {d:'2025-05-01', s:1.5, m:'o3-mini / o1-pro'},
+    {d:'2025-07-01', s:24, m:'ARC Prize Kaggle'},
+    {d:'2025-10-01', s:16, m:'Grok 4'},
+    {d:'2025-11-12', s:17.6, m:'GPT-5.1'},
+    {d:'2025-12-11', s:52.9, m:'GPT-5.2'},
+    {d:'2026-02-05', s:68.8, m:'Claude Opus 4.6'},
+    {d:'2026-03-05', s:73.3, m:'GPT-5.4'},
+    {d:'2026-04-01', s:77.1, m:'Gemini 3.1 Pro'},
+    {d:'2026-04-15', s:84.6, m:'Gemini 3.1 Deep Think'},
+  ],
+  HLE: [
+    {d:'2025-01-23', s:2.7, m:'GPT-4o'},
+    {d:'2025-01-23', s:4.1, m:'Claude 3.5 Sonnet'},
+    {d:'2025-04-16', s:20.6, m:'o3 (high)'},
+    {d:'2025-08-07', s:26.3, m:'GPT-5 (Scale)'},
+    {d:'2025-12-11', s:28.5, m:'GPT-5.2 (Scale)'},
+    {d:'2026-02-05', s:40.0, m:'Claude Opus 4.6 (no tools)'},
+    {d:'2026-02-05', s:53.1, m:'Claude Opus 4.6 (with tools)'},
+    {d:'2026-03-05', s:45.3, m:'GPT-5.4 Pro (Scale)'},
+    {d:'2026-04-01', s:47.3, m:'Gemini 3.1 Pro Preview'},
+    {d:'2026-07-09', s:62.1, m:'Muse Spark 1.1 (with tools, vendor)'},
+  ],
+  FrontierMath: [
+    {d:'2024-11-01', s:1.5, m:'GPT-4o / Claude 3.5'},
+    {d:'2024-12-20', s:25.2, m:'o3 (OAI eval)'},
+    {d:'2025-04-16', s:18.7, m:'o3 (Epoch eval)'},
+    {d:'2025-04-16', s:24.8, m:'o4-mini (high)'},
+    {d:'2025-09-29', s:13.5, m:'Claude Sonnet 4.5'},
+    {d:'2025-11-24', s:20.7, m:'Claude Opus 4.5'},
+    {d:'2025-12-11', s:40.7, m:'GPT-5.2'},
+    {d:'2026-02-19', s:38, m:'Gemini 3 Pro Preview'},
+    {d:'2026-04-01', s:47.6, m:'GPT-5.4'},
+    {d:'2026-07-09', s:89, m:'GPT-5.6 Sol (v2 set)'},
+  ],
+};
+
+const AIME = [
+  {d:'2024-07-01', s:9.3, m:'GPT-4o'},
+  {d:'2024-09-12', s:74.4, m:'o1'},
+  {d:'2024-12-20', s:87, m:'o3 (preview)'},
+  {d:'2025-01-31', s:86.5, m:'o3-mini (high)'},
+  {d:'2025-02-17', s:93.3, m:'Grok 3 (Think, cons@64)'},
+  {d:'2025-04-01', s:88, m:'Gemini 2.5 Pro'},
+  {d:'2025-08-07', s:94.6, m:'GPT-5 (no tools)'},
+  {d:'2025-08-07', s:100, m:'GPT-5 Pro (with Python)'},
+  {d:'2025-12-11', s:99.0, m:'GPT-5.2 Pro'},
+  {d:'2026-01-15', s:100, m:'GPT-5.2 Thinking'},
+];
+
+const SWE = BENCH['SWE-bench Verified'];
+
+const ELO = [
+  {d:'2023-05-25', s:1225, m:'GPT-4'},
+  {d:'2023-12-01', s:1240, m:'GPT-4-0314'},
+  {d:'2024-02-15', s:1251, m:'GPT-4-0125-preview'},
+  {d:'2024-03-15', s:1260, m:'Claude 3 Opus'},
+  {d:'2024-04-09', s:1275, m:'GPT-4 Turbo'},
+  {d:'2024-05-13', s:1302, m:'GPT-4o'},
+  {d:'2024-09-15', s:1320, m:'chatgpt-4o-latest'},
+  {d:'2025-01-15', s:1420, m:'o1-2024-12-17'},
+  {d:'2025-03-01', s:1450, m:'grok-3-preview'},
+  {d:'2025-07-15', s:1461, m:'gemini-2.5-pro'},
+  {d:'2025-11-24', s:1468, m:'Claude Opus 4.5'},
+  {d:'2026-02-05', s:1500, m:'Claude Opus 4.6'},
+  {d:'2026-03-05', s:1510, m:'gpt-5.4-high'},
+  {d:'2026-04-15', s:1520, m:'gemini-3.1-pro-preview'},
+];
+
+const NVDA = [
+  {y:'FY20', r:2.98},
+  {y:'FY21', r:6.70},
+  {y:'FY22', r:10.61},
+  {y:'FY23', r:15.00},
+  {y:'FY24', r:47.52},
+  {y:'FY25', r:115.19},
+  {y:'FY26', r:193.74},
+];
+
+const CAPEX = [
+  {y:2020, amzn:32, goog:22, meta:15, msft:18, orcl:2},
+  {y:2021, amzn:55, goog:24, meta:19, msft:24, orcl:3},
+  {y:2022, amzn:60, goog:31, meta:32, msft:28, orcl:4},
+  {y:2023, amzn:53, goog:32, meta:28, msft:28, orcl:8},
+  {y:2024, amzn:78, goog:52, meta:39, msft:55, orcl:14},
+  {y:2025, amzn:125, goog:91, meta:70, msft:88, orcl:35},
+  {y:2026, amzn:200, goog:180, meta:125, msft:135, orcl:50},
+];
+
+const POWER = [
+  {y:2014, twh:60},
+  {y:2018, twh:76},
+  {y:2023, twh:176},
+  {y:2024, twh:185},
+  {y:2025, twh:250},
+  {y:2028, twh:325, lo:325, hi:580},
+];
+
+const CAMPUS = [
+  {y:2022, mw:50, name:'MS Azure GPT-4 cluster'},
+  {y:2023, mw:150, name:'Meta RSC / MS Phoenix'},
+  {y:2024, mw:250, name:'xAI Colossus 1 (100k H100)'},
+  {y:2024.9, mw:420, name:'Colossus 200k GPUs'},
+  {y:2025.7, mw:700, name:'Project Rainier (7 of 30)'},
+  {y:2026.05, mw:2000, name:'Colossus 1+2+MACROHARDRR'},
+  {y:2026.7, mw:2200, name:'Project Rainier full'},
+  {y:2030, mw:5000, name:'Meta Hyperion full buildout'},
+];
+
+const GEO = [
+  {label:'United States', v:74.5},
+  {label:'China', v:14.1},
+  {label:'EU-27', v:4.8},
+  {label:'Norway', v:1.8},
+  {label:'Japan', v:1.4},
+  {label:'Rest of world', v:3.4},
+];
+
+const HYPER = [
+  {q:'Q1 2024', s:63},
+  {q:'Q3 2024', s:66},
+  {q:'Q1 2025', s:68},
+  {q:'Q3 2025', s:70},
+  {q:'Q4 2025', s:71},
+];
+
+/* ============================================================
+   Helpers
+============================================================ */
+const devClass = d => ({OpenAI:'openai',Anthropic:'anthropic',Google:'google',Meta:'meta',DeepSeek:'ds',xAI:'xai',Alibaba:'qwen',Mistral:'mistral',Moonshot:'kimi',Other:'other'}[d]||'other');
+const devColor = d => ({OpenAI:'#0a8a4a',Anthropic:'#b8341c',Google:'#1a4d8f',Meta:'#1c4ea8',DeepSeek:'#7a4a8c',xAI:'#252727',Alibaba:'#a8541c',Mistral:'#b8851c',Moonshot:'#1c8c8c',Other:'#888'}[d]||'#888');
+const fmtCtx = c => c==null?'—':c>=1e6?(c/1e6).toFixed(c>=10e6?0:1)+'M':c>=1000?(c/1000)+'K':c;
+const fmtFlop = f => {
+  if(!f) return '—';
+  const e = Math.floor(Math.log10(f));
+  const m = (f/Math.pow(10,e)).toFixed(1);
+  return `${m}×10<sup>${e}</sup>`;
+};
+const fmtBig = n => n>=1e9?(n/1e9).toFixed(0)+'B':n>=1e6?(n/1e6).toFixed(0)+'M':n;
+
+/* ============================================================
+   Render: master model table + filters
+============================================================ */
+function renderModels(filter){
+  const tbody = document.getElementById('tblModels');
+  const sorted = [...MODELS].sort((a,b)=>a.date.localeCompare(b.date));
+  tbody.innerHTML = sorted.filter(m=>filter==='all'||m.dev===filter).map(m=>{
+    const ocBadge = m.oc==='OW'?'<span class="badge ow">OW</span>':'<span class="badge cl">C</span>';
+    return `<tr>
+      <td class="mono" style="white-space:nowrap">${m.date}</td>
+      <td><b>${m.name}</b></td>
+      <td><span class="badge ${devClass(m.dev)}">${m.dev}</span></td>
+      <td>${ocBadge}</td>
+      <td class="mono">${fmtCtx(m.ctx)}</td>
+      <td>${m.sig}</td>
+    </tr>`;
+  }).join('');
+}
+renderModels('all');
+document.querySelectorAll('#modelFilters button').forEach(b=>{
+  b.addEventListener('click', ()=>{
+    document.querySelectorAll('#modelFilters button').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    renderModels(b.dataset.dev);
+  });
+});
+
+/* Frontier runs table */
+{
+  const tb = document.getElementById('tblFrontierRuns');
+  tb.innerHTML = FRONTIER_RUNS.map(r=>`<tr>
+    <td class="mono">${r.y}${r.sub?` ${r.sub}`:''}</td>
+    <td><b>${r.m}</b></td>
+    <td><span class="badge ${devClass(r.dev.split(' ')[0])}">${r.dev}</span></td>
+    <td class="num">${fmtFlop(r.flop)}</td>
+  </tr>`).join('');
+}
+
+/* ============================================================
+   Charts
+============================================================ */
+const SERIF = "'Inter','Helvetica Neue',system-ui,sans-serif";
+Chart.defaults.font.family = SERIF;
+Chart.defaults.font.size = 12;
+Chart.defaults.color = '#5a5d5a';
+Chart.defaults.borderColor = '#e3e1d8';
+
+/* ---------- 1. Frontier compute (log) ---------- */
+const flopData = MODELS.filter(m=>m.flop).map(m=>({x:new Date(m.date), y:m.flop, name:m.name, dev:m.dev, raw:m}));
+const devsInFlops = [...new Set(flopData.map(d=>d.dev))];
+// 5x/year trend line, anchored to GPT-3 (Jun 2020, 3.1e23)
+const trendStart = new Date('2020-06-11').getTime();
+const trendY = (date)=> 3.1e23 * Math.pow(5, (date.getTime()-trendStart)/(365.25*24*3600*1000));
+const trendData = [];
+for(let y=2020.5; y<=2026.4; y+=0.25){
+  const dt = new Date(2020,0,1+Math.round((y-2020)*365.25));
+  trendData.push({x:dt, y:trendY(dt)});
+}
+new Chart(document.getElementById('chartFlops'), {
+  type:'scatter',
+  data:{
+    datasets: [
+      {
+        label:'5×/yr trend (Epoch AI)',
+        type:'line',
+        data: trendData,
+        borderColor:'rgba(0,0,0,.18)',
+        borderDash:[4,4],
+        borderWidth:1.5,
+        pointRadius:0,
+        fill:false,
+        tension:0,
+        order:99
+      },
+      ...devsInFlops.map(d=>({
+        label:d,
+        data:flopData.filter(p=>p.dev===d),
+        backgroundColor:devColor(d),
+        borderColor:devColor(d),
+        pointRadius:6,
+        pointHoverRadius:9,
+      }))
+    ]
+  },
+  options:{
+    responsive:true, maintainAspectRatio:false,
+    plugins:{
+      legend:{position:'bottom', labels:{boxWidth:10, padding:14, font:{size:12}}},
+      tooltip:{
+        filter:(item)=> !!item.raw.name,
+        callbacks:{
+          title:(items)=> items[0].raw.name||'',
+          label:(item)=>{
+            const r = item.raw;
+            const e = Math.floor(Math.log10(r.y));
+            const m = (r.y/Math.pow(10,e)).toFixed(1);
+            return `${m}e${e} FLOP · ${new Date(r.x).toISOString().slice(0,7)}`;
+          }
+        }
+      },
+      annotation:{
+        annotations:{
+          gpt3:{type:'point', xValue:new Date('2020-06-11'), yValue:3.1e23, backgroundColor:'transparent'},
+          line25:{type:'line', yMin:1e25, yMax:1e25, borderColor:'rgba(184,52,28,.35)', borderWidth:1, borderDash:[4,4],
+            label:{display:true, content:'10²⁵ FLOP', position:'end', backgroundColor:'rgba(255,255,255,.85)', color:'#b8341c', font:{size:11}}},
+          line26:{type:'line', yMin:1e26, yMax:1e26, borderColor:'rgba(184,52,28,.55)', borderWidth:1, borderDash:[4,4],
+            label:{display:true, content:'10²⁶ FLOP', position:'end', backgroundColor:'rgba(255,255,255,.85)', color:'#b8341c', font:{size:11}}}
+        }
+      }
+    },
+    scales:{
+      x:{type:'time', time:{unit:'year', displayFormats:{year:'yyyy'}}, grid:{color:'#f0eee5'}},
+      y:{type:'logarithmic', title:{display:true, text:'Training compute (FLOP)'}, grid:{color:'#f0eee5'},
+        ticks:{
+          callback:(v)=>{
+            const e = Math.log10(v);
+            if(Math.abs(e-Math.round(e))>0.01) return '';
+            return `10${'⁰¹²³⁴⁵⁶⁷⁸⁹'[Math.round(e)]||'^'+Math.round(e)}`;
+          }
+        },
+        min:1e23, max:1e27
+      }
+    }
+  }
+});
+
+/* ---------- 2. Timeline by developer ---------- */
+const devOrder = ['OpenAI','Anthropic','Google','Meta','DeepSeek','xAI','Alibaba','Mistral','Moonshot','Other'];
+const tlData = MODELS.map(m=>({x:new Date(m.date), y:devOrder.indexOf(m.dev), name:m.name, dev:m.dev}));
+new Chart(document.getElementById('chartTimeline'),{
+  type:'scatter',
+  data:{
+    datasets: devOrder.map((d,i)=>({
+      label:d,
+      data: tlData.filter(p=>p.dev===d),
+      backgroundColor: devColor(d)+'cc',
+      borderColor: devColor(d),
+      borderWidth:1,
+      pointRadius:6, pointHoverRadius:9
+    }))
+  },
+  options:{
+    responsive:true, maintainAspectRatio:false,
+    plugins:{
+      legend:{display:false},
+      tooltip:{
+        callbacks:{
+          title:(items)=> items[0].raw.name,
+          label:(item)=> `${item.raw.dev} · ${new Date(item.raw.x).toISOString().slice(0,10)}`
+        }
+      }
+    },
+    scales:{
+      x:{type:'time', time:{unit:'year', displayFormats:{year:'yyyy'}}, grid:{color:'#f0eee5'}},
+      y:{
+        min:-0.5, max:devOrder.length-0.5, reverse:true,
+        ticks:{stepSize:1, callback:(v)=>devOrder[v]||''},
+        grid:{color:'#f0eee5'}
+      }
+    }
+  }
+});
+
+/* ---------- 3. Context window growth ---------- */
+const ctxData = MODELS.filter(m=>m.ctx).map(m=>({x:new Date(m.date), y:m.ctx, name:m.name, dev:m.dev}));
+new Chart(document.getElementById('chartContext'),{
+  type:'scatter',
+  data:{
+    datasets: devOrder.map(d=>({
+      label:d,
+      data: ctxData.filter(p=>p.dev===d),
+      backgroundColor: devColor(d), borderColor: devColor(d),
+      pointRadius:4, pointHoverRadius:7
+    }))
+  },
+  options:{
+    responsive:true, maintainAspectRatio:false,
+    plugins:{
+      legend:{position:'bottom', labels:{boxWidth:8, padding:10, font:{size:11}}},
+      tooltip:{ callbacks:{ title:(items)=>items[0].raw.name, label:(it)=>`${fmtCtx(it.raw.y)} tokens`}}
+    },
+    scales:{
+      x:{type:'time', time:{unit:'year'}, grid:{color:'#f0eee5'}},
+      y:{type:'logarithmic', title:{display:true, text:'Context (tokens)'}, grid:{color:'#f0eee5'},
+        ticks:{callback:(v)=>fmtCtx(v)}}
+    }
+  }
+});
+
+/* ---------- 4. Chatbot Arena Elo ---------- */
+new Chart(document.getElementById('chartElo'),{
+  type:'line',
+  data:{
+    datasets:[{
+      label:'#1 model Elo',
+      data: ELO.map(p=>({x:new Date(p.d), y:p.s, name:p.m})),
+      borderColor:'#b8341c', backgroundColor:'rgba(184,52,28,.08)',
+      fill:true, tension:0.2, pointRadius:5, pointHoverRadius:8, pointBackgroundColor:'#b8341c'
+    }]
+  },
+  options:{
+    responsive:true, maintainAspectRatio:false,
+    plugins:{
+      legend:{display:false},
+      tooltip:{callbacks:{title:(it)=>it[0].raw.name, label:(it)=>`Elo ${it.raw.y} · ${new Date(it.raw.x).toISOString().slice(0,7)}`}}
+    },
+    scales:{
+      x:{type:'time', time:{unit:'quarter'}, grid:{color:'#f0eee5'}},
+      y:{title:{display:true, text:'Top Elo'}, grid:{color:'#f0eee5'}, min:1200}
+    }
+  }
+});
+
+/* ---------- 5. Benchmark saturation big chart ---------- */
+const benchColors = {
+  MMLU:'#1a4d8f', HumanEval:'#0a8a4a', 'GPQA Diamond':'#b8341c',
+  'SWE-bench Verified':'#7a4a8c', 'ARC-AGI-1':'#252727',
+  'ARC-AGI-2':'#a8541c', HLE:'#1c8c8c', FrontierMath:'#b8851c'
+};
+new Chart(document.getElementById('chartBench'),{
+  type:'line',
+  data:{
+    datasets: Object.entries(BENCH).map(([k,v])=>({
+      label:k,
+      data: v.map(p=>({x:new Date(p.d), y:p.s, m:p.m})),
+      borderColor: benchColors[k],
+      backgroundColor: benchColors[k]+'33',
+      tension:0.25, pointRadius:3, pointHoverRadius:6, borderWidth:2
+    }))
+  },
+  options:{
+    responsive:true, maintainAspectRatio:false,
+    plugins:{
+      legend:{position:'bottom', labels:{boxWidth:8, padding:10, font:{size:11}}},
+      tooltip:{callbacks:{title:(it)=>it[0].raw.m, label:(it)=>`${it.dataset.label}: ${it.raw.y}%`}},
+      annotation:{annotations:{
+        h89:{type:'line', yMin:89.8, yMax:89.8, borderColor:'rgba(0,0,0,.25)', borderWidth:1, borderDash:[3,4],
+          label:{display:true, content:'MMLU human expert ≈ 89.8%', position:'start', backgroundColor:'rgba(255,255,255,.8)', color:'#5a5d5a', font:{size:10}}},
+        h70:{type:'line', yMin:69.7, yMax:69.7, borderColor:'rgba(0,0,0,.25)', borderWidth:1, borderDash:[3,4],
+          label:{display:true, content:'GPQA PhD baseline ≈ 69.7%', position:'end', backgroundColor:'rgba(255,255,255,.8)', color:'#5a5d5a', font:{size:10}}}
+      }}
+    },
+    scales:{
+      x:{type:'time', time:{unit:'year'}, grid:{color:'#f0eee5'}},
+      y:{min:0, max:100, title:{display:true, text:'Best frontier score (%)'}, grid:{color:'#f0eee5'}}
+    }
+  }
+});
+
+/* ---------- 6. AIME ---------- */
+new Chart(document.getElementById('chartAime'),{
+  type:'line',
+  data:{
+    datasets:[{
+      label:'AIME (best frontier, closed-book)',
+      data: AIME.map(p=>({x:new Date(p.d), y:p.s, m:p.m})),
+      borderColor:'#7a4a8c', backgroundColor:'rgba(122,74,140,.12)',
+      fill:true, tension:0.2, pointRadius:4, pointHoverRadius:7, pointBackgroundColor:'#7a4a8c'
+    }]
+  },
+  options:{
+    responsive:true, maintainAspectRatio:false,
+    plugins:{
+      legend:{display:false},
+      tooltip:{callbacks:{title:(it)=>it[0].raw.m, label:(it)=>`${it.raw.y}%`}},
+      annotation:{annotations:{
+        o1:{type:'line', xMin:new Date('2024-09-12'), xMax:new Date('2024-09-12'), borderColor:'rgba(184,52,28,.5)', borderWidth:1, borderDash:[2,3],
+          label:{display:true, content:'o1', position:'start', backgroundColor:'rgba(255,255,255,.85)', color:'#b8341c', font:{size:10}}}
+      }}
+    },
+    scales:{
+      x:{type:'time', time:{unit:'quarter'}, grid:{color:'#f0eee5'}},
+      y:{min:0, max:105, title:{display:true, text:'AIME score (%)'}, grid:{color:'#f0eee5'}}
+    }
+  }
+});
+
+/* ---------- 7. SWE-bench ---------- */
+new Chart(document.getElementById('chartSwe'),{
+  type:'line',
+  data:{
+    datasets:[{
+      label:'SWE-bench Verified (top frontier)',
+      data: SWE.map(p=>({x:new Date(p.d), y:p.s, m:p.m})),
+      borderColor:'#1a4d8f', backgroundColor:'rgba(26,77,143,.12)',
+      fill:true, tension:0.2, pointRadius:4, pointHoverRadius:7, pointBackgroundColor:'#1a4d8f'
+    }]
+  },
+  options:{
+    responsive:true, maintainAspectRatio:false,
+    plugins:{
+      legend:{display:false},
+      tooltip:{callbacks:{title:(it)=>it[0].raw.m, label:(it)=>`${it.raw.y}%`}}
+    },
+    scales:{
+      x:{type:'time', time:{unit:'quarter'}, grid:{color:'#f0eee5'}},
+      y:{min:0, max:100, title:{display:true, text:'Resolved (%)'}, grid:{color:'#f0eee5'}}
+    }
+  }
+});
+
+/* ---------- 8. NVIDIA datacenter revenue ---------- */
+new Chart(document.getElementById('chartNvda'),{
+  type:'bar',
+  data:{
+    labels: NVDA.map(d=>d.y),
+    datasets:[{
+      label:'Datacenter revenue ($B)',
+      data: NVDA.map(d=>d.r),
+      backgroundColor:'#0a8a4a',
+      borderRadius:3
+    }]
+  },
+  options:{
+    responsive:true, maintainAspectRatio:false,
+    plugins:{legend:{display:false}, tooltip:{callbacks:{label:(it)=>`$${it.raw.toFixed(2)}B`}}},
+    scales:{
+      x:{grid:{display:false}},
+      y:{title:{display:true, text:'$ Billions'}, grid:{color:'#f0eee5'}}
+    }
+  }
+});
+
+/* ---------- 9. Hyperscaler capex ---------- */
+const capexCos = ['amzn','goog','meta','msft','orcl'];
+const capexLabels = ['Amazon','Alphabet','Meta','Microsoft','Oracle'];
+const capexColors = ['#a8541c','#1a4d8f','#1c4ea8','#0a8a4a','#b8341c'];
+new Chart(document.getElementById('chartCapex'),{
+  type:'bar',
+  data:{
+    labels: CAPEX.map(d=>d.y),
+    datasets: capexCos.map((c,i)=>({
+      label: capexLabels[i],
+      data: CAPEX.map(d=>d[c]),
+      backgroundColor: capexColors[i],
+      borderRadius:2,
+      stack:'capex'
+    }))
+  },
+  options:{
+    responsive:true, maintainAspectRatio:false,
+    plugins:{
+      legend:{position:'bottom', labels:{boxWidth:10, padding:10, font:{size:11}}},
+      tooltip:{mode:'index', callbacks:{label:(it)=>`${it.dataset.label}: $${it.raw}B`,
+        footer:(items)=>`Total: $${items.reduce((a,b)=>a+b.raw,0)}B`}}
+    },
+    scales:{
+      x:{stacked:true, grid:{display:false}},
+      y:{stacked:true, title:{display:true, text:'Capex ($B)'}, grid:{color:'#f0eee5'}}
+    }
+  }
+});
+
+/* ---------- 10. Power ---------- */
+new Chart(document.getElementById('chartPower'),{
+  type:'bar',
+  data:{
+    labels: POWER.map(d=>d.y),
+    datasets:[
+      {
+        label:'Low estimate',
+        data: POWER.map(d=>d.lo?d.lo:d.twh),
+        backgroundColor:'#1a4d8f', borderRadius:3
+      },
+      {
+        label:'High range (2028 only)',
+        data: POWER.map(d=>d.hi?d.hi-d.lo:0),
+        backgroundColor:'rgba(26,77,143,.35)', borderRadius:3, stack:'p'
+      }
+    ]
+  },
+  options:{
+    responsive:true, maintainAspectRatio:false,
+    plugins:{
+      legend:{position:'bottom', labels:{boxWidth:10, padding:10, font:{size:11}}},
+      tooltip:{callbacks:{label:(it)=>`${it.raw} TWh`}}
+    },
+    scales:{
+      x:{grid:{display:false}, stacked:true},
+      y:{title:{display:true, text:'TWh / yr (US datacenters)'}, grid:{color:'#f0eee5'}, stacked:true}
+    }
+  }
+});
+
+/* ---------- 11. Largest single AI campus ---------- */
+new Chart(document.getElementById('chartCampus'),{
+  type:'line',
+  data:{
+    datasets:[{
+      label:'Single-site MW (live)',
+      data: CAMPUS.map(p=>({x:p.y, y:p.mw, name:p.name})),
+      borderColor:'#b8341c', backgroundColor:'rgba(184,52,28,.12)',
+      stepped:'before', fill:true, tension:0, pointRadius:5, pointHoverRadius:8, pointBackgroundColor:'#b8341c'
+    }]
+  },
+  options:{
+    responsive:true, maintainAspectRatio:false,
+    plugins:{
+      legend:{display:false},
+      tooltip:{callbacks:{title:(it)=>it[0].raw.name, label:(it)=>`${it.raw.y} MW`}}
+    },
+    scales:{
+      x:{type:'linear', min:2022, max:2030.5, ticks:{stepSize:1, callback:v=>Math.floor(v)}, grid:{color:'#f0eee5'}, title:{display:true, text:'Year'}},
+      y:{title:{display:true, text:'Megawatts'}, grid:{color:'#f0eee5'}}
+    }
+  }
+});
+
+/* ---------- 12. Geographic distribution ---------- */
+new Chart(document.getElementById('chartGeo'),{
+  type:'doughnut',
+  data:{
+    labels: GEO.map(g=>g.label),
+    datasets:[{
+      data: GEO.map(g=>g.v),
+      backgroundColor:['#1a4d8f','#b8341c','#0a8a4a','#7a4a8c','#a8541c','#888']
+    }]
+  },
+  options:{
+    responsive:true, maintainAspectRatio:false,
+    plugins:{
+      legend:{position:'right', labels:{boxWidth:12, padding:8, font:{size:11}}},
+      tooltip:{callbacks:{label:(it)=>`${it.label}: ${it.raw}%`}}
+    }
+  }
+});
+
+/* ---------- 13. Hyperscaler concentration ---------- */
+new Chart(document.getElementById('chartHyper'),{
+  type:'line',
+  data:{
+    labels: HYPER.map(h=>h.q),
+    datasets:[{
+      label:'Top-5 hyperscaler share of global AI compute',
+      data: HYPER.map(h=>h.s),
+      borderColor:'#7a4a8c', backgroundColor:'rgba(122,74,140,.18)',
+      fill:true, tension:0.2, pointRadius:5, pointBackgroundColor:'#7a4a8c'
+    }]
+  },
+  options:{
+    responsive:true, maintainAspectRatio:false,
+    plugins:{legend:{display:false}, tooltip:{callbacks:{label:(it)=>`${it.raw}%`}}},
+    scales:{x:{grid:{display:false}}, y:{min:55, max:80, title:{display:true, text:'% of global AI compute'}, grid:{color:'#f0eee5'}}}
+  }
+});
+
+</script>
+</body>
+</html>
