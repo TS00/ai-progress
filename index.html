@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Charting the Singularity: AI Progress, GPT-3 to GPT-5.6 (2020 – July 2026)</title>
+<title>Charting the Singularity: AI Progress, GPT-3 to GPT-5.6 (2020 – August 2026)</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.1.0/dist/chartjs-plugin-annotation.min.js"></script>
@@ -151,7 +151,7 @@ section{scroll-margin-top:20px}
 <div class="topbar">
   <span><a href="index.html">research/ai-progress</a></span>
   <span><a href="index.html" class="active">factual report</a> · <a href="predictions.html">predictions</a> · <a href="scenarios.html">economics scenarios</a></span>
-  <span class="pill">data through <b>July 9, 2026</b></span>
+  <span class="pill">data through <b>August 23, 2026</b></span>
 </div>
 <div class="subnav">on this page: <a href="#compute">compute</a> · <a href="#models">models</a> · <a href="#benchmarks">benchmarks</a> · <a href="#dc">datacenters</a> · <a href="#export">export controls</a> · <a href="#picture">the picture</a></div>
 
@@ -159,7 +159,7 @@ section{scroll-margin-top:20px}
   <span class="eyebrow">A factual timeline · 2020 → 2026</span>
   <h1>Charting the Singularity</h1>
   <p class="lede">
-    From GPT‑3 to GPT‑5.6: 73 months of frontier AI in models, benchmarks, and concrete.
+    From GPT‑3 to GPT‑5.6 (with Astra and Gemini 4 in the oven): 74 months of frontier AI in models, benchmarks, and concrete.
     A grounded report — what was released, what got benchmarked, what got built.
     The squinting comes later.
   </p>
@@ -269,9 +269,10 @@ section{scroll-margin-top:20px}
   <div class="section-num">02</div>
   <h2>The models</h2>
   <p class="intro">
-    Roughly fifty frontier‑class models since GPT‑3. The cadence accelerated: years between
+    Well over a hundred frontier‑class models since GPT‑3. The cadence accelerated: years between
     GPT‑3 → 3.5 → 4, then quarters between Claude/GPT/Gemini majors, then months between OpenAI's
-    GPT‑5.x dot‑releases as 2025 closed and "Code Red" began.
+    GPT‑5.x dot‑releases as 2025 closed — and by mid‑2026, ten significant releases in the six weeks
+    from July 9 to August 23 alone.
   </p>
 
   <div class="chart-box">
@@ -332,7 +333,7 @@ section{scroll-margin-top:20px}
   </p>
 
   <div class="chart-box">
-    <div class="chart-title">Benchmark saturation, 2020 → April 2026</div>
+    <div class="chart-title">Benchmark saturation, 2020 → August 2026</div>
     <div class="chart-sub">Best frontier score recorded each quarter. Dashed lines = human baselines.</div>
     <div class="chart-canvas-wrap tall"><canvas id="chartBench"></canvas></div>
     <div class="note">
@@ -355,7 +356,7 @@ section{scroll-margin-top:20px}
   </div>
 
   <div class="tbl-wrap">
-    <div class="tbl-head"><div class="t">Saturation status, July 2026</div><div class="s">Where each major benchmark stands.</div></div>
+    <div class="tbl-head"><div class="t">Saturation status, August 2026</div><div class="s">Where each major benchmark stands.</div></div>
     <div class="tbl-scroll"><table>
       <thead><tr><th>Benchmark</th><th>Released</th><th>Top score 2026</th><th>Status</th><th>Time to saturation</th></tr></thead>
       <tbody>
@@ -364,10 +365,11 @@ section{scroll-margin-top:20px}
         <tr><td>GSM8K</td><td>Oct 2021</td><td>97–99%</td><td><span class="badge cl">Saturated</span></td><td>~3 yr</td></tr>
         <tr><td>MATH</td><td>Oct 2021</td><td>99% (GPT‑5.2 Pro)</td><td><span class="badge cl">Saturated</span></td><td>~4 yr</td></tr>
         <tr><td>BBH</td><td>Oct 2022</td><td>94% (Sonnet 4.5)</td><td><span class="badge cl">Saturated</span></td><td>~3 yr</td></tr>
-        <tr><td>GPQA Diamond</td><td>Nov 2023</td><td>94.6% (GPT‑5.6 Sol / Mythos)</td><td><span class="badge cl">Saturated</span></td><td>~2.5 yr</td></tr>
+        <tr><td>GPQA Diamond</td><td>Nov 2023</td><td>94.9% (Grok 4.6)</td><td><span class="badge cl">Saturated</span></td><td>~2.5 yr</td></tr>
         <tr><td>SWE‑bench Verified</td><td>Aug 2024</td><td>88.6% (Opus 4.8)</td><td><span class="badge ow">Mostly solved</span></td><td>~1.5 yr</td></tr>
         <tr><td>SWE‑bench Pro</td><td>late 2025</td><td>80% vendor (Fable 5) / ~59% standardized</td><td><span class="badge ow">Partial</span></td><td>open</td></tr>
-        <tr><td>Terminal‑Bench 2.x</td><td>2025</td><td>91.9% (GPT‑5.6 Sol ultra)</td><td><span class="badge cl">Approaching</span></td><td>~1 yr</td></tr>
+        <tr><td>Terminal‑Bench 2.x</td><td>2025</td><td>91.9% (GPT‑5.6 Sol ultra); six labs at 87–89%</td><td><span class="badge cl">Saturating</span></td><td>~1 yr</td></tr>
+        <tr><td>Terminal‑Bench 3.0</td><td>Jul 2026</td><td>34.6% (GPT‑5.6 Sol); open SOTA 28.3% (GLM‑5.3)</td><td><span class="badge ow">Hard</span></td><td>open</td></tr>
         <tr><td>ARC‑AGI‑1 (semi‑private)</td><td>2024</td><td>87.5% (o3 high‑compute)</td><td><span class="badge cl">Saturated</span></td><td>~1 yr</td></tr>
         <tr><td>ARC‑AGI‑2</td><td>Mar 2025</td><td>84.6% (Gemini 3.1 Deep Think)</td><td><span class="badge ow">Mostly solved</span></td><td>~1 yr</td></tr>
         <tr><td>ARC‑AGI‑3</td><td>2026</td><td>7.8% (GPT‑5.6 Sol)</td><td><span class="badge other">Hard</span></td><td>open</td></tr>
@@ -534,14 +536,20 @@ section{scroll-margin-top:20px}
         <tr><td>Jan 21 2026</td><td>House Foreign Affairs <b>AI OVERWATCH Act</b> advances 42–2 → 2‑yr Blackwell ban, congressional veto over export licenses</td></tr>
         <tr><td>Feb 2026</td><td>State Department <b>blocks</b> all H200 shipments pending review; China grants conditional approval for ~400k of 2M ordered</td></tr>
         <tr><td>Mar 2026</td><td>NVIDIA stops producing China‑specific chips; Beijing restricts purchases to "special circumstances"</td></tr>
+        <tr><td>Jun 12–30 2026</td><td>First‑ever US export‑control order on a <b>deployed model</b>: Claude Fable 5 / Mythos 5 suspended 18 days</td></tr>
+        <tr><td>Jul 22 2026</td><td>White House accuses Moonshot of <b>distilling Kimi K3 from Fable 5</b>; Treasury threatens sanctions (researchers dispute the timeline)</td></tr>
+        <tr><td>Aug 2 2026</td><td><b>EU AI Act transparency code in force</b> — ~190 signatories commit to watermarking AI‑generated text (Anthropic ships first, Aug 14)</td></tr>
+        <tr><td>Aug 7 2026</td><td>OpenAI discloses Astra "cannot rule out" the <b>Critical cyber threshold</b> — first such designation; release gated on strengthened controls</td></tr>
       </tbody>
     </table></div>
   </div>
   <p class="note">
     Net effect: Chinese frontier labs (DeepSeek, Alibaba Qwen, Moonshot Kimi, ByteDance Doubao) train primarily
     on grey‑market H100/H800 inventories, H20, and <b>Huawei Ascend 910C</b> (~600k shipments planned in 2026).
-    DeepSeek V3 (Dec 2024) trained for ~$5.6M and matched many Western frontier models — and DeepSeek V4 (Apr 2026)
-    ships a 1.6T MoE with native 1M context under MIT license.
+    The fence has not slowed the output: in July–August 2026 alone, Chinese labs shipped Kimi K3 (2.8T, largest
+    open weights ever), Qwen3.8‑Max (2.4T, first open Max‑class flagship), DeepSeek V4‑Pro GA (1.6T, MIT), and
+    GLM‑5.3 — and the fence itself is visibly shifting from <i>chips</i> to <i>models</i> (export orders,
+    distillation accusations, cyber‑capability gates, watermarking mandates).
   </p>
 </section>
 
@@ -559,11 +567,11 @@ section{scroll-margin-top:20px}
       <p>NVIDIA datacenter revenue went from <b>$2.98B in FY20 to $193.7B in FY26</b>, growing 217% in FY24 alone. Big‑Five hyperscaler capex went from ~$160B in 2022 to a guided <b>~$680B in 2026</b>. Capital intensity (capex / revenue) is now 45–57% at AWS / Meta / Microsoft / Google — historically these were 10–25% businesses. Free‑cash‑flow turned negative for several Big Five in 2026; the Big Five raised $108B of debt in 2025 alone.</p>
 
       <h3>Models</h3>
-      <p>The 2024 <b>reasoning shift</b> (o1, Sep 2024) was the largest single‑architecture jump in benchmark history: +34.5 MATH, +26.7 GPQA, +65 AIME 2024 over GPT‑4o. By 2026 every frontier vendor ships hybrid (instant + thinking + pro) models, and mid‑2026 pushed to <b>multi‑agent test‑time compute</b>: GPT‑5.6 <code>ultra</code> (4–16 parallel agents), Claude Dynamic Workflows (hundreds of subagents), Kimi 300‑agent swarms. Open weights closed most of the gap — DeepSeek V4 Pro, Kimi K2.6/K2.7, Qwen 4, Llama 5, Mistral Voyage Pro — and in the May–June 2026 wave <b>every major Western lab except OpenAI and Anthropic shipped downloadable weights</b>, including xAI's first‑ever open drop (Grok 4 Open). Meanwhile Meta went dual‑track: its new closed frontier line (Muse Spark, from Meta Superintelligence Labs) now sits above the open Llama line, and with Muse Spark 1.1 (Jul 9) Meta started <b>selling API access</b> for the first time. Mid‑2026 also brought a new gate: Anthropic's Mythos‑class Fable 5 was suspended 18 days under a first‑of‑its‑kind US export‑control order, and GPT‑5.6 launched via a government‑coordinated limited preview.</p>
+      <p>The 2024 <b>reasoning shift</b> (o1, Sep 2024) was the largest single‑architecture jump in benchmark history: +34.5 MATH, +26.7 GPQA, +65 AIME 2024 over GPT‑4o. By 2026 every frontier vendor ships hybrid (instant + thinking + pro) models, and mid‑2026 pushed to <b>multi‑agent test‑time compute</b>: GPT‑5.6 <code>ultra</code> (4–16 parallel agents), Claude Dynamic Workflows (hundreds of subagents), Kimi 300‑agent swarms. Open weights closed most of the gap — DeepSeek V4 Pro, Kimi K2.6/K2.7, Qwen 4, Llama 5, Mistral Voyage Pro — and in the May–June 2026 wave <b>every major Western lab except OpenAI and Anthropic shipped downloadable weights</b>, including xAI's first‑ever open drop (Grok 4 Open). Meanwhile Meta went dual‑track: its new closed frontier line (Muse Spark, from Meta Superintelligence Labs) now sits above the open Llama line, and with Muse Spark 1.1 (Jul 9) Meta started <b>selling API access</b> for the first time. Mid‑2026 also brought a new gate: Anthropic's Mythos‑class Fable 5 was suspended 18 days under a first‑of‑its‑kind US export‑control order, and GPT‑5.6 launched via a government‑coordinated limited preview. Then July–August went <b>trillion‑parameter open</b>: in four weeks Chinese labs shipped Kimi K3 (2.8T, the largest weights ever published), Qwen3.8‑Max (2.4T — the first open Max‑class flagship), DeepSeek V4‑Pro GA (1.6T), and GLM‑5.3, which now <b>tops GDPval‑AA v2 outright</b>. No Western lab shipped a new frontier base model in that window — Opus 5, Grok 4.6, and Muse Spark 1.2 were all post‑trains — because the next bases are all in the oven: OpenAI named <b>Astra</b> (Aug 1) alongside <b>ten new machine‑checked mathematical results</b>, then disclosed it may have hit the first‑ever "Critical" cyber designation (Aug 7); Gemini 4's "most ambitious pre‑training run yet" was confirmed Jul 21; Grok 5 (~6T) is training on Colossus 2. Consolidation continued: SpaceX closed its $60B Cursor acquisition (Aug 14), and the EU AI Act's watermarking regime took effect (Aug 2).</p>
     </div>
     <div>
       <h3>Benchmarks</h3>
-      <p>The benchmarks the field invented to measure itself have all been consumed. MMLU (~92%), HumanEval (~98%), GSM8K (~99%), MATH (~99%), GPQA Diamond (~94.6%), MMMU original (~79%), AIME 2025 (~100% with tools), ARC‑AGI‑1 (87.5% at high compute) are saturated. ARC‑AGI‑2 (84.6%) and FrontierMath Tier 4 (~88% on the v2 set, up from ~19% in April) effectively fell in H1 2026. The frontier now lives at SWE‑bench Pro (standardized), Humanity's Last Exam, OSWorld 2.0, SWE Marathon, and the new ARC‑AGI‑3 (top score: 7.8%).</p>
+      <p>The benchmarks the field invented to measure itself have all been consumed. MMLU (~92%), HumanEval (~98%), GSM8K (~99%), MATH (~99%), GPQA Diamond (94.9%, Grok 4.6 — top five within 0.7pp), MMMU original (~79%), AIME 2025 (~100% with tools), ARC‑AGI‑1 (87.5% at high compute) are saturated. ARC‑AGI‑2 (84.6%) and FrontierMath Tier 4 (~88% on the v2 set, up from ~19% in April) effectively fell in H1 2026, and Terminal‑Bench 2.1 now has six labs within a point of each other at 87–89% — so Terminal‑Bench 3.0 shipped in July and reset the board (top score 34.6%). The frontier now lives at SWE‑bench Pro (standardized), Humanity's Last Exam (with‑tools cluster 60–64.5%), OSWorld 2.0, SWE Marathon, Terminal‑Bench 3.0, and ARC‑AGI‑3 (top score: 7.8%).</p>
 
       <h3>Datacenters</h3>
       <p>2024: first 1‑GW campuses. 2026: first 2‑GW campuses operational (Colossus, Project Rainier). Stargate alone has committed >$450B of $500B for ~9 GW across seven US sites + UAE. US datacenter electricity went from 76 TWh (1.9% of US power) in 2018 to ~250 TWh (~7%) in 2025; LBNL projects 325–580 TWh by 2028. Datacenters drove ~50% of all US electricity demand growth in 2025.</p>
@@ -589,7 +597,7 @@ section{scroll-margin-top:20px}
     BenchLM, llm‑stats, pricepertoken, IntuitionLabs).
   </p>
   <p style="margin-top:18px">
-    <span class="mono" style="color:var(--muted)">research/ai-progress · single‑page report · updated July 9, 2026</span>
+    <span class="mono" style="color:var(--muted)">research/ai-progress · single‑page report · updated August 23, 2026</span>
   </p>
 </footer>
 
@@ -640,6 +648,7 @@ const MODELS = [
   {date:'2026-05-28', name:'Claude Opus 4.8', dev:'Anthropic', flop:null, params:null, ctx:1000000, oc:'C', sig:'SWE-bench Pro 69.2%; Dynamic Workflows (100s of parallel subagents)'},
   {date:'2026-06-09', name:'Claude Fable 5 / Mythos 5', dev:'Anthropic', flop:null, params:null, ctx:1000000, oc:'C', sig:'First GA Mythos-class; suspended 18 days by US export controls (Jun 12–30)'},
   {date:'2026-06-30', name:'Claude Sonnet 5', dev:'Anthropic', flop:null, params:null, ctx:1000000, oc:'C', sig:'Near-Opus-4.8 agentic performance at $2/$10'},
+  {date:'2026-07-24', name:'Claude Opus 5', dev:'Anthropic', flop:null, params:null, ctx:1000000, oc:'C', sig:'New general-purpose flagship: near-Fable-5 intelligence at half the price ($5/$25); five effort levels + fast mode'},
 
   // Google
   {date:'2022-04-05', name:'PaLM 540B', dev:'Google', flop:2.5e24, params:540e9, ctx:2048, oc:'C', sig:'Largest dense LM at the time; CoT emergence'},
@@ -657,6 +666,8 @@ const MODELS = [
   {date:'2026-02-19', name:'Gemini 3.1 Pro / Deep Think', dev:'Google', flop:null, params:null, ctx:1000000, oc:'C', sig:'ARC-AGI-2 77% (Pro) / 84.6% (Deep Think)'},
   {date:'2026-05-19', name:'Gemini 3.5 Flash + Gemini Omni', dev:'Google', flop:null, params:null, ctx:1000000, oc:'C', sig:'Flash beats 3.1 Pro on agentic/coding at 4× speed; Omni = first unified any-to-any multimodal'},
   {date:'2026-06-02', name:'Gemma 4.5 12B', dev:'Google', flop:null, params:12e9, ctx:1000000, oc:'OW', sig:'1M context jump; audio input added'},
+  {date:'2026-07-21', name:'Gemini 3.6 Flash (+3.5 Flash Cyber)', dev:'Google', flop:null, params:null, ctx:1000000, oc:'C', sig:'Monthly Flash cadence begins; Gemini 4 pre-training confirmed same day; 3.5 Pro still delayed'},
+  {date:'2026-08-15', name:'Gemini 3.7 Flash', dev:'Google', flop:null, params:null, ctx:1000000, oc:'C', sig:'Second monthly Flash; DeepSWE ~65% from the cheap tier'},
 
   // Meta
   {date:'2023-02-24', name:'LLaMA 1 (7–65B)', dev:'Meta', flop:1e23, params:65e9, ctx:2048, oc:'OW', sig:'Sparked the open-weights ecosystem'},
@@ -671,6 +682,7 @@ const MODELS = [
   {date:'2026-06-04', name:'Llama 5 70B', dev:'Meta', flop:null, params:70e9, ctx:256000, oc:'OW', sig:'Strongest dense open model at release; MMLU 88%'},
   {date:'2026-04-08', name:'Muse Spark', dev:'Meta', flop:null, params:null, ctx:null, oc:'C', sig:"First Meta Superintelligence Labs model; Meta's first closed frontier release; led CharXiv + HealthBench"},
   {date:'2026-07-09', name:'Muse Spark 1.1', dev:'Meta', flop:null, params:null, ctx:1000000, oc:'C', sig:'Multimodal agentic leap (OSWorld-V 80.8, Terminal-Bench 2.1 80.0); paid Meta Model API launches'},
+  {date:'2026-08-05', name:'Muse Spark 1.2 + Muse Code', dev:'Meta', flop:null, params:null, ctx:1000000, oc:'C', sig:"Meta's first coding agent, co-trained with the model; contributor (data-for-discount) tier; Muse Glimmer 30B open Apache-2.0 followed Aug 10"},
 
   // DeepSeek
   {date:'2024-05-06', name:'DeepSeek-V2 (236B MoE)', dev:'DeepSeek', flop:1e24, params:236e9, ctx:128000, oc:'OW', sig:'Pioneered MLA + DeepSeekMoE'},
@@ -679,6 +691,8 @@ const MODELS = [
   {date:'2025-08-21', name:'DeepSeek-V3.1', dev:'DeepSeek', flop:null, params:671e9, ctx:128000, oc:'OW', sig:'First hybrid reasoning OW; trained for upcoming domestic chips'},
   {date:'2025-12-01', name:'DeepSeek-V3.2 / Speciale', dev:'DeepSeek', flop:null, params:671e9, ctx:128000, oc:'OW', sig:'Speciale rivals Gemini 3 Pro / GPT-5; gold-medal IMO/IOI/ICPC'},
   {date:'2026-04-24', name:'DeepSeek-V4 Pro (1.6T MoE)', dev:'DeepSeek', flop:null, params:1.6e12, ctx:1000000, oc:'OW', sig:'Native 1M context; SWE-bench Verified 80.6%, HLE 37.7%'},
+  {date:'2026-07-31', name:'DeepSeek-V4-Flash-0731', dev:'DeepSeek', flop:null, params:300e9, ctx:1000000, oc:'OW', sig:'Official Flash; MIT weights; agent re-post-train; Codex support at $0.14/$0.28'},
+  {date:'2026-08-13', name:'DeepSeek-V4-Pro-0813 (GA)', dev:'DeepSeek', flop:null, params:1.6e12, ctx:1000000, oc:'OW', sig:'1.6T flagship GA; Terminal-Bench 2.1 87.9 (vendor); first peak/off-peak API pricing — subsidized inference ends'},
 
   // xAI
   {date:'2023-11-04', name:'Grok 1 (314B MoE)', dev:'xAI', flop:null, params:314e9, ctx:8192, oc:'OW', sig:'First xAI model; large open MoE'},
@@ -691,6 +705,7 @@ const MODELS = [
   {date:'2026-04-30', name:'Grok 4.3', dev:'xAI', flop:null, params:0.5e12, ctx:2000000, oc:'C', sig:'Unified flagship after xAI folded into SpaceX ("SpaceXAI")'},
   {date:'2026-06-05', name:'Grok 4 Open (100B-A20B)', dev:'xAI', flop:null, params:100e9, ctx:128000, oc:'OW', sig:"xAI's first-ever open-weights release"},
   {date:'2026-07-08', name:'Grok 4.5', dev:'xAI', flop:null, params:null, ctx:256000, oc:'C', sig:'"Opus-class" at $2/$6; 2× token efficiency; trained alongside Cursor'},
+  {date:'2026-08-12', name:'Grok 4.6', dev:'xAI', flop:null, params:1.5e12, ctx:500000, oc:'C', sig:'GPQA Diamond 94.9% record; AA Index 61 ties GPT-5.6 Sol max; long-running-agent post-train; Cursor acquisition closed 2 days later'},
 
   // Alibaba
   {date:'2024-02-01', name:'Qwen 1.5', dev:'Alibaba', flop:null, params:72e9, ctx:32000, oc:'OW', sig:'First widely used Qwen'},
@@ -704,6 +719,7 @@ const MODELS = [
   {date:'2026-04-22', name:'Qwen3.6-27B', dev:'Alibaba', flop:null, params:27e9, ctx:256000, oc:'OW', sig:'Dense model outperforms 397B-MoE on agentic coding'},
   {date:'2026-05-20', name:'Qwen 3.7 Max', dev:'Alibaba', flop:null, params:null, ctx:256000, oc:'C', sig:'"The Agent Frontier" API flagship; SWE-bench Pro 60.6%'},
   {date:'2026-06-01', name:'Qwen 4 (32B-A3B) + Coder', dev:'Alibaba', flop:null, params:32e9, ctx:1000000, oc:'OW', sig:'Apache-2.0 #1 open model; Coder hits 82% SWE-bench Verified on consumer hardware'},
+  {date:'2026-08-03', name:'Qwen3.8-Max (2.4T/95B MoE)', dev:'Alibaba', flop:null, params:2.4e12, ctx:1000000, oc:'OW', sig:'First Max-class flagship ever open-weighted (text-only checkpoint Aug 12, custom license); OSWorld-V 86.1'},
 
   // Mistral
   {date:'2023-09-27', name:'Mistral 7B', dev:'Mistral', flop:null, params:7e9, ctx:8192, oc:'OW', sig:'Best 7B at release; SWA + GQA'},
@@ -720,6 +736,7 @@ const MODELS = [
   {date:'2026-01-15', name:'Kimi K2.5', dev:'Moonshot', flop:null, params:1e12, ctx:128000, oc:'OW', sig:'Multimodal + Agent Swarm v1'},
   {date:'2026-04-21', name:'Kimi K2.6', dev:'Moonshot', flop:null, params:1e12, ctx:256000, oc:'OW', sig:'12-hour coding runs, 300-agent swarms'},
   {date:'2026-06-12', name:'Kimi K2.7-Code', dev:'Moonshot', flop:null, params:1e12, ctx:256000, oc:'OW', sig:'Coding-specialist open 1T MoE with MoonViT vision'},
+  {date:'2026-07-16', name:'Kimi K3 (2.8T/104B MoE)', dev:'Moonshot', flop:null, params:2.8e12, ctx:1000000, oc:'OW', sig:'Largest open weights ever (1.56TB, weights Jul 27); #4 overall AA Index at release; White House distillation accusation'},
 
   // Other notable
   {date:'2023-09-06', name:'Falcon 180B', dev:'Other', flop:3.8e24, params:180e9, ctx:8192, oc:'OW', sig:'Largest OW at release (TII UAE)'},
@@ -727,6 +744,7 @@ const MODELS = [
   {date:'2024-08-23', name:'GLM-4-Plus', dev:'Other', flop:3.6e25, params:null, ctx:128000, oc:'C', sig:'Chinese frontier (Zhipu AI)'},
   {date:'2025-10-27', name:'MiniMax-M2', dev:'Other', flop:null, params:null, ctx:200000, oc:'OW', sig:'Briefly "king of OSS"; eclipsed weeks later by Kimi K2 Thinking'},
   {date:'2026-05-30', name:'Phi-5 Medium 14B', dev:'Other', flop:null, params:14e9, ctx:64000, oc:'OW', sig:'MIT; GPT-4-class at 14B (Microsoft)'},
+  {date:'2026-08-14', name:'GLM-5.3', dev:'Other', flop:null, params:744e9, ctx:1000000, oc:'C', sig:'Zhipu/Z.ai post-training-only upgrade tops GDPval-AA v2 (1769 Elo); open weights promised ~2 weeks post-launch'},
 ];
 
 const FRONTIER_RUNS = [
@@ -774,6 +792,7 @@ const BENCH = {
     {d:'2026-02-05', s:91.3, m:'Claude Opus 4.6'},
     {d:'2026-02-19', s:94.3, m:'Gemini 3.1 Pro'},
     {d:'2026-07-09', s:94.6, m:'GPT-5.6 Sol / Claude Mythos'},
+    {d:'2026-08-12', s:94.9, m:'Grok 4.6'},
   ],
   'SWE-bench Verified': [
     {d:'2023-10-01', s:1.96, m:'GPT-4 (full SWE-bench)'},
@@ -819,6 +838,8 @@ const BENCH = {
     {d:'2026-03-05', s:45.3, m:'GPT-5.4 Pro (Scale)'},
     {d:'2026-04-01', s:47.3, m:'Gemini 3.1 Pro Preview'},
     {d:'2026-07-09', s:62.1, m:'Muse Spark 1.1 (with tools, vendor)'},
+    {d:'2026-08-14', s:64.5, m:'GPT-5.6 Sol (with tools, Z.ai table)'},
+    {d:'2026-08-14', s:62.5, m:'GLM-5.3 (open, with tools)'},
   ],
   FrontierMath: [
     {d:'2024-11-01', s:1.5, m:'GPT-4o / Claude 3.5'},
