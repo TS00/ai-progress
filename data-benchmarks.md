@@ -1,12 +1,12 @@
 # AI Benchmark Saturation Timeline (2020 → August 2026)
 
-A research compilation of how 14 major AI benchmarks have evolved from "released as hard" to (in many cases) saturated. Compiled April 26, 2026; updated July 9 and August 23, 2026.
+A research compilation of how 14 major AI benchmarks have evolved from "released as hard" to (in many cases) saturated. Compiled April 26, 2026; updated July 9, August 23, and September 23, 2026.
 
 > **Caveats up front.** Numbers come from a mix of vendor-reported model cards, third-party leaderboard aggregators (Vals AI, Artificial Analysis, lmarena.ai, Epoch AI, BenchLM, llm-stats, papers-with-code) and the original benchmark papers. Where vendor numbers and independent evaluations diverge, both are noted. Late-2025/early-2026 numbers from aggregators like BenchLM, TokenMix, lmmarketcap, intuitionlabs etc. should be treated as best-effort secondary reporting; some include forward-looking models (e.g. "Claude Mythos Preview", "GPT-5.4", "Gemini 3.1 Pro") whose system cards are still being independently re-benchmarked. Top-of-leaderboard differences of 1-2 points are routinely within inter-run variance.
 
 ---
 
-## TL;DR — Saturation status as of August 2026
+## TL;DR — Saturation status as of September 2026
 
 | Benchmark | Released | Top score 2026 | Status | Time-to-saturation |
 | --- | --- | --- | --- | --- |
@@ -15,18 +15,19 @@ A research compilation of how 14 major AI benchmarks have evolved from "released
 | GSM8K | Oct 2021 | ~97-99% (multiple models) | **Saturated** | ~3 yr (2021 → 2024) |
 | MATH (Hendrycks) | Oct 2021 | ~97-99% (GPT-5.2 Pro, o3) | **Saturated** | ~3-4 yr (2021 → 2024-25) |
 | BIG-Bench Hard (BBH) | Oct 2022 | ~94% (Claude Sonnet 4.5) | **Saturated** (BBEH is successor) | ~3 yr (2022 → 2025) |
-| GPQA Diamond | Nov 2023 | ~94.9% (Grok 4.6, Aug 2026) | **Saturated** (>>69.7% PhD experts) | ~2.5 yr (2023 → 2026) |
+| GPQA Diamond | Nov 2023 | 96.0% (GPT-6 Astra, Sep 3) | **Saturated** (>>69.7% PhD experts) | ~2.5 yr (2023 → 2026) |
 | SWE-bench Verified | Aug 2024 | ~88-94% (Opus 4.8, Claude Mythos) | **Mostly solved** (Pro variant is current frontier) | ~1.5 yr (2024 → 2026) |
-| SWE-bench Pro | Late 2025 | 80.3% vendor-scaffold (Fable 5) / ~59% standardized (Scale) | **Partially solved** — current frontier coding benchmark | Open |
+| SWE-bench Pro | Late 2025 | 81.2% vendor-scaffold (Fable 5.1) / ~59% standardized (Scale, earlier) | **Partially solved** — current frontier coding benchmark | Open |
 | Terminal-Bench 2.x | 2025 | 91.9% (GPT-5.6 Sol ultra); 2.1 top cluster 87-89% across 6 labs | **Saturating** — six models within ~1pp by Aug 2026 | ~1 yr |
-| Terminal-Bench 3.0 | 2026 (Jul) | 34.6% (GPT-5.6 Sol); open SOTA 28.3% (GLM-5.3) | **Hard** — successor reset the terminal-agent frontier | Open |
+| Terminal-Bench 3.0 | 2026 (Jul) | 34.6% (GPT-5.6 Sol); open 30.0% (DeepSeek V4.1-Flash, was 28.3% GLM-5.3) | **Hard** | Open |
+| Terminal-Bench 4.0 | 2026 (Sep) | 60.9% (Claude Mythos 5.1); 57.9% (GPT-6 Astra); 19.1% (Gemini 3.8 Flash) | **Hard** — the terminal eval labs are now reporting | Open |
 | ARC-AGI-1 | 2019/2024 (semi-private set) | 87.5% (o3 high-compute, late 2024) | **Saturated** | ~5 yr (2019 → 2024) |
-| ARC-AGI-2 | Mar 2025 | ~84.6% (Gemini 3.1 Deep Think) | **Mostly solved** (>60% human baseline crossed early 2026) | ~1 yr |
-| ARC-AGI-3 | 2026 | 7.78% (GPT-5.6 Sol) | **Hard** — new frontier abstract-reasoning benchmark | Open |
+| ARC-AGI-2 | Mar 2025 | 95.0% (GPT-6 Astra) | **Saturated** (human baseline ~60% was crossed in Feb 2026) | ~1.5 yr |
+| ARC-AGI-3 | 2026 | 99.9% (GPT-6 Astra; 7.78% for GPT-5.6 Sol a month earlier) | **Fell in one release** — ARC Prize: human action-efficiency baseline beaten on 96% of levels | ~months |
 | AIME 2024/2025 | Annual | 99-100% (GPT-5.2 Pro, w/tools) | **Saturated** | ~1-2 yr |
 | FrontierMath (Tier 1-3) | Nov 2024 | ~89% (GPT-5.6 Sol, v2) | **Mostly solved** (was <2% on release) | ~1.5 yr |
-| FrontierMath (Tier 4) | Jul 2025 | ~83-88% (GPT-5.6 Sol, Claude Fable 5, v2) | **Fell in mid-2026** (was ~19% in April) | ~1 yr |
-| Humanity's Last Exam | Jan 2025 | ~45-65% (with-tools cluster now 60-64.5%: GPT-5.6 Sol 64.5, Fable 5 63.9, GLM-5.3 62.5 open) | **Partially solved** (was 2.7% on release) | Open |
+| FrontierMath (Tier 4) | Jul 2025 | 97.6% (GPT-6 Astra, v2, Sep 3) | **Saturated** on the v2 set (was ~19% in April, ~83-88% in July) | ~1 yr |
+| Humanity's Last Exam | Jan 2025 | 65.0% with tools (Claude Fable 5.1); Astra 57.2% on OpenAI's table; open 63.9% (DeepSeek V4.1-Flash) | **Partially solved** (was 2.7% on release) | Open |
 | MMMU (original) | Jan 2024 | ~79% | **Saturated**, MMMU-Pro is successor | ~2 yr |
 | MMMU-Pro | Sep 2024 | ~88-94% (Gemini 3.1 Pro Preview, GPT-5.4 Pro) | **Approaching saturation** (88.6% best human expert) | ~1.5 yr |
 | LiveCodeBench | Mar 2024 | ~85-89% (Gemini 3.1 Pro Preview, GPT-5.x Codex) | **Approaching saturation** (Pro variant still discriminates) | ~2 yr |
@@ -178,11 +179,12 @@ A research compilation of how 14 major AI benchmarks have evolved from "released
 | 2026 (Apr 16) | Claude Opus 4.7 | 94.2% | Anthropic launch |
 | 2026 (Apr) | Claude Mythos Preview | 94.6% | Secondary reporting (llm-stats) — not in primary paper |
 | 2026 (Jul 9) | GPT-5.6 Sol | 94.6% | OpenAI launch table (Terra 92.9%, Luna 92.3%) — ties Mythos Preview |
-| 2026 (Aug 12) | **Grok 4.6** | **94.9%** | New top score (The Batch / vendor); top-5 now within 0.7pp |
+| 2026 (Aug 12) | **Grok 4.6** | **94.9%** | Top score at the time; top-5 within 0.7pp |
+| 2026 (Sep 3) | **GPT-6 Astra** | **96.0%** | OpenAI launch table. Same table: Gemini 3.8 Flash 95.3%, Sol 94.6%, Fable 5.1 93.7%, Opus 5 93.7%, Fable 5 92.6% |
 
 **Sources:** [Rein et al. 2023 paper](https://arxiv.org/abs/2311.12022) · [IntuitionLabs GPQA Diamond](https://www.intuitionlabs.ai/articles/gpqa-diamond-ai-benchmark) · [SmartChunks GPQA explained](https://smartchunks.com/gpqa-diamond-score-explained-ai-benchmark-2026/) · [BenchGecko GPQA](https://benchgecko.ai/benchmark/gpqa-diamond)
 
-> **Status**: Saturated. Top-4 scores span 0.5 pp (~1 question on a 198-Q test). The benchmark held up ~10 months before o1 surpassed expert humans.
+> **Status**: Saturated. The top of the board moved from a 0.5 pp cluster around 94.5% to 96.0% (Astra). Still well above the 69.7% PhD-expert baseline, and no longer a place models separate by more than a couple of points.
 
 ---
 
@@ -252,11 +254,25 @@ A research compilation of how 14 major AI benchmarks have evolved from "released
 | 2025 (Dec) | GPT-5.2 / Gemini 3 Pro Deep Think | 52.9% / 45.1% | Major jump |
 | 2026 (Feb) | Claude Opus 4.6 | 68.8% | First above human baseline |
 | 2026 (Mar) | GPT-5.4 | 73.3% | — |
-| 2026 (Apr) | **Gemini 3.1 Pro** | **77.1%** | Top public score |
+| 2026 (Apr) | **Gemini 3.1 Pro** | **77.1%** | Top public score at the time |
+| 2026 (Sep 1) | Claude Fable 5.1 | 90.0% | Anthropic system card; OpenAI's table agrees |
+| 2026 (Sep 3) | **GPT-6 Astra** | **95.0%** | OpenAI launch table (Sol 92.5%, Opus 5 90.4%, Fable 5 89.2%) |
 
 **Sources:** [ARC Prize: o3 breakthrough](https://arcprize.org/blog/oai-o3-pub-breakthrough) · [Chollet et al. ARC-AGI-2 paper](https://arxiv.org/pdf/2505.11831) · [BenchLM ARC-AGI-2](https://benchlm.ai/benchmarks/arcAgi2) · [llm-stats ARC-AGI v2](https://llm-stats.com/benchmarks/arc-agi-v2)
 
-> **Status**: ARC-AGI-1 effectively saturated (87.5% w/ massive compute, late 2024). ARC-AGI-2 went from <3% to >75% in ~14 months — faster than any prior "AGI-targeted" benchmark.
+> **Status**: ARC-AGI-1 effectively saturated (87.5% w/ massive compute, late 2024; Astra later posted 98.5% on OpenAI's table). ARC-AGI-2 went from <3% (May 2025) to 95% (Sep 2026).
+
+### ARC-AGI-3
+
+Launched in 2026 as the hard successor. As of August 23 the best published score in this tracker was **7.78%** (GPT-5.6 Sol).
+
+| Date | System | Score | Notes |
+| --- | --- | --- | --- |
+| 2026 (Aug) | GPT-5.6 Sol | 7.78% | Best score in the August 23 tracker |
+| 2026 (Sep 3) | Claude Opus 5 | 30.2% | OpenAI launch table; Fable columns were blank |
+| 2026 (Sep 3) | **GPT-6 Astra** | **99.9%** | OpenAI. ARC Prize: surpassed their human action-efficiency baseline on 96% of levels. Harness note from OpenAI: responses-API settings changed to match real-world use, not targeted at ARC-AGI-3 |
+
+> **Status**: Fell in one release. A benchmark that was the open frontier on August 23 was saturated on September 3. Treat 99.9% as OpenAI-reported, with the harness caveat above.
 
 ---
 
@@ -307,10 +323,11 @@ A research compilation of how 14 major AI benchmarks have evolved from "released
 | 2026 (Mar/Apr) | GPT-5.4 | 47.6% | — | llm-stats top (v1 set) |
 | 2026 (Jul, **v2 set**) | GPT-5.5 / Claude Opus 4.8 | 85.3% / 80% | 72.5% / 56.1% | From OpenAI GPT-5.6 launch table — v2 numbers not comparable to v1 rows above |
 | 2026 (Jul 9, v2) | **GPT-5.6 Sol / Claude Fable 5** | **89% / 87%** | **83% / 87.8%** | Tier 4 effectively fell in mid-2026 |
+| 2026 (Sep 3, v2) | **GPT-6 Astra** | — | **97.6%** | OpenAI launch table (lede says 98%). Same table: Fable 5 90.2%, Fable 5.1 87.8%, Sol 83.0%, Opus 5 73.2%. Tier 1-3 not restated |
 
 **Sources:** [Epoch AI FrontierMath hub](https://epoch.ai/benchmarks/frontiermath/) · [arXiv 2411.04872 v7](https://arxiv.org/pdf/2411.04872) · [Epoch 2025 forecast recap](https://epoch.ai/gradient-updates/how-well-did-forecasters-predict-2025-ai-progress) · [NeoSignal FrontierMath leaderboard](https://neosignal.io/benchmarks/frontiermath-2025-02-28-private) · [llm-stats FrontierMath](https://llm-stats.com/benchmarks/frontiermath)
 
-> **Status**: Tier 1-3 went from <2% (Nov 2024) to ~89% (Jul 2026). Tier 4, still ~19% on the v1 set in April 2026, is at 83-88% on the v2 set by July — mind the version break, but the "research-level math is safe" era ended in roughly 12 months.
+> **Status**: Tier 1-3 went from <2% (Nov 2024) to ~89% (Jul 2026) and was not the headline in September. Tier 4 went from ~19% on the v1 set in April 2026 to 83-88% on v2 in July, then **97.6%** (GPT-6 Astra, Sep 3). Mind the version break. On OpenAI's September table Fable 5.1 (87.8%) scores below Fable 5 (90.2%) — harness and safeguard differences, not a clean regression.
 
 ---
 
@@ -338,11 +355,14 @@ A research compilation of how 14 major AI benchmarks have evolved from "released
 | 2026 (Apr) | **Gemini 3.1 Pro Preview** | **44.7-47.3%** | Google; current Scale leader |
 | 2026 (Apr) | Claude Mythos Preview | 64.7% | BenchLM (secondary report) |
 | 2026 (Jul 9) | Muse Spark 1.1 | 62.1% (with tools, vendor) | Meta; led its comparison table vs Opus 4.8 (57.9) and GPT-5.5 (52.2) |
-| 2026 (Aug 14) | GLM-5.3 | 62.5% (with tools, vendor) | Highest open-weights HLE score; same Z.ai table puts GPT-5.6 Sol at 64.5% and Fable 5 at 63.9% with tools |
+| 2026 (Aug 14) | GLM-5.3 | 62.5% (with tools, vendor) | Highest open-weights HLE score at the time; same Z.ai table puts GPT-5.6 Sol at 64.5% and Fable 5 at 63.9% with tools |
+| 2026 (Sep 1) | **Claude Fable 5.1** | **60.9% no tools / 65.0% with tools** | Anthropic launch + system card. OpenAI's table agrees on 65.0% with tools |
+| 2026 (Sep 3) | GPT-6 Astra | 57.2% with tools | OpenAI launch table — trails Fable 5.1, Fable 5 (63.8%), and Opus 5 (63.6%) in that same table |
+| 2026 (Sep 10) | DeepSeek V4.1-Flash | 36.8% (39.1% text subset); **63.9% with tools** | DeepSeek API changelog. Best confirmed open with-tools score |
 
 **Sources:** [Scale Labs HLE leaderboard](https://scale.com/leaderboard/humanitys_last_exam_text_only) · [aictrl: Reasoning Race](https://aictrl.dev/blog/reasoning-benchmarks) · [pricepertoken HLE](https://pricepertoken.com/leaderboards/benchmark/hle) · [BenchLM HLE](https://benchlm.ai/benchmarks/hle)
 
-> **Status**: Partially solved. ~20× growth in 15 months (2.7% → 53.1% with tools). The text-only subset on Scale's official leaderboard puts the discriminative top ~45-47%; the gap to estimated 90% human-expert ceiling is now ~45 points and shrinking.
+> **Status**: Partially solved, and September did not blow it open. With-tools scores moved from a 60-64.5% cluster to 65.0% (Fable 5.1). Astra, the model that saturated ARC-AGI-3 and FrontierMath Tier 4, scores 57.2% here on OpenAI's own table. The gap to the ~90% human-expert ceiling is still about 25 points on the with-tools number and larger on text-only.
 
 ---
 
@@ -475,33 +495,33 @@ The drivers of the acceleration:
 3. **Tool use blurs categories**. AIME 2025: closed-book ~95%, with-Python ~100%. FrontierMath, HLE: with-tool scores 10-20 pp above no-tool scores.
 4. **Data contamination is real**. By 2026, multiple aggregators flag MMLU, HumanEval, MATH, GSM8K as contaminated. LiveCodeBench, FrontierMath, ARC-AGI-2 specifically designed to resist.
 
-### C. Categorization as of August 2026
+### C. Categorization as of September 2026
 
 **Saturated (>=90%, ceiling effects, no longer differentiates):**
 
-- MMLU · HumanEval · GSM8K · MATH · BBH · GPQA Diamond (top-5 within ~0.7pp at 94.2-94.9%) · MMMU (original) · ARC-AGI-1 · AIME 2024 · AIME 2025 (closed-book ~95%, tools ~100%) · SWE-bench Verified (vendor-reported ≥88%; contamination flagged).
+- MMLU · HumanEval · GSM8K · MATH · BBH · GPQA Diamond (96.0%, GPT-6 Astra) · MMMU (original) · ARC-AGI-1 · ARC-AGI-2 (95.0%, Astra) · ARC-AGI-3 (99.9%, Astra — was 7.8% in August) · AIME 2024 · AIME 2025 (closed-book ~95%, tools ~100%) · FrontierMath Tier 4 v2 (97.6%, Astra) · SWE-bench Verified (vendor-reported ≥88%; contamination flagged).
 
 **Mostly solved (frontier ≥75%, discriminates weakly):**
 
-- FrontierMath Tier 1-3 (top ~89%) · FrontierMath Tier 4 v2 (top ~88% — was ~19% on v1 in April) · ARC-AGI-2 (top ~85%) · MMMU-Pro (top 88-94%, near human ceiling) · LiveCodeBench (top 88%) · Terminal-Bench 2.1 (top ~92% ultra; six labs within ~1pp at 87-89 standard) · BrowseComp (top ~92%).
+- FrontierMath Tier 1-3 (top ~89%) · MMMU-Pro (top 88-94%, near human ceiling) · LiveCodeBench (top 88%) · Terminal-Bench 2.1 (top ~92% ultra; six labs within ~1pp at 87-89 standard) · BrowseComp (top ~92%) · SWE-bench Pro vendor-scaffold (81.2%, Fable 5.1).
 
 **Partially solved (~25-75%, frontier still climbs visibly):**
 
-- HLE (top 45-65%; with-tools cluster 60-64.5%) · SWE-bench Pro (80% vendor scaffold / ~59% standardized) · OSWorld 2.0 (top ~63%) · GDPval / Agents' Last Exam (top ~53%; on the GDPval-AA v2 Elo variant an *open* model now leads — GLM-5.3 at 1769) · SWE Marathon (v1.1 top ~49%: Opus 4.8 48.8, Kimi K3 48.1 — was ~29% on v1 in June) · Terminal-Bench 3.0 (top 34.6%, released July as the 2.x successor).
+- HLE (with tools 65.0% Fable 5.1; Astra 57.2% on the same OpenAI table; open 63.9% DeepSeek V4.1-Flash) · OSWorld 2.0 (harness-dependent; Astra 72.6%, Fable 5.1 77.9% partial on the August task set) · GDPval-AA v2 (Fable 5.1 1853 Elo, was GLM-5.3 at 1769 in August) · Terminal-Bench 4.0 (Mythos 5.1 60.9%, Astra 57.9%, Gemini 3.8 Flash 19.1%) · Terminal-Bench 3.0 (top 34.6% Sol; open 30.0% V4.1-Flash) · SWE Marathon · Agents' Last Exam (Astra 59.3% on OpenAI's table; DeepSeek 31.8%).
 
-**Still hard (top score <30%):**
+**Still hard:**
 
-- ARC-AGI-3 (top ~7.8%, GPT-5.6 Sol) · BBEH (top ~45% reasoning) · Agents' Last Exam ALE-CLI (top 28.6%) · real-paid-professional-work tracks and long-horizon autonomy evals (still early).
+- BBEH · long-horizon autonomy where the new terminal and science benches still spread labs by tens of points (Terminal-Bench Science: Astra 64.6%, Fable 5.1 52.6%, Sol 22.4%) · standardized SWE-bench Pro (~59% on the earlier Scale setup).
 
 ### D. What the open thread *isn't* solving yet
 
-By July 2026, no AI system reliably:
+By September 23, 2026, no AI system reliably:
 
-- Scores >10% on ARC-AGI-3, the new abstract-reasoning frontier (GPT-5.6 Sol: 7.78%).
-- Reaches 65% on Humanity's Last Exam without tool augmentation; the ~90% expert estimate is still ~25-45 pp away.
-- Wins ARC Prize *Grand Prize* terms (85% on ARC-AGI-2 with high-efficiency, open-source). Closed frontier crossed 84% but the cost-per-task and openness targets are still missed.
-- Shows decisive Chatbot Arena dominance — the top cluster spans <30 Elo across 5 providers.
-- Completes a majority of SWE Marathon-style multi-day engineering tasks (top ~29%).
+- Leads every board at once. Astra saturated ARC-AGI-3, FrontierMath Tier 4, and ExploitBench and still trails Fable 5.1 on the Artificial Analysis Intelligence Index v4.1.1 (61.2 vs 65.7) and on HLE with tools (57.2% vs 65.0%).
+- Reaches the ~90% human-expert estimate on Humanity's Last Exam. The best with-tools number is 65%.
+- Wins ARC Prize *Grand Prize* terms (85% on ARC-AGI-2 with high-efficiency, open-source). Closed models are at 95%; the openness and cost constraints are the remaining gate.
+- Shows decisive Chatbot Arena dominance — no new Arena crown was verified for this update; the spring 2026 cluster was a five-way tie around 1500.
+- Puts a cheap Flash-tier model on Terminal-Bench 4.0. Gemini 3.8 Flash scores 19.1% there against 73.7% on DeepSWE.
 
 ### E. Successor benchmark map
 
@@ -531,4 +551,4 @@ By July 2026, no AI system reliably:
 
 ---
 
-*Last updated: August 23, 2026 (Grok 4.6 GPQA record, Terminal-Bench 3.0 debut, GLM-5.3 / Kimi K3 / DeepSeek V4 GA vendor tables, HLE with-tools cluster). Previous update: July 9, 2026.*
+*Last updated: September 23, 2026 (GPT-6 Astra saturates ARC-AGI-3 and FrontierMath Tier 4; Fable 5.1 leads HLE with tools and AA Index v4.1.1; Terminal-Bench 4.0 becomes the discriminating coding eval; DeepSeek V4.1-Flash). Previous update: August 23, 2026.*

@@ -1,6 +1,14 @@
-# AI Datacenter & Compute Buildout: 2020 → April 2026
+# AI Datacenter & Compute Buildout: 2020 → September 2026
 
-*Compiled April 26, 2026. Numbers marked **(est.)** are analyst/Epoch AI estimates rather than disclosed figures; **(disclosed)** are from earnings or official filings; **(reported)** are from credible press without primary-source confirmation.*
+*Compiled April 26, 2026. Updated September 23, 2026 for NVIDIA Q2 FY27 and the sites/chips that moved. Numbers marked **(est.)** are analyst/Epoch AI estimates rather than disclosed figures; **(disclosed)** are from earnings or official filings; **(reported)** are from credible press without primary-source confirmation.*
+
+## Update — September 23, 2026
+
+- **NVIDIA Q2 FY27** (quarter ended July 26, reported August 26): revenue **$96.2B**, datacenter **$89.0B** (+18% QoQ, +117% YoY). Q3 guide **$108B ±2%**, with no China datacenter compute revenue assumed. GAAP/non-GAAP gross margin 75.0% in the quarter. Source: [NVIDIA Q2 FY27 release](https://investor.nvidia.com/news/press-release-details/2026/NVIDIA-Announces-Financial-Results-for-Second-Quarter-Fiscal-2027/default.aspx).
+- **Vera Rubin is in full production**, with racks at CoreWeave, Google Cloud, Microsoft Azure, Oracle Cloud, and Nebius. CFO Colette Kress: Vera Rubin about **20% of datacenter revenue in Q3**. NVIDIA content per gigawatt: Hopper ~$18B, Grace Blackwell ~$25B, **Vera Rubin ~$40B** (CPU + GPU + NVLink + networking).
+- **H200-to-China did not become a business.** The same filing: licensed H200 shipments were **under 1% of datacenter revenue**; a **$0.4B** charge in the first half of FY27 for excess H200 inventory. NVIDIA says PRC restrictions kept it from selling all the chips it had licenses for.
+- **Stargate Norway** (and a UK site) were reported paused. Korea JoongAng (Sep 7, 2026): OpenAI and Nscale did not finalize a Norway offtake, and Microsoft took the project over. Stargate Korea, a year after the Samsung/SK letters of intent, still had no settled site, power, or funding.
+- Training-compute leadership is unchanged in public FLOP estimates: Grok 4 at ~5×10²⁶ remains the largest *disclosed* run. The new qualitative datapoint is OpenAI's: VP of research Aidan Clark told Fortune that GPT-6 Astra was the first OpenAI pretrain on more than 100,000 GPUs, at Stargate in Texas.
 
 ---
 
@@ -13,7 +21,7 @@
 - **US data-center electricity use roughly doubled 2018→2023** (76 → 176 TWh, 4.4% of US electricity). The IEA put the 2025 share at ~7%; LBNL projects 325–580 TWh (6.7–12% of US electricity) by 2028.
 - **Hyperscalers contracted >10 GW of new US nuclear capacity in 2024–25** — Three Mile Island restart for Microsoft, Kairos SMRs for Google, X-energy/Susquehanna for Amazon, plus a Meta 1–4 GW RFP.
 - **Compute is geographically concentrated**: Epoch AI estimates the US holds ~74.5% of tracked AI cluster performance, China ~14.1%, EU ~4.8% (May 2025). Five hyperscalers (MSFT/GOOG/META/AMZN/ORCL) own ~71% of global AI compute by Q4 2025 (up from 63% in Q1 2024).
-- **Export controls have tightened, then partially eased.** April 2025 ban on H20 to China cost NVIDIA ~$8B in Q2 FY26 outlook; a Jan 2026 BIS rule moved H200/MI325X to "case-by-case" review with a 25% revenue fee — but the State Department has blocked actual shipments.
+- **Export controls tightened, eased on paper, and then failed to produce a trade.** April 2025 ban on H20 to China cost NVIDIA ~$8B in Q2 FY26 outlook. A Jan 2026 BIS rule moved H200/MI325X to case-by-case review with a 25% revenue fee. By the July 2026 quarter, licensed H200 shipments were under 1% of NVIDIA datacenter revenue.
 
 ---
 
@@ -88,7 +96,7 @@ Source: NVIDIA 10-K / press releases via [stockanalysis.com](https://stockanalys
 | FY2025 (Jan 2025) | **$115.19B** | +142% |
 | FY2026 (Jan 2026) | **$193.74B** | +68% |
 
-Quarterly (most recent): Q1 FY26 $39.1B → Q2 FY26 $41.1B → **Q3 FY26 $51.2B** ("Blackwell sales are off the charts," Huang) → Q4 FY26 ~$62B (implied). Source: [NVIDIA Q3 FY26 release](https://nvidianews.nvidia.com/_gallery/download_pdf/691e34d93d633290a88deeef/).
+Quarterly (most recent full year, then the new year): Q1 FY26 $39.1B → Q2 FY26 $41.1B → **Q3 FY26 $51.2B** → Q4 FY26 ~$62B (implied). **Q2 FY27 datacenter revenue: $89.0B** (disclosed, quarter ended July 26, 2026). Source: [NVIDIA Q3 FY26 release](https://nvidianews.nvidia.com/_gallery/download_pdf/691e34d93d633290a88deeef/), [NVIDIA Q2 FY27 release](https://investor.nvidia.com/news/press-release-details/2026/NVIDIA-Announces-Financial-Results-for-Second-Quarter-Fiscal-2027/default.aspx).
 
 ### 2.2 NVIDIA datacenter GPU shipments (units)
 
@@ -117,7 +125,7 @@ Per-unit ASP for B200: $30,000–$40,000 ([iBuidl Q4 FY25 analysis](https://ibui
 | Hopper-China | H800 / H20 (export-compliant) | 2023 / 2024 | H20 banned to China April 2025, partial unblock Jan 2026 |
 | Blackwell | B100 / B200 / GB200 NVL72 | first samples Q3 FY25 (Oct 2024); volume mid-2025 | $30–40k ASP; CoWoS-L packaging |
 | Blackwell Ultra | B300 / GB300 | mid-late 2025 | Used in Colossus 2 and Stargate phase-2 |
-| Vera Rubin | R100 / VR200 | sampling 2026, volume 2027 | Anthropic's 1 GW announced deal mixes Grace-Blackwell + Vera Rubin |
+| Vera Rubin | R100 / VR200 | **full production, August 2026** (was "sampling 2026, volume 2027") | Racks at CoreWeave, GCP, Azure, OCI, Nebius. ~20% of Q3 FY27 datacenter revenue guided. ~$40B NVIDIA content per GW |
 
 > "Anthropic will run and scale on NVIDIA infrastructure, initially adopting **1 gigawatt of compute capacity with NVIDIA Grace Blackwell and Vera Rubin systems**" — [NVIDIA Q3 FY26 release](https://nvidianews.nvidia.com/_gallery/download_pdf/691e34d93d633290a88deeef/).
 
@@ -163,7 +171,7 @@ Per-unit ASP for B200: $30,000–$40,000 ([iBuidl Q4 FY25 analysis](https://ibui
 | MS Mt. Pleasant, WI; Quincy, WA; Phoenix; Des Moines IA | Microsoft | Multiple US | ~2 GW added in 2025 alone; >400 facilities globally | Mix; **Maia 200 deployed in Des Moines + Phoenix** | $80B FY25 capex on AI DCs; reported $80B in unfilled Azure orders for lack of power | [Introl](https://introl.com/blog/hyperscaler-capex-690-billion-microsoft-azure-power-bottleneck-2026) |
 | Susquehanna campus | Amazon | Salem Township, PA | 960 MW (next to Susquehanna nuclear plant) | TBD | $20B+ committed, 15 buildings on 1,600 rezoned acres |
 | **Stargate UAE** | OpenAI / G42 / Oracle / NVIDIA / Cisco / SoftBank | Abu Dhabi | **1 GW** (200 MW phase 1 Q3 2026, full by 2028, +2 GW under consideration) | TBD | First international Stargate; first OpenAI-for-Countries partnership | [OpenAI](https://openai.com/index/introducing-stargate-uae/) |
-| Stargate Norway | OpenAI / Nscale / Aker | Norway | 230 MW (+290 MW expansion option) | **100,000 NVIDIA GPUs by end-2026** | Hydroelectric-powered |
+| Stargate Norway | OpenAI / Nscale / Aker → reported Microsoft | Norway | 230 MW (+290 MW expansion option) | 100,000 NVIDIA GPUs had been planned by end-2026 | **Paused.** Korea JoongAng, Sep 7, 2026: offtake not finalized; project taken over by Microsoft. A UK site was also reported paused |
 | Stargate Argentina | OpenAI / Sur Energy | Patagonia | up to 500 MW | TBD | $25B LOI, RIGI incentive regime |
 | Stargate UK / EU AI Gigafactories | OpenAI + EU | various | TBD | TBD | Early-stage; MOUs only |
 
@@ -308,8 +316,9 @@ Sources: [IAPS](https://www.iaps.ai/research/bis-licensing-policy-for-h200s), [I
 | **Jan 21, 2026** | House Foreign Affairs **AI OVERWATCH Act** advances 42–2 → 2-yr Blackwell ban, congressional veto over export licenses |
 | **Feb 2026** | State Department **blocks** all H200 shipments pending review; China grants conditional approval for ~400k of 2M ordered |
 | **Mar 2026** | NVIDIA stops producing China-specific chips; Beijing restricts purchases to "special circumstances" |
+| **Aug 26, 2026** | NVIDIA Q2 FY27 filing: licensed **H200 shipments <1% of datacenter revenue**; **$0.4B** H1 FY27 charge for excess H200 inventory. Company says it could not sell all licensed H200s because of PRC restrictions, and assumes **no China datacenter compute revenue** in the Q3 outlook |
 
-**Net effect**: Chinese frontier labs (DeepSeek, Alibaba Qwen, Moonshot Kimi, ByteDance Doubao) train primarily on grey-market H100/H800 inventories, H20, and **Huawei Ascend 910C** (Huawei plans 600k 910C shipments in 2026 regardless of US action). CFR estimates one million H200 to China would lift China's domestic AI compute by ~250%.
+**Net effect**: Chinese frontier labs (DeepSeek, Alibaba Qwen, Moonshot Kimi, ByteDance Doubao) train primarily on grey-market H100/H800 inventories, H20, and **Huawei Ascend 910C** (Huawei plans 600k 910C shipments in 2026 regardless of US action). The January 2026 case-by-case H200 opening did not turn into volume: by the July quarter it was a rounding error in NVIDIA's datacenter revenue. The binding control on the next models is no longer only the chip license. September's releases shipped with trusted-access lanes for cyber and biology (Anthropic Life Sciences Verification, Google Fairwind, OpenAI's Critical-tier safeguards on GPT-6 Astra, SpaceXAI's invite-only Grok 4.7 red team).
 
 ---
 
